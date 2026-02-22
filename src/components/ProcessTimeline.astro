@@ -1,0 +1,44 @@
+---
+import { localize, type Lang, type L10n } from "../i18n";
+
+interface Step {
+    title: L10n;
+    text: L10n;
+}
+
+interface Props {
+    title: L10n;
+    steps: Step[];
+    lang: Lang;
+    keyBase: string;
+}
+
+const { title, steps, lang, keyBase } = Astro.props as Props;
+---
+
+<section>
+    <h2 class="text-2xl font-bold text-secondary md:text-3xl">
+        <span data-i18n={`${keyBase}.title`}>{localize(title, lang)}</span>
+    </h2>
+    <ol class="mt-5 grid gap-4 md:grid-cols-4">
+        {
+            steps.map((step, index) => (
+                <li class="border-l-2 border-secondary/30 pl-4 md:border-l-0 md:border-t-2 md:pl-0 md:pt-4">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-detail">
+                        {index + 1}
+                    </p>
+                    <h3 class="mt-1 text-base font-semibold text-secondary">
+                        <span data-i18n={`${keyBase}.steps.${index}.title`}>
+                            {localize(step.title, lang)}
+                        </span>
+                    </h3>
+                    <p class="mt-2 text-sm text-text">
+                        <span data-i18n={`${keyBase}.steps.${index}.text`}>
+                            {localize(step.text, lang)}
+                        </span>
+                    </p>
+                </li>
+            ))
+        }
+    </ol>
+</section>

@@ -1,0 +1,127 @@
+---
+import { getLangFromUrl, localize } from "../i18n";
+import { ui } from "../data/ui";
+
+interface ProcessItem {
+    title: string;
+    text: string;
+    emphasized?: boolean;
+    titleKey?: string;
+    textKey?: string;
+}
+
+interface Props {
+    title?: string;
+    intro?: string;
+    titleKey?: string;
+    introKey?: string;
+    items?: ProcessItem[];
+    cardsOnly?: boolean;
+}
+
+const lang = getLangFromUrl(Astro.url);
+
+const defaultItems: ProcessItem[] = [
+    {
+        title: localize(ui.processStrip.step1Title, lang),
+        text: localize(ui.processStrip.step1Text, lang),
+    },
+    {
+        title: localize(ui.processStrip.step2Title, lang),
+        text: localize(ui.processStrip.step2Text, lang),
+    },
+    {
+        title: localize(ui.processStrip.step3Title, lang),
+        text: localize(ui.processStrip.step3Text, lang),
+    },
+    {
+        title: localize(ui.processStrip.resultTitle, lang),
+        text: localize(ui.processStrip.resultText, lang),
+        emphasized: true,
+    },
+];
+
+const {
+    title = localize(ui.processStrip.title, lang),
+    intro = localize(ui.processStrip.intro, lang),
+    titleKey,
+    introKey,
+    items = defaultItems,
+    cardsOnly = false,
+} = Astro.props as Props;
+---
+
+{
+    cardsOnly ? (
+        <div class="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 xl:gap-0">
+            {items.map((item) => (
+                <article
+                    class:list={[
+                        "rounded-xl px-4 py-4",
+                        item.emphasized
+                            ? "border border-main/50 bg-white/80 xl:ml-5 xl:bg-white/70 xl:px-5"
+                            : "border border-secondary/20 bg-white xl:rounded-none xl:border-y-0 xl:border-l-0 xl:border-r xl:border-secondary/20 xl:bg-transparent xl:px-5",
+                    ]}
+                >
+                    <h3 class="text-base font-semibold text-secondary">
+                        {item.titleKey && (
+                            <span data-i18n={item.titleKey}>{item.title}</span>
+                        )}
+                        {!item.titleKey && item.title}
+                    </h3>
+                    <p class="mt-1 text-sm text-text">
+                        {item.textKey && (
+                            <span data-i18n={item.textKey}>{item.text}</span>
+                        )}
+                        {!item.textKey && item.text}
+                    </p>
+                </article>
+            ))}
+        </div>
+    ) : (
+        <section class="py-12 md:py-16">
+            <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
+                <div class="rounded-3xl border border-main/40 bg-main-soft p-8 shadow-sm md:p-10">
+                    <h2 class="text-3xl font-bold tracking-tight text-secondary md:text-4xl">
+                        {titleKey && <span data-i18n={titleKey}>{title}</span>}
+                        {!titleKey && title}
+                    </h2>
+                    <p class="mt-3 text-text">
+                        {introKey && <span data-i18n={introKey}>{intro}</span>}
+                        {!introKey && intro}
+                    </p>
+
+                    <div class="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 xl:gap-0">
+                        {items.map((item) => (
+                            <article
+                                class:list={[
+                                    "rounded-xl px-4 py-4",
+                                    item.emphasized
+                                        ? "border border-main/50 bg-white/80 xl:ml-5 xl:bg-white/70 xl:px-5"
+                                        : "border border-secondary/20 bg-white xl:rounded-none xl:border-y-0 xl:border-l-0 xl:border-r xl:border-secondary/20 xl:bg-transparent xl:px-5",
+                                ]}
+                            >
+                                <h3 class="text-base font-semibold text-secondary">
+                                    {item.titleKey && (
+                                        <span data-i18n={item.titleKey}>
+                                            {item.title}
+                                        </span>
+                                    )}
+                                    {!item.titleKey && item.title}
+                                </h3>
+                                <p class="mt-1 text-sm text-text">
+                                    {item.textKey && (
+                                        <span data-i18n={item.textKey}>
+                                            {item.text}
+                                        </span>
+                                    )}
+                                    {!item.textKey && item.text}
+                                </p>
+                            </article>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}

@@ -1,0 +1,113 @@
+---
+interface FaqItem {
+    question: string;
+    answer: string;
+    questionKey?: string;
+    answerKey?: string;
+}
+
+interface Props {
+    title: string;
+    titleKey?: string;
+    items: FaqItem[];
+}
+
+const { title, titleKey, items } = Astro.props as Props;
+const idPrefix = `faq-${title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")}`;
+---
+
+<section class="py-6 md:py-8">
+    <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
+        <div class="rounded-3xl border border-main/35 bg-main-soft p-6 md:p-8">
+            <h3
+                class="text-2xl font-bold tracking-tight text-secondary md:text-3xl"
+            >
+                {titleKey ? <span data-i18n={titleKey}>{title}</span> : title}
+            </h3>
+
+            <div
+                class="mt-4 divide-y divide-secondary/15 rounded-2xl border border-secondary/20 bg-white/90"
+                data-faq-root
+            >
+                {
+                    items.map((item, index) => {
+                        const buttonId = `${idPrefix}-button-${index + 1}`;
+                        const panelId = `${idPrefix}-panel-${index + 1}`;
+
+                        return (
+                            <article class="px-4 py-1 md:px-5">
+                                <button
+                                    id={buttonId}
+                                    type="button"
+                                    class="flex w-full items-center justify-between gap-3 py-4 text-left text-base font-semibold text-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                                    aria-expanded="false"
+                                    aria-controls={panelId}
+                                    data-faq-trigger
+                                >
+                                    <span>
+                                        {item.questionKey ? (
+                                            <span data-i18n={item.questionKey}>
+                                                {item.question}
+                                            </span>
+                                        ) : (
+                                            item.question
+                                        )}
+                                    </span>
+                                    <span
+                                        class="text-lg leading-none text-detail"
+                                        data-faq-icon
+                                    >
+                                        +
+                                    </span>
+                                </button>
+
+                                <div
+                                    id={panelId}
+                                    role="region"
+                                    aria-labelledby={buttonId}
+                                    class="hidden pb-4 text-sm leading-relaxed text-text"
+                                    data-faq-panel
+                                >
+                                    {item.answerKey ? (
+                                        <span data-i18n={item.answerKey}>
+                                            {item.answer}
+                                        </span>
+                                    ) : (
+                                        item.answer
+                                    )}
+                                </div>
+                            </article>
+                        );
+                    })
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.querySelectorAll("[data-faq-root]").forEach((root) => {
+        root.querySelectorAll("[data-faq-trigger]").forEach((trigger) => {
+            trigger.addEventListener("click", () => {
+                const panelId = trigger.getAttribute("aria-controls");
+                if (!panelId) return;
+
+                const panel = root.querySelector(`#${panelId}`);
+                if (!panel) return;
+
+                const icon = trigger.querySelector("[data-faq-icon]");
+                const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+                trigger.setAttribute(
+                    "aria-expanded",
+                    isOpen ? "false" : "true",
+                );
+                panel.classList.toggle("hidden", isOpen);
+                if (icon) icon.textContent = isOpen ? "+" : "-";
+            });
+        });
+    });
+</script>

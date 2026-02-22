@@ -1,0 +1,226 @@
+---
+import { getLangFromUrl, localize } from "../i18n";
+import { ui } from "../data/ui";
+
+interface Props {
+    title: string;
+    titleKey?: string;
+    variant?: "default" | "priced";
+    actionLink?: { label: string; href: string };
+    actionLinkLabelKey?: string;
+    items: Array<{
+        title: string;
+        description: string;
+        href: string;
+        image?: string;
+        imageAlt?: string;
+        ctaLabel?: string;
+        badge?: string;
+        titleKey?: string;
+        descriptionKey?: string;
+        ctaLabelKey?: string;
+        badgeKey?: string;
+        priceLabel?: string;
+        headerTone?: "secondary" | "main";
+    }>;
+}
+
+const {
+    title,
+    titleKey,
+    items,
+    variant = "default",
+    actionLink,
+    actionLinkLabelKey,
+} = Astro.props as Props;
+const lang = getLangFromUrl(Astro.url);
+
+function resolveHref(href: string, title: string): string {
+    if (href && href.trim().length > 0) {
+        return href;
+    }
+    if (import.meta.env.DEV) {
+        console.warn(
+            `[ServiceCards] Missing href for service card "${title}". Falling back to "#".`,
+        );
+    }
+    return "#";
+}
+---
+
+<section class="py-14 md:py-20">
+    <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+            <h2
+                class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+            >
+                {titleKey ? <span data-i18n={titleKey}>{title}</span> : title}
+            </h2>
+            {
+                actionLink && (
+                    <a
+                        href={actionLink.href}
+                        class="inline-flex items-center rounded-full border border-secondary bg-white px-5 py-2.5 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                    >
+                        {actionLinkLabelKey ? (
+                            <span data-i18n={actionLinkLabelKey}>
+                                {actionLink.label}
+                            </span>
+                        ) : (
+                            actionLink.label
+                        )}
+                    </a>
+                )
+            }
+        </div>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+            {
+                items.map((item, index) => {
+                    const href = resolveHref(item.href, item.title);
+                    if (variant === "priced") {
+                        const headerIsMain = item.headerTone
+                            ? item.headerTone === "main"
+                            : index % 3 === 1;
+                        return (
+                            <article class="overflow-hidden rounded-3xl border border-secondary/20 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                                <div
+                                    class:list={[
+                                        "flex justify-end px-5 py-3",
+                                        headerIsMain
+                                            ? "bg-main text-text"
+                                            : "bg-secondary text-white",
+                                    ]}
+                                >
+                                    <p class="text-base font-extrabold md:text-lg">
+                                        {item.priceLabel}
+                                    </p>
+                                </div>
+                                <div class="space-y-4 p-6">
+                                    <h3 class="text-2xl font-bold text-secondary">
+                                        {item.titleKey ? (
+                                            <span data-i18n={item.titleKey}>
+                                                {item.title}
+                                            </span>
+                                        ) : (
+                                            item.title
+                                        )}
+                                    </h3>
+                                    <p class="text-text">
+                                        {item.descriptionKey ? (
+                                            <span
+                                                data-i18n={item.descriptionKey}
+                                            >
+                                                {item.description}
+                                            </span>
+                                        ) : (
+                                            item.description
+                                        )}
+                                    </p>
+                                    <a
+                                        href={href}
+                                        class="inline-flex items-center rounded-full bg-secondary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                                    >
+                                        {item.ctaLabelKey ? (
+                                            <span data-i18n={item.ctaLabelKey}>
+                                                {item.ctaLabel ??
+                                                    localize(
+                                                        ui.common.viewService,
+                                                        lang,
+                                                    )}
+                                            </span>
+                                        ) : (
+                                            (item.ctaLabel ??
+                                            localize(
+                                                ui.common.viewService,
+                                                lang,
+                                            ))
+                                        )}
+                                    </a>
+                                </div>
+                            </article>
+                        );
+                    }
+
+                    return (
+                        <article
+                            class:list={[
+                                "group overflow-hidden rounded-3xl border shadow-sm transition hover:-translate-y-1 hover:shadow-xl",
+                                index % 2 === 0
+                                    ? "border-secondary/35 bg-secondary-soft hover:border-secondary"
+                                    : "border-main-hover/50 bg-main-soft hover:border-detail",
+                            ]}
+                        >
+                            {(item.badge || item.priceLabel) && (
+                                <div
+                                    class:list={[
+                                        "px-5 py-3",
+                                        index % 2 === 0
+                                            ? "bg-gradient-to-r from-secondary to-secondary-hover"
+                                            : "bg-gradient-to-r from-detail to-secondary",
+                                    ]}
+                                >
+                                    {item.badge && (
+                                        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-white">
+                                            {item.badgeKey ? (
+                                                <span data-i18n={item.badgeKey}>
+                                                    {item.badge}
+                                                </span>
+                                            ) : (
+                                                item.badge
+                                            )}
+                                        </p>
+                                    )}
+                                </div>
+                            )}
+                            {item.image && (
+                                <img
+                                    class="h-56 w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                                    src={item.image}
+                                    alt={item.imageAlt ?? item.title}
+                                    loading="lazy"
+                                />
+                            )}
+                            <div class="space-y-4 p-6">
+                                <h3 class="text-2xl font-bold text-secondary">
+                                    {item.titleKey ? (
+                                        <span data-i18n={item.titleKey}>
+                                            {item.title}
+                                        </span>
+                                    ) : (
+                                        item.title
+                                    )}
+                                </h3>
+                                <p class="text-text">
+                                    {item.descriptionKey ? (
+                                        <span data-i18n={item.descriptionKey}>
+                                            {item.description}
+                                        </span>
+                                    ) : (
+                                        item.description
+                                    )}
+                                </p>
+                                <a
+                                    href={href}
+                                    class="inline-flex items-center rounded-full bg-secondary px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-secondary/25 transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                                >
+                                    {item.ctaLabelKey ? (
+                                        <span data-i18n={item.ctaLabelKey}>
+                                            {item.ctaLabel ??
+                                                localize(
+                                                    ui.common.viewService,
+                                                    lang,
+                                                )}
+                                        </span>
+                                    ) : (
+                                        (item.ctaLabel ??
+                                        localize(ui.common.viewService, lang))
+                                    )}
+                                </a>
+                            </div>
+                        </article>
+                    );
+                })
+            }
+        </div>
+    </div>
+</section>

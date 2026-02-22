@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+import ReviewHighlights from "../../components/ReviewHighlights.astro";
+import ReviewList from "../../components/ReviewList.astro";
+import ImageCarousel from "../../components/ImageCarousel.astro";
+import CTASection from "../../components/CTASection.astro";
+import { generatedReviewImages } from "../../data/reviewImages.generated";
+import {
+    allReviews,
+    highlightedReviews,
+    reviewsPage,
+} from "../../data/reviews";
+import { localize, resolveLangFromUrl } from "../../i18n";
+import { ui } from "../../data/ui";
+
+const reviewImages = generatedReviewImages;
+const lang = resolveLangFromUrl(Astro.url);
+---
+
+<BaseLayout
+    title={localize(reviewsPage.seo.title, lang)}
+    description={localize(reviewsPage.seo.description, lang)}
+>
+    <Hero
+        title={localize(reviewsPage.hero.title, lang)}
+        subtitle={localize(reviewsPage.hero.lead, lang)}
+        titleKey="reviews.page.hero.title"
+        subtitleKey="reviews.page.hero.lead"
+        imageSrc={reviewsPage.hero.image.src}
+        imageAlt={localize(reviewsPage.hero.image.alt, lang)}
+        imageAltKey="reviews.page.hero.image.alt"
+        imageWidth={reviewsPage.hero.image.width}
+        imageHeight={reviewsPage.hero.image.height}
+        primaryCta={{
+            label: localize(reviewsPage.hero.primaryCta.label, lang),
+            href: ui.links.bookingUrl,
+        }}
+        primaryCtaLabelKey="reviews.page.hero.primaryCta.label"
+        secondaryCta={{
+            label: localize(reviewsPage.hero.secondaryCta.label, lang),
+            href: reviewsPage.hero.secondaryCta.href,
+        }}
+        secondaryCtaLabelKey="reviews.page.hero.secondaryCta.label"
+    />
+
+    <ReviewHighlights
+        reviews={highlightedReviews}
+        title={localize(reviewsPage.highlights.title, lang)}
+        intro={localize(reviewsPage.highlights.intro, lang)}
+        lang={lang}
+        titleKey="reviews.page.highlights.title"
+        introKey="reviews.page.highlights.intro"
+        itemsKeyPrefix="reviews.allReviews"
+    />
+    <ImageCarousel
+        images={reviewImages}
+        intervalMs={5000}
+        title={localize(reviewsPage.gallery.title, lang)}
+        intro={localize(reviewsPage.gallery.intro, lang)}
+        ariaLabel={localize(reviewsPage.gallery.ariaLabel, lang)}
+        emptyText={localize(reviewsPage.gallery.emptyText, lang)}
+    />
+    <ReviewList
+        reviews={allReviews}
+        initialVisible={6}
+        batchSize={4}
+        title={localize(reviewsPage.list.title, lang)}
+        intro={localize(reviewsPage.list.intro, lang)}
+        readMoreLabel={localize(reviewsPage.list.readMoreLabel, lang)}
+        showMoreLabel={localize(reviewsPage.list.showMoreLabel, lang)}
+        defaultAuthorLabel={localize(reviewsPage.list.defaultAuthorLabel, lang)}
+        lang={lang}
+        titleKey="reviews.page.list.title"
+        introKey="reviews.page.list.intro"
+        readMoreLabelKey="reviews.page.list.readMoreLabel"
+        showMoreLabelKey="reviews.page.list.showMoreLabel"
+        defaultAuthorLabelKey="reviews.page.list.defaultAuthorLabel"
+        itemsKeyPrefix="reviews.allReviews"
+    />
+
+    <CTASection
+        title={localize(reviewsPage.cta.title, lang)}
+        text={localize(reviewsPage.cta.text, lang)}
+        titleKey="reviews.page.cta.title"
+        textKey="reviews.page.cta.text"
+        primary={{
+            label: localize(reviewsPage.cta.primary.label, lang),
+            href: reviewsPage.cta.primary.href,
+        }}
+        primaryLabelKey="reviews.page.cta.primary.label"
+        secondary={{
+            label: localize(reviewsPage.cta.secondary.label, lang),
+            href: ui.links.bookingUrl,
+        }}
+        secondaryLabelKey="reviews.page.cta.secondary.label"
+    />
+</BaseLayout>

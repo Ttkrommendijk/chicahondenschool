@@ -1,0 +1,17 @@
+---
+import ContentPageLayout from "../../layouts/ContentPageLayout.astro";
+import { page } from "../../data/privacy";
+import { localize, resolveLangFromUrl } from "../../i18n";
+
+const lang = resolveLangFromUrl(Astro.url);
+---
+
+<ContentPageLayout
+    title={localize(page.title, lang)}
+    description={localize(page.seo.description, lang)}
+  titleKey="privacy.page.title"
+>
+    <p class="lead" data-i18n="privacy.page.lead">
+        {localize(page.lead, lang)}
+    </p>
+</ContentPageLayout>

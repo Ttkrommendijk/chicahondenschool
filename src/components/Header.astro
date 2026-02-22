@@ -1,0 +1,150 @@
+---
+import LanguageSwitch from "./LanguageSwitch.astro";
+import { localize, type Lang } from "../i18n";
+import { ui } from "../data/ui";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+
+const normalizePath = (value: string) => {
+    if (!value || value === "/") return "/";
+    return value.endsWith("/") ? value : `${value}/`;
+};
+
+const pathname = normalizePath(Astro.url.pathname);
+const isActive = (href: string) => pathname === normalizePath(href);
+const isServicesActive = pathname.startsWith("/diensten/");
+const topNavItemClass = "nav-link";
+const subNavItemClass = "nav-sublink";
+const topNavStateClass = (active: boolean) =>
+    `${topNavItemClass} ${active ? "is-active" : ""}`;
+const subNavStateClass = (active: boolean) =>
+    `${subNavItemClass} ${active ? "is-active" : ""}`;
+---
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand brand-link" href="/">
+            <img
+                class="brand-logo"
+                src="/images/logo-chica-hondenschool.jpg"
+                alt={localize(ui.common.brandName, lang)}
+            />
+            <span>{localize(ui.common.brandName, lang)}</span>
+        </a>
+        <input id="nav-toggle" type="checkbox" hidden />
+        <label
+            class="menu-toggle"
+            for="nav-toggle"
+            aria-label={localize(ui.navigation.openNavigation, lang)}
+            data-i18n-attr="aria-label:ui.navigation.openNavigation"
+            ><span data-i18n="ui.navigation.menu"
+                >{localize(ui.navigation.menu, lang)}</span
+            ></label
+        >
+        <nav
+            class="site-nav"
+            aria-label={localize(ui.navigation.mainLabel, lang)}
+            data-i18n-attr="aria-label:ui.navigation.mainLabel"
+        >
+            <ul class="nav-list">
+                <li>
+                    <a class={topNavStateClass(isActive("/"))} href="/"
+                        ><span data-i18n="ui.navigation.home"
+                            >{localize(ui.navigation.home, lang)}</span
+                        ></a
+                    >
+                </li>
+                <li>
+                    <details class="services-menu">
+                        <summary class={topNavStateClass(isServicesActive)}>
+                            <span data-i18n="ui.navigation.services"
+                                >{localize(ui.navigation.services, lang)}</span
+                            >
+                            <span class="services-chevron" aria-hidden="true"
+                                >&#9662;</span
+                            >
+                        </summary>
+                        <div class="services-dropdown grouped-dropdown">
+                            <a
+                                class={subNavStateClass(
+                                    pathname.startsWith(
+                                        normalizePath(
+                                            "/diensten/hondenschool/",
+                                        ),
+                                    ),
+                                )}
+                                href="/diensten/hondenschool/"
+                            >
+                                <span data-i18n="ui.navigation.dogTraining"
+                                    >{
+                                        localize(
+                                            ui.navigation.dogTraining,
+                                            lang,
+                                        )
+                                    }</span
+                                >
+                            </a>
+                            <a
+                                class={subNavStateClass(
+                                    pathname.startsWith(
+                                        normalizePath(
+                                            "/diensten/oppas-uitlaatservice/",
+                                        ),
+                                    ),
+                                )}
+                                href="/diensten/oppas-uitlaatservice/"
+                            >
+                                <span data-i18n="ui.navigation.petSitting"
+                                    >{
+                                        localize(ui.navigation.petSitting, lang)
+                                    }</span
+                                >
+                            </a>
+                        </div>
+                    </details>
+                </li>
+                <li>
+                    <a
+                        class={topNavStateClass(isActive("/reviews/"))}
+                        href="/reviews/"
+                    >
+                        <span data-i18n="ui.navigation.reviews"
+                            >{localize(ui.navigation.reviews, lang)}</span
+                        >
+                    </a>
+                </li>
+                <li>
+                    <a
+                        class={topNavStateClass(isActive("/over/"))}
+                        href="/over/"
+                    >
+                        <span data-i18n="ui.navigation.about"
+                            >{localize(ui.navigation.about, lang)}</span
+                        >
+                    </a>
+                </li>
+                <li>
+                    <a
+                        class={topNavStateClass(isActive("/contact/"))}
+                        href="/contact/"
+                    >
+                        <span data-i18n="ui.navigation.contact"
+                            >{localize(ui.navigation.contact, lang)}</span
+                        >
+                    </a>
+                </li>
+                <li>
+                    <LanguageSwitch
+                        lang={lang}
+                        pathname={Astro.url.pathname}
+                        search={Astro.url.search}
+                    />
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

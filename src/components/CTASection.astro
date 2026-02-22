@@ -1,0 +1,56 @@
+---
+import CTAButton from "./CTAButton.astro";
+
+interface Props {
+    title: string;
+    text: string;
+    titleKey?: string;
+    textKey?: string;
+    primary: { label: string; href: string };
+    primaryLabelKey?: string;
+    secondary?: { label: string; href: string };
+    secondaryLabelKey?: string;
+}
+
+const {
+    title,
+    text,
+    titleKey,
+    textKey,
+    primary,
+    primaryLabelKey,
+    secondary,
+    secondaryLabelKey,
+} = Astro.props as Props;
+---
+
+<section class="section">
+    <div
+        class="container section-card cta-band-dark px-8 py-10 md:px-10 md:py-12"
+    >
+        <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">
+            {titleKey ? <span data-i18n={titleKey}>{title}</span> : title}
+        </h2>
+        <p class="mt-4 max-w-3xl text-white/90">
+            {textKey ? <span data-i18n={textKey}>{text}</span> : text}
+        </p>
+        <div class="btn-row mt-6 md:mt-8">
+            <CTAButton
+                href={primary.href}
+                variant="cta-primary-dark"
+                label={primary.label}
+                labelKey={primaryLabelKey}
+            />
+            {
+                secondary && (
+                    <CTAButton
+                        href={secondary.href}
+                        variant="cta-secondary-dark"
+                        label={secondary.label}
+                        labelKey={secondaryLabelKey}
+                    />
+                )
+            }
+        </div>
+    </div>
+</section>

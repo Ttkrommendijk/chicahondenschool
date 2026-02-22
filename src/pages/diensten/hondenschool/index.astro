@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Hero from "../../../components/Hero.astro";
+import CTASection from "../../../components/CTASection.astro";
+import ServiceCards from "../../../components/ServiceCards.astro";
+import ProcessStrip from "../../../components/ProcessStrip.astro";
+import FaqAccordion from "../../../components/FaqAccordion.astro";
+import { page, services } from "../../../data/diensten/hondenschool";
+import { localize, resolveLangFromUrl } from "../../../i18n";
+
+const lang = resolveLangFromUrl(Astro.url);
+---
+
+<BaseLayout
+    title={localize(page.seo.title, lang)}
+    description={localize(page.seo.description, lang)}
+>
+    <Hero
+        title={localize(page.hero.title, lang)}
+        subtitle={localize(page.hero.subtitle, lang)}
+        titleKey="hondenschool.page.hero.title"
+        subtitleKey="hondenschool.page.hero.subtitle"
+        imageSrc={page.hero.imageSrc}
+        imageAlt={localize(page.hero.imageAlt, lang)}
+        imageAltKey="hondenschool.page.hero.imageAlt"
+        primaryCta={{
+            label: localize(page.hero.primaryCta.label, lang),
+            href: page.hero.primaryCta.href,
+        }}
+        primaryCtaLabelKey="hondenschool.page.hero.primaryCta.label"
+        secondaryCta={{
+            label: localize(page.hero.secondaryCta.label, lang),
+            href: page.hero.secondaryCta.href,
+        }}
+        secondaryCtaLabelKey="hondenschool.page.hero.secondaryCta.label"
+    />
+
+    <ProcessStrip
+        title={localize(page.process.title, lang)}
+        intro={localize(page.process.intro, lang)}
+        titleKey="hondenschool.page.process.title"
+        introKey="hondenschool.page.process.intro"
+        items={page.process.items.map((item, index) => ({
+            ...item,
+            title: localize(item.title, lang),
+            text: localize(item.text, lang),
+            titleKey: `hondenschool.page.process.items.${index}.title`,
+            textKey: `hondenschool.page.process.items.${index}.text`,
+        }))}
+    />
+
+    <ServiceCards
+        title={localize(page.cards.title, lang)}
+        titleKey="hondenschool.page.cards.title"
+        variant="priced"
+        actionLink={{
+            label: localize(page.cards.actionLink.label, lang),
+            href: page.cards.actionLink.href,
+        }}
+        actionLinkLabelKey="hondenschool.page.cards.actionLink.label"
+        items={services.map((service, index) => ({
+            title: localize(service.shortTitle, lang),
+            description: localize(service.shortDescription, lang),
+            href: service.href,
+            ctaLabel: localize(page.cards.cardCtaLabel, lang),
+            priceLabel: localize(service.priceLabel, lang),
+            headerTone: index % 3 === 1 ? "main" : "secondary",
+            titleKey: `hondenschool.page.services.${index}.shortTitle`,
+            descriptionKey: `hondenschool.page.services.${index}.shortDescription`,
+            ctaLabelKey: "hondenschool.page.cards.cardCtaLabel",
+        }))}
+    />
+
+    <FaqAccordion
+        title={localize(page.faq.title, lang)}
+        titleKey="hondenschool.page.faq.title"
+        items={page.faq.items.map((item, index) => ({
+            question: localize(item.question, lang),
+            answer: localize(item.answer, lang),
+            questionKey: `hondenschool.page.faq.items.${index}.question`,
+            answerKey: `hondenschool.page.faq.items.${index}.answer`,
+        }))}
+    />
+
+    <CTASection
+        title={localize(page.cta.title, lang)}
+        text={localize(page.cta.text, lang)}
+        titleKey="hondenschool.page.cta.title"
+        textKey="hondenschool.page.cta.text"
+        primary={{
+            label: localize(page.cta.primary.label, lang),
+            href: page.cta.primary.href,
+        }}
+        primaryLabelKey="hondenschool.page.cta.primary.label"
+        secondary={{
+            label: localize(page.cta.secondary.label, lang),
+            href: page.cta.secondary.href,
+        }}
+        secondaryLabelKey="hondenschool.page.cta.secondary.label"
+    />
+</BaseLayout>

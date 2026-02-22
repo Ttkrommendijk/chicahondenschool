@@ -1,0 +1,67 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import CTAButton from "../components/CTAButton.astro";
+import { resolveLangFromUrl, localize } from "../i18n";
+import { ui } from "../data/ui";
+
+interface LinkItem {
+    label: string;
+    href: string;
+}
+
+interface Props {
+    title: string;
+    titleKey?: string;
+    description?: string;
+    quickLinks?: LinkItem[];
+}
+
+const {
+    title,
+    titleKey,
+    description = "Beschrijving volgt.",
+    quickLinks = [],
+} = Astro.props as Props;
+const lang = resolveLangFromUrl(Astro.url);
+---
+
+<BaseLayout title={`${title} | ChiCa Hondenschool`} description={description}>
+    <Hero
+        title={title}
+        titleKey={titleKey}
+        primaryCta={{
+            label: localize(ui.common.planIntro, lang),
+            href: ui.links.kennismakingUrl,
+        }}
+        secondaryCta={{
+            label: localize(ui.common.contact, lang),
+            href: "/contact/",
+        }}
+    />
+    <Section variant="normal">
+        <slot />
+        {
+            quickLinks.length > 0 && (
+                <div class="section-card">
+                    <h3>{localize(ui.contentLayout.relatedPages, lang)}</h3>
+                    <ul>
+                        {quickLinks.map((item) => (
+                            <li>
+                                <a href={item.href}>{item.label}</a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )
+        }
+    </Section>
+    <Section variant="compact">
+        <CTAButton
+            href="/contact/"
+            variant="secondary"
+            label={localize(ui.contentLayout.contactCta, lang)}
+        />
+    </Section>
+</BaseLayout>

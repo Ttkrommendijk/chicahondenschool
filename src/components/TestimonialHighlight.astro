@@ -1,0 +1,73 @@
+---
+interface TestimonialItem {
+    quote: string;
+    author: string;
+    quoteKey?: string;
+    authorKey?: string;
+}
+
+interface Props {
+    title: string;
+    titleKey?: string;
+    items: TestimonialItem[];
+    ctaLabel: string;
+    ctaLabelKey?: string;
+    ctaHref: string;
+}
+
+const { title, titleKey, items, ctaLabel, ctaLabelKey, ctaHref } =
+    Astro.props as Props;
+---
+
+<section class="py-14 md:py-20">
+    <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
+        <h2
+            class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+        >
+            {titleKey ? <span data-i18n={titleKey}>{title}</span> : title}
+        </h2>
+        <div class="mt-8 grid gap-4 md:grid-cols-2">
+            {
+                items.map((item) => (
+                    <article class="rounded-2xl border border-main bg-secondary-soft p-6">
+                        <p class="border-l-4 border-detail pl-3 text-4xl leading-none text-detail">
+                            "
+                        </p>
+                        <p class="mt-2 text-text">
+                            {item.quoteKey ? (
+                                <span data-i18n={item.quoteKey}>
+                                    {item.quote}
+                                </span>
+                            ) : (
+                                item.quote
+                            )}
+                        </p>
+                        <p class="mt-4 text-sm font-semibold uppercase tracking-wide text-secondary">
+                            {item.authorKey ? (
+                                <span data-i18n={item.authorKey}>
+                                    {item.author}
+                                </span>
+                            ) : (
+                                item.author
+                            )}
+                        </p>
+                    </article>
+                ))
+            }
+        </div>
+        <div class="mt-6">
+            <a
+                class="inline-flex items-center rounded-full border border-secondary bg-white px-5 py-2.5 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                href={ctaHref}
+            >
+                {
+                    ctaLabelKey ? (
+                        <span data-i18n={ctaLabelKey}>{ctaLabel}</span>
+                    ) : (
+                        ctaLabel
+                    )
+                }
+            </a>
+        </div>
+    </div>
+</section>

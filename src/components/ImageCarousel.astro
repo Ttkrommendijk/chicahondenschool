@@ -1,0 +1,329 @@
+---
+import { getLangFromUrl, localize } from "../i18n";
+import { ui } from "../data/ui";
+
+interface ReviewImage {
+    src: string;
+    alt: string;
+}
+
+interface Props {
+    images: ReviewImage[];
+    intervalMs?: number;
+    title: string;
+    intro: string;
+    ariaLabel: string;
+    emptyText: string;
+}
+
+const {
+    images,
+    intervalMs = 5000,
+    title,
+    intro,
+    ariaLabel,
+    emptyText,
+} = Astro.props as Props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<section class="section">
+    <div class="container">
+        <h2
+            class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+        >
+            {title}
+        </h2>
+        <p class="lead">{intro}</p>
+        {
+            images.length > 0 ? (
+                <div
+                    class="review-carousel mt-6"
+                    data-carousel
+                    data-interval={intervalMs}
+                    aria-roledescription="carousel"
+                    aria-label={ariaLabel}
+                >
+                    <div class="review-carousel__viewport">
+                        {images.map((image, index) => (
+                            <figure
+                                class="review-carousel__slide"
+                                data-slide
+                                aria-hidden={index === 0 ? "false" : "true"}
+                                data-active={index === 0 ? "true" : "false"}
+                            >
+                                <div
+                                    class="review-carousel__backdrop"
+                                    style={`background-image: url('${image.src}')`}
+                                    aria-hidden="true"
+                                />
+                                <img
+                                    src={image.src}
+                                    alt={image.alt}
+                                    loading={index === 0 ? "eager" : "lazy"}
+                                    class="review-carousel__image"
+                                />
+                            </figure>
+                        ))}
+                    </div>
+
+                    <button
+                        type="button"
+                        class="review-carousel__control review-carousel__control--prev"
+                        data-prev
+                        aria-label={localize(ui.carousel.prevImage, lang)}
+                    >
+                        <span aria-hidden="true">&#8249;</span>
+                    </button>
+                    <button
+                        type="button"
+                        class="review-carousel__control review-carousel__control--next"
+                        data-next
+                        aria-label={localize(ui.carousel.nextImage, lang)}
+                    >
+                        <span aria-hidden="true">&#8250;</span>
+                    </button>
+
+                    <div
+                        class="review-carousel__dots"
+                        data-dots
+                        role="tablist"
+                        aria-label={localize(ui.carousel.chooseImage, lang)}
+                    >
+                        {images.map((_, index) => (
+                            <button
+                                type="button"
+                                class="review-carousel__dot"
+                                data-dot
+                                data-index={index}
+                                aria-label={`${localize(ui.carousel.goToImage, lang)} ${index + 1}`}
+                                aria-current={index === 0 ? "true" : "false"}
+                            />
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                <div class="section-card mt-6">
+                    <p class="m-0 text-text">{emptyText}</p>
+                </div>
+            )
+        }
+    </div>
+</section>
+
+<script>
+    const carousel = document.querySelector("[data-carousel]");
+
+    if (carousel) {
+        const slides = Array.from(carousel.querySelectorAll("[data-slide]"));
+        if (slides.length > 0) {
+            const dots = Array.from(carousel.querySelectorAll("[data-dot]"));
+            const prevButton = carousel.querySelector("[data-prev]");
+            const nextButton = carousel.querySelector("[data-next]");
+            const intervalMs = Number(
+                carousel.getAttribute("data-interval") ?? "5000",
+            );
+            let activeIndex = 0;
+            let timerId = 0;
+            let isPaused = false;
+
+            const syncActiveSlide = () => {
+                activeIndex = (activeIndex + slides.length) % slides.length;
+                slides.forEach((slide, slideIndex) => {
+                    const isActive = slideIndex === activeIndex;
+                    slide.setAttribute("data-active", String(isActive));
+                    slide.setAttribute(
+                        "aria-hidden",
+                        isActive ? "false" : "true",
+                    );
+                });
+                dots.forEach((dot, dotIndex) => {
+                    dot.setAttribute(
+                        "aria-current",
+                        dotIndex === activeIndex ? "true" : "false",
+                    );
+                });
+            };
+
+            const stopTimer = () => {
+                if (timerId) {
+                    window.clearInterval(timerId);
+                    timerId = 0;
+                }
+            };
+
+            const startTimer = () => {
+                stopTimer();
+                timerId = window.setInterval(() => {
+                    if (!isPaused) {
+                        activeIndex += 1;
+                        syncActiveSlide();
+                    }
+                }, intervalMs);
+            };
+
+            prevButton?.addEventListener("click", () => {
+                isPaused = true;
+                activeIndex -= 1;
+                syncActiveSlide();
+            });
+
+            nextButton?.addEventListener("click", () => {
+                isPaused = true;
+                activeIndex += 1;
+                syncActiveSlide();
+            });
+
+            dots.forEach((dot) => {
+                dot.addEventListener("click", () => {
+                    isPaused = true;
+                    activeIndex = Number(dot.getAttribute("data-index") ?? "0");
+                    syncActiveSlide();
+                });
+            });
+
+            carousel.addEventListener("mouseenter", () => {
+                isPaused = true;
+            });
+            carousel.addEventListener("mouseleave", () => {
+                isPaused = false;
+            });
+            carousel.addEventListener("focusin", () => {
+                isPaused = true;
+            });
+            carousel.addEventListener("focusout", () => {
+                isPaused = false;
+            });
+
+            activeIndex = 0;
+            syncActiveSlide();
+            startTimer();
+        }
+    }
+</script>
+
+<style>
+    .review-carousel {
+        position: relative;
+        border: 1px solid #d8d3e5;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .review-carousel__viewport {
+        position: relative;
+        height: min(60vh, 520px);
+        min-height: 320px;
+        max-height: 520px;
+        background: linear-gradient(180deg, #e6f6f5 0%, #f1eff6 100%);
+    }
+
+    .review-carousel__slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 300ms ease;
+        pointer-events: none;
+    }
+
+    .review-carousel__slide[data-active="true"] {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .review-carousel__backdrop {
+        position: absolute;
+        inset: 0;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        filter: blur(42px);
+        opacity: 0.3;
+        transform: scale(1.1);
+        pointer-events: none;
+    }
+
+    .review-carousel__image {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        padding: 1rem;
+        pointer-events: none;
+    }
+
+    .review-carousel__control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 0;
+        border-radius: 999px;
+        width: 2.25rem;
+        height: 2.25rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: rgba(31, 31, 41, 0.72);
+        color: #fff;
+        cursor: pointer;
+        z-index: 3;
+    }
+
+    .review-carousel__control span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        line-height: 1;
+    }
+
+    .review-carousel__control--prev {
+        left: 0.75rem;
+    }
+
+    .review-carousel__control--next {
+        right: 0.75rem;
+    }
+
+    .review-carousel__dots {
+        position: absolute;
+        left: 50%;
+        bottom: 0.75rem;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.45rem;
+        z-index: 3;
+    }
+
+    .review-carousel__dot {
+        width: 0.65rem;
+        height: 0.65rem;
+        border-radius: 999px;
+        border: 0;
+        background: rgba(255, 255, 255, 0.78);
+        cursor: pointer;
+    }
+
+    .review-carousel__dot[aria-current="true"] {
+        background: #8accca;
+    }
+
+    .review-carousel__control:focus-visible,
+    .review-carousel__dot:focus-visible {
+        outline: 2px solid #8accca;
+        outline-offset: 2px;
+    }
+
+    @media (max-width: 900px) {
+        .review-carousel__viewport {
+            height: min(60vh, 460px);
+            min-height: 280px;
+        }
+    }
+</style>

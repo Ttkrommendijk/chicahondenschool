@@ -1,0 +1,60 @@
+---
+import { localize, type Lang, type L10n } from "../i18n";
+
+interface Props {
+    title: L10n;
+    fitTitle: L10n;
+    fitItems: L10n[];
+    notTitle: L10n;
+    notItems: L10n[];
+    lang: Lang;
+    keyBase: string;
+}
+
+const { title, fitTitle, fitItems, notTitle, notItems, lang, keyBase } =
+    Astro.props as Props;
+---
+
+<section class="rounded-2xl border border-main/30 bg-main-soft/70 p-6 md:p-8">
+    <h2 class="text-2xl font-bold text-secondary md:text-3xl">
+        <span data-i18n={`${keyBase}.title`}>{localize(title, lang)}</span>
+    </h2>
+    <div class="mt-5 grid gap-6 md:grid-cols-2">
+        <div>
+            <h3 class="text-lg font-semibold text-secondary">
+                <span data-i18n={`${keyBase}.fitTitle`}>
+                    {localize(fitTitle, lang)}
+                </span>
+            </h3>
+            <ul class="mt-3 space-y-2">
+                {
+                    fitItems.map((item, index) => (
+                        <li class="text-text">
+                            <span data-i18n={`${keyBase}.fitItems.${index}`}>
+                                {localize(item, lang)}
+                            </span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+        <div>
+            <h3 class="text-lg font-semibold text-secondary">
+                <span data-i18n={`${keyBase}.notTitle`}>
+                    {localize(notTitle, lang)}
+                </span>
+            </h3>
+            <ul class="mt-3 space-y-2">
+                {
+                    notItems.map((item, index) => (
+                        <li class="text-text">
+                            <span data-i18n={`${keyBase}.notItems.${index}`}>
+                                {localize(item, lang)}
+                            </span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </div>
+</section>

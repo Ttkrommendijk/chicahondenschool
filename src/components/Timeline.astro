@@ -1,0 +1,23 @@
+---
+interface Props {
+  title: string;
+  items: string[];
+}
+
+const { title, items } = Astro.props as Props;
+---
+<section class="section">
+  <div class="container">
+    <h2 class="mb-4">{title}</h2>
+    <ol class="relative border-l-2 border-main/60 pl-6">
+      {items.map((item) => (
+        <li class="relative mb-4">
+          <span class="absolute -left-[1.95rem] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-secondary bg-main"></span>
+          <div class="rounded-xl border border-secondary/20 bg-white/90 px-4 py-3">
+            <p class="m-0 text-text">{item}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

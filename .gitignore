@@ -1,0 +1,45 @@
+# build output
+dist/
+
+# generated types / caches
+.astro/
+.astro-cache/
+.cache/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# env
+.env
+.env.*
+.env.production
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+.zed/
+
+# misc
+*.tmp
+
+# Ensure consistent line endings
+* text=auto eol=lf
+
+# Common web files
+*.css text eol=lf
+*.astro text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.ts text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf

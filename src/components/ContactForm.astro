@@ -1,0 +1,373 @@
+---
+import { localize, type Lang } from "../i18n";
+import { ui } from "../data/ui";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+
+const text = {
+    name: localize(ui.contactForm.name, lang),
+    city: localize(ui.contactForm.city, lang),
+    phone: localize(ui.contactForm.phone, lang),
+    phoneHelp: localize(ui.contactForm.phoneHelp, lang),
+    email: localize(ui.contactForm.email, lang),
+    interest: localize(ui.contactForm.interest, lang),
+    interestPlaceholder: localize(ui.contactForm.interestPlaceholder, lang),
+    interestGroupTraining: localize(ui.contactForm.interestGroupTraining, lang),
+    interestGroupOppas: localize(ui.contactForm.interestGroupOppas, lang),
+    interestOption1: localize(ui.contactForm.interestOption1, lang),
+    interestOption2: localize(ui.contactForm.interestOption2, lang),
+    interestOption3: localize(ui.contactForm.interestOption3, lang),
+    interestOption4: localize(ui.contactForm.interestOption4, lang),
+    interestOption5: localize(ui.contactForm.interestOption5, lang),
+    interestOption6: localize(ui.contactForm.interestOption6, lang),
+    interestOption7: localize(ui.contactForm.interestOption7, lang),
+    interestOption8: localize(ui.contactForm.interestOption8, lang),
+    message: localize(ui.contactForm.message, lang),
+    messagePlaceholder: localize(ui.contactForm.messagePlaceholder, lang),
+    submit: localize(ui.contactForm.submit, lang),
+    submitting: localize(ui.contactForm.submitting, lang),
+    errorRequired: localize(ui.contactForm.errorRequired, lang),
+    errorEmail: localize(ui.contactForm.errorEmail, lang),
+    errorMessageShort: localize(ui.contactForm.errorMessageShort, lang),
+    errorCheckFields: localize(ui.contactForm.errorCheckFields, lang),
+    errorSubmit: localize(ui.contactForm.errorSubmit, lang),
+    success: localize(ui.contactForm.success, lang),
+    errorGeneric: localize(ui.contactForm.errorGeneric, lang),
+};
+---
+
+<form class="contact-form" data-contact-form novalidate>
+    <div class="contact-form-grid">
+        <div>
+            <label for="name">{text.name}</label>
+            <input
+                id="name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+            />
+            <p class="field-error" data-error-for="name"></p>
+        </div>
+
+        <div>
+            <label for="city">{text.city}</label>
+            <input
+                id="city"
+                name="city"
+                type="text"
+                autocomplete="address-level2"
+                required
+            />
+            <p class="field-error" data-error-for="city"></p>
+        </div>
+
+        <div>
+            <label for="phone">{text.phone}</label>
+            <input
+                id="phone"
+                name="phone"
+                type="tel"
+                autocomplete="tel"
+                required
+            />
+            <p class="field-help">
+                {text.phoneHelp}
+            </p>
+            <p class="field-error" data-error-for="phone"></p>
+        </div>
+
+        <div>
+            <label for="email">{text.email}</label>
+            <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+            />
+            <p class="field-error" data-error-for="email"></p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <label for="interest">{text.interest}</label>
+        <select id="interest" name="interest" required>
+            <option value="">{text.interestPlaceholder}</option>
+            <optgroup label={text.interestGroupTraining}>
+                <option>{text.interestOption1}</option>
+                <option>{text.interestOption2}</option>
+                <option>{text.interestOption3}</option>
+                <option>{text.interestOption4}</option>
+                <option>{text.interestOption5}</option>
+                <option>{text.interestOption6}</option>
+            </optgroup>
+            <optgroup label={text.interestGroupOppas}>
+                <option>{text.interestOption7}</option>
+                <option>{text.interestOption8}</option>
+            </optgroup>
+        </select>
+        <p class="field-error" data-error-for="interest"></p>
+    </div>
+
+    <div class="mt-4">
+        <label for="message">{text.message}</label>
+        <textarea
+            id="message"
+            name="message"
+            rows="5"
+            placeholder={text.messagePlaceholder}
+            required></textarea>
+        <p class="field-error" data-error-for="message"></p>
+    </div>
+
+    <div class="mt-5 flex flex-wrap items-center gap-3">
+        <button
+            class="btn btn-primary"
+            type="submit"
+            data-submit-button
+            data-label-default={text.submit}
+            data-label-loading={text.submitting}>{text.submit}</button
+        >
+        <p
+            class="m-0 text-sm"
+            data-form-status
+            data-error-required={text.errorRequired}
+            data-error-email={text.errorEmail}
+            data-error-message-short={text.errorMessageShort}
+            data-error-check-fields={text.errorCheckFields}
+            data-error-submit={text.errorSubmit}
+            data-success={text.success}
+            data-error-generic={text.errorGeneric}
+            aria-live="polite"
+        >
+        </p>
+    </div>
+</form>
+
+<script>
+    type FormFieldName =
+        | "name"
+        | "city"
+        | "phone"
+        | "email"
+        | "interest"
+        | "message";
+    type FormFields = Record<FormFieldName, string>;
+    type FieldControl =
+        | HTMLInputElement
+        | HTMLTextAreaElement
+        | HTMLSelectElement;
+
+    const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+    if (!form) {
+        // Keep top-level valid for module script output.
+    } else {
+        const status = form.querySelector<HTMLElement>("[data-form-status]");
+        const submitButton = form.querySelector<HTMLButtonElement>(
+            "[data-submit-button]",
+        );
+
+        const labels = {
+            default: submitButton?.getAttribute("data-label-default") ?? "",
+            loading: submitButton?.getAttribute("data-label-loading") ?? "",
+            required: status?.getAttribute("data-error-required") ?? "",
+            email: status?.getAttribute("data-error-email") ?? "",
+            messageShort:
+                status?.getAttribute("data-error-message-short") ?? "",
+            checkFields: status?.getAttribute("data-error-check-fields") ?? "",
+            submit: status?.getAttribute("data-error-submit") ?? "",
+            success: status?.getAttribute("data-success") ?? "",
+            generic: status?.getAttribute("data-error-generic") ?? "",
+        };
+
+        const requiredFields: FormFieldName[] = [
+            "name",
+            "city",
+            "phone",
+            "email",
+            "interest",
+            "message",
+        ];
+
+        const getField = (
+            currentForm: HTMLFormElement,
+            name: FormFieldName,
+        ): FieldControl | null => {
+            const el = currentForm.elements.namedItem(name);
+            if (
+                el instanceof HTMLInputElement ||
+                el instanceof HTMLTextAreaElement ||
+                el instanceof HTMLSelectElement
+            ) {
+                return el;
+            }
+            return null;
+        };
+
+        const setError = (fieldName: FormFieldName, message: string): void => {
+            const field = getField(form, fieldName);
+            const errorNode = form.querySelector<HTMLElement>(
+                `[data-error-for="${fieldName}"]`,
+            );
+
+            if (field) {
+                field.classList.toggle("has-error", Boolean(message));
+            }
+            if (errorNode) {
+                errorNode.textContent = message;
+            }
+        };
+
+        const clearState = (): void => {
+            requiredFields.forEach((fieldName: FormFieldName) => {
+                setError(fieldName, "");
+            });
+            if (status) {
+                status.textContent = "";
+                status.className = "m-0 text-sm";
+            }
+        };
+
+        const isEmail = (value: string): boolean =>
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+        form.addEventListener("submit", async (event: SubmitEvent) => {
+            event.preventDefault();
+            clearState();
+
+            const formData = new FormData(form);
+            const payload: FormFields = {
+                name: String(formData.get("name") ?? "").trim(),
+                city: String(formData.get("city") ?? "").trim(),
+                phone: String(formData.get("phone") ?? "").trim(),
+                email: String(formData.get("email") ?? "").trim(),
+                interest: String(formData.get("interest") ?? "").trim(),
+                message: String(formData.get("message") ?? "").trim(),
+            };
+
+            let hasError = false;
+            requiredFields.forEach((fieldName: FormFieldName) => {
+                if (!payload[fieldName]) {
+                    setError(fieldName, labels.required);
+                    hasError = true;
+                }
+            });
+
+            if (payload.email && !isEmail(payload.email)) {
+                setError("email", labels.email);
+                hasError = true;
+            }
+
+            if (payload.message && payload.message.length < 10) {
+                setError("message", labels.messageShort);
+                hasError = true;
+            }
+
+            if (hasError) {
+                if (status) {
+                    status.textContent = labels.checkFields;
+                    status.classList.add("text-detail");
+                }
+                return;
+            }
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = labels.loading;
+            }
+
+            try {
+                const response = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+
+                const data = (await response.json()) as { message?: string };
+
+                if (!response.ok) {
+                    throw new Error(data.message ?? labels.submit);
+                }
+
+                form.reset();
+                if (status) {
+                    status.textContent = labels.success;
+                    status.classList.add("text-detail");
+                }
+            } catch (error: unknown) {
+                if (status) {
+                    status.textContent =
+                        error instanceof Error ? error.message : labels.generic;
+                    status.classList.add("text-secondary");
+                }
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = labels.default;
+                }
+            }
+        });
+    }
+</script>
+
+<style>
+    .contact-form label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 0.35rem;
+        color: #5b5476;
+    }
+
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+        width: 100%;
+        border: 1px solid #d8d3e5;
+        border-radius: 10px;
+        padding: 0.7rem 0.8rem;
+        font: inherit;
+        color: #1f1f29;
+        background: #fff;
+    }
+
+    .contact-form input:focus-visible,
+    .contact-form select:focus-visible,
+    .contact-form textarea:focus-visible {
+        outline: 2px solid #8accca;
+        outline-offset: 2px;
+    }
+
+    .contact-form-grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .field-help {
+        margin: 0.35rem 0 0;
+        color: #5b6165;
+        font-size: 0.86rem;
+    }
+
+    .field-error {
+        min-height: 1.05rem;
+        margin: 0.3rem 0 0;
+        color: #8f2d52;
+        font-size: 0.83rem;
+    }
+
+    .contact-form .has-error {
+        border-color: #8f2d52;
+        background: #fff7fa;
+    }
+
+    @media (min-width: 900px) {
+        .contact-form-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+</style>

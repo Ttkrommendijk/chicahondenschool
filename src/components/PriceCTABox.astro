@@ -1,0 +1,73 @@
+---
+import { getLangFromUrl, localize } from "../i18n";
+import { ui } from "../data/ui";
+
+interface PurchaseLink {
+    label: string;
+    href: string;
+    external?: boolean;
+}
+
+interface Props {
+    price: string;
+    durationShort: string;
+    locations: string[];
+    purchaseLinks: PurchaseLink[];
+}
+
+const { price, durationShort, locations, purchaseLinks } = Astro.props as Props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<aside class="rounded-3xl border border-main bg-main-soft p-6 shadow-sm">
+    <p class="text-sm font-semibold uppercase tracking-wide text-detail">
+        {localize(ui.serviceDetail.priceInvestment, lang)}
+    </p>
+    <p class="mt-1 text-3xl font-extrabold text-secondary">{price}</p>
+    <p class="mt-1 text-sm text-text">
+        {localize(ui.serviceDetail.duration, lang)}: {durationShort}
+    </p>
+
+    {
+        locations.length > 0 && (
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-secondary">
+                    {localize(ui.serviceDetail.location, lang)}
+                </p>
+                <ul class="mt-2 space-y-2">
+                    {locations.map((location) => (
+                        <li class="rounded-xl border border-secondary/20 bg-white px-3 py-2 text-sm text-text">
+                            {location}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        )
+    }
+
+    <div class="mt-5 space-y-3">
+        {
+            purchaseLinks.map((link) => (
+                <a
+                    href={link.href}
+                    target={link.external === false ? undefined : "_blank"}
+                    rel={
+                        link.external === false
+                            ? undefined
+                            : "noreferrer noopener"
+                    }
+                    class="inline-flex w-full items-center justify-center rounded-full bg-secondary px-5 py-3 text-sm font-semibold text-white transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                >
+                    {link.label}
+                </a>
+            ))
+        }
+    </div>
+
+    <a
+        href="/contact/"
+        class="mt-4 inline-flex items-center justify-center rounded-full border border-secondary px-5 py-2.5 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+    >
+        {localize(ui.contentLayout.contactCta, lang)}
+    </a>
+</aside>

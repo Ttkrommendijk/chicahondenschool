@@ -1,0 +1,175 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import HomeUSPBlock from "../components/HomeUSPBlock.astro";
+import ServiceCards from "../components/ServiceCards.astro";
+import USPSection from "../components/USPSection.astro";
+import TestimonialHighlight from "../components/TestimonialHighlight.astro";
+import FaqAccordion from "../components/FaqAccordion.astro";
+import CTASection from "../components/CTASection.astro";
+import { page } from "../data/home";
+import { localize, resolveLangFromUrl } from "../i18n";
+
+const lang = resolveLangFromUrl(Astro.url);
+---
+
+<BaseLayout
+    title={localize(page.seo.title, lang)}
+    description={localize(page.seo.description, lang)}
+>
+    <Hero
+        title={localize(page.heroL10n.title, lang)}
+        subtitle={localize(page.heroL10n.subtitle, lang)}
+        titleKey="home.hero.title"
+        subtitleKey="home.hero.subtitle"
+        imageSrc={page.hero.image}
+        imageAlt={localize(page.heroL10n.imageAlt, lang)}
+        imageAltKey="home.hero.imageAlt"
+        primaryCta={{
+            href: page.hero.primaryCta.href,
+            label: localize(page.heroL10n.primaryCtaLabel, lang),
+        }}
+        primaryCtaLabelKey="home.hero.primaryCtaLabel"
+        secondaryCta={{
+            href: page.hero.secondaryCta.href,
+            label: localize(page.heroL10n.secondaryCtaLabel, lang),
+        }}
+        secondaryCtaLabelKey="home.hero.secondaryCtaLabel"
+    />
+    <HomeUSPBlock
+        items={page.uspBlock.items.map((item, index) => ({
+            title: localize(item.title, lang),
+            line: localize(item.line, lang),
+            titleKey: `homePage.page.uspBlock.items.${index}.title`,
+            lineKey: `homePage.page.uspBlock.items.${index}.line`,
+        }))}
+    />
+
+    <section class="py-10 md:py-14">
+        <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
+            <div
+                class="rounded-3xl border border-main bg-secondary-soft p-8 md:p-10"
+            >
+                <h2
+                    class="text-3xl font-extrabold tracking-tight text-secondary md:text-4xl"
+                    data-i18n="homePage.page.pain.title"
+                >
+                    {localize(page.pain.title, lang)}
+                </h2>
+                <p
+                    class="mt-4 text-lg leading-relaxed text-text"
+                    data-i18n="homePage.page.pain.text"
+                >
+                    {localize(page.pain.text, lang)}
+                </p>
+                <p
+                    class="mt-4 text-base font-semibold text-detail"
+                    data-i18n="homePage.page.pain.supporting"
+                >
+                    {localize(page.pain.supporting, lang)}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <USPSection
+        title={localize(page.usp.title, lang)}
+        intro={localize(page.usp.intro, lang)}
+        titleKey="homePage.page.usp.title"
+        introKey="homePage.page.usp.intro"
+        items={page.usp.items.map((item, index) => ({
+            ...item,
+            title: localize(item.title, lang),
+            description: localize(item.description, lang),
+            titleKey: `homePage.page.usp.items.${index}.title`,
+            descriptionKey: `homePage.page.usp.items.${index}.description`,
+        }))}
+    />
+
+    <ServiceCards
+        title={localize(page.services.title, lang)}
+        titleKey="homePage.page.services.title"
+        items={page.services.items.map((item, index) => ({
+            ...item,
+            title: localize(item.title, lang),
+            description: localize(item.description, lang),
+            ctaLabel: localize(item.ctaLabel, lang),
+            badge: localize(item.badge, lang),
+            imageAlt: localize(item.imageAlt, lang),
+            titleKey: `homePage.page.services.items.${index}.title`,
+            descriptionKey: `homePage.page.services.items.${index}.description`,
+            ctaLabelKey: `homePage.page.services.items.${index}.ctaLabel`,
+            badgeKey: `homePage.page.services.items.${index}.badge`,
+        }))}
+    />
+
+    <section class="py-10 md:py-14">
+        <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
+            <div
+                class="rounded-3xl border border-secondary/35 bg-secondary-soft p-8 shadow-sm"
+            >
+                <h2
+                    class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+                    data-i18n="homePage.page.about.title"
+                >
+                    {localize(page.about.title, lang)}
+                </h2>
+                <p
+                    class="mt-3 max-w-4xl text-text"
+                    data-i18n="homePage.page.about.text"
+                >
+                    {localize(page.about.text, lang)}
+                </p>
+                <a
+                    class="mt-5 inline-flex items-center rounded-full border border-secondary bg-white px-5 py-2.5 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                    href={page.about.linkHref}
+                    data-i18n="homePage.page.about.linkLabel"
+                >
+                    {localize(page.about.linkLabel, lang)}
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <TestimonialHighlight
+        title={localize(page.testimonials.title, lang)}
+        titleKey="homePage.page.testimonials.title"
+        items={page.testimonials.items.map((item, index) => ({
+            quote: localize(item.quote, lang),
+            author: localize(item.author, lang),
+            quoteKey: `homePage.page.testimonials.items.${index}.quote`,
+            authorKey: `homePage.page.testimonials.items.${index}.author`,
+        }))}
+        ctaLabel={localize(page.testimonials.cta.label, lang)}
+        ctaLabelKey="homePage.page.testimonials.cta.label"
+        ctaHref={page.testimonials.cta.href}
+    />
+
+    <FaqAccordion
+        title={localize(page.faq.title, lang)}
+        titleKey="homePage.page.faq.title"
+        items={page.faq.items.map((item, index) => ({
+            question: localize(item.question, lang),
+            answer: localize(item.answer, lang),
+            questionKey: `homePage.page.faq.items.${index}.question`,
+            answerKey: `homePage.page.faq.items.${index}.answer`,
+        }))}
+    />
+
+    <CTASection
+        title={localize(page.contact.title, lang)}
+        text={localize(page.contact.text, lang)}
+        titleKey="homePage.page.contact.title"
+        textKey="homePage.page.contact.text"
+        primary={{
+            ...page.contact.cta,
+            label: localize(page.contact.cta.label, lang),
+        }}
+        primaryLabelKey="homePage.page.contact.cta.label"
+        secondary={{
+            ...page.contact.secondaryCta,
+            label: localize(page.contact.secondaryCta.label, lang),
+        }}
+        secondaryLabelKey="homePage.page.contact.secondaryCta.label"
+    />
+</BaseLayout>

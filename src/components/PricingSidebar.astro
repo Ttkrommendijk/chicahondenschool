@@ -1,0 +1,118 @@
+---
+import { localize, type Lang, type L10n } from "../i18n";
+import { ui } from "../data/ui";
+import CTAButton from "./CTAButton.astro";
+
+interface PricingOption {
+    label: L10n;
+    priceText: L10n;
+    note?: L10n;
+}
+
+interface DienstData {
+    checkoutUrl: string;
+    hero: { primaryCtaLabel: L10n };
+    pricing: {
+        title: L10n;
+        priceText: L10n;
+        metaLines: L10n[];
+        microBenefits: L10n[];
+        options?: PricingOption[];
+    };
+}
+
+interface Props {
+    dienst: DienstData;
+    lang: Lang;
+    keyBase: string;
+}
+
+const { dienst, lang, keyBase } = Astro.props as Props;
+---
+
+<aside class="rounded-2xl border border-main/35 bg-main-soft px-5 py-6">
+    <p class="text-xs font-semibold uppercase tracking-wide text-detail">
+        <span data-i18n={`${keyBase}.pricing.title`}>
+            {localize(dienst.pricing.title, lang)}
+        </span>
+    </p>
+    <p class="mt-2 text-3xl font-extrabold text-secondary">
+        <span data-i18n={`${keyBase}.pricing.priceText`}>
+            {localize(dienst.pricing.priceText, lang)}
+        </span>
+    </p>
+
+    <ul class="mt-3 space-y-1">
+        {
+            dienst.pricing.metaLines.map((line, index) => (
+                <li class="text-sm text-text">
+                    <span data-i18n={`${keyBase}.pricing.metaLines.${index}`}>
+                        {localize(line, lang)}
+                    </span>
+                </li>
+            ))
+        }
+    </ul>
+
+    <ul class="mt-4 space-y-2 border-t border-secondary/15 pt-4">
+        {
+            dienst.pricing.microBenefits.map((line, index) => (
+                <li class="text-sm text-text">
+                    <span data-i18n={`${keyBase}.pricing.microBenefits.${index}`}>
+                        {localize(line, lang)}
+                    </span>
+                </li>
+            ))
+        }
+    </ul>
+
+    {
+        dienst.pricing.options && dienst.pricing.options.length > 0 && (
+            <ul class="mt-4 space-y-2 border-t border-secondary/15 pt-4">
+                {dienst.pricing.options.map((option, index) => (
+                    <li class="text-sm text-text">
+                        <p class="font-semibold text-secondary">
+                            <span
+                                data-i18n={`${keyBase}.pricing.options.${index}.label`}
+                            >
+                                {localize(option.label, lang)}
+                            </span>
+                            :{" "}
+                            <span
+                                data-i18n={`${keyBase}.pricing.options.${index}.priceText`}
+                            >
+                                {localize(option.priceText, lang)}
+                            </span>
+                        </p>
+                        {
+                            option.note && (
+                                <p class="mt-1">
+                                    <span
+                                        data-i18n={`${keyBase}.pricing.options.${index}.note`}
+                                    >
+                                        {localize(option.note, lang)}
+                                    </span>
+                                </p>
+                            )
+                        }
+                    </li>
+                ))}
+            </ul>
+        )
+    }
+
+    <div class="mt-5 space-y-3">
+        <CTAButton
+            href={dienst.checkoutUrl}
+            variant="primary"
+            label={localize(dienst.hero.primaryCtaLabel, lang)}
+            labelKey={`${keyBase}.hero.primaryCtaLabel`}
+        />
+        <CTAButton
+            href="/contact/"
+            variant="secondary"
+            label={localize(ui.common.discussFirst, lang)}
+            labelKey="ui.common.discussFirst"
+        />
+    </div>
+</aside>

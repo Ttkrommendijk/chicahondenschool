@@ -1,0 +1,27 @@
+---
+import { localize, type Lang, type L10n } from "../i18n";
+
+interface Props {
+    quote: L10n;
+    byline?: L10n;
+    lang: Lang;
+    keyBase: string;
+}
+
+const { quote, byline, lang, keyBase } = Astro.props as Props;
+---
+
+<section class="border-l-4 border-main pl-5">
+    <blockquote class="text-lg text-secondary">
+        <span data-i18n={`${keyBase}.quote`}>{localize(quote, lang)}</span>
+    </blockquote>
+    {
+        byline && (
+            <p class="mt-3 text-sm text-text">
+                <span data-i18n={`${keyBase}.byline`}>
+                    {localize(byline, lang)}
+                </span>
+            </p>
+        )
+    }
+</section>

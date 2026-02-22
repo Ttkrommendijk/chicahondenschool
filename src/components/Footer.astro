@@ -1,0 +1,112 @@
+---
+import { localize, type Lang } from "../i18n";
+import { ui } from "../data/ui";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+---
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div>
+            <p><strong>{localize(ui.common.brandName, lang)}</strong></p>
+            <p>
+                <a
+                    href={`tel:${localize(ui.contact.phone, lang).replace(/\s+/g, "")}`}
+                    >{localize(ui.contact.phone, lang)}</a
+                > · <a href={`mailto:${localize(ui.contact.email, lang)}`}
+                    >{localize(ui.contact.email, lang)}</a
+                >
+            </p>
+        </div>
+        <div class="footer-social">
+            <p>
+                <strong data-i18n="ui.footer.followChica"
+                    >{localize(ui.footer.followChica, lang)}</strong
+                >
+            </p>
+            <ul class="footer-social-links">
+                <li>
+                    <a
+                        class="social-icon-btn"
+                        href={ui.links.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={localize(ui.footer.socialInstagram, lang)}
+                        data-i18n-attr="aria-label:ui.footer.socialInstagram"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.9 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="sr-only"
+                            data-i18n="ui.footer.socialInstagram"
+                            >{localize(ui.footer.socialInstagram, lang)}</span
+                        >
+                    </a>
+                </li>
+                <li>
+                    <a
+                        class="social-icon-btn"
+                        href={ui.links.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={localize(ui.footer.socialFacebook, lang)}
+                        data-i18n-attr="aria-label:ui.footer.socialFacebook"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M13.74 22v-8.14h2.74l.41-3.17h-3.15V8.66c0-.92.26-1.55 1.57-1.55h1.67V4.27c-.29-.04-1.28-.12-2.43-.12-2.41 0-4.06 1.47-4.06 4.19v2.35H7.76v3.17h2.73V22h3.25Z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="sr-only"
+                            data-i18n="ui.footer.socialFacebook"
+                            >{localize(ui.footer.socialFacebook, lang)}</span
+                        >
+                    </a>
+                </li>
+                <li>
+                    <a
+                        class="social-icon-btn"
+                        href={ui.links.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={localize(ui.footer.socialLinkedIn, lang)}
+                        data-i18n-attr="aria-label:ui.footer.socialLinkedIn"
+                    >
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                                d="M6.16 8.25a1.9 1.9 0 1 1 0-3.8 1.9 1.9 0 0 1 0 3.8ZM4.55 9.7h3.2V20h-3.2V9.7Zm5.05 0h3.07v1.4h.04c.43-.81 1.48-1.66 3.04-1.66 3.25 0 3.85 2.14 3.85 4.93V20h-3.2v-4.95c0-1.18-.02-2.7-1.64-2.7-1.64 0-1.89 1.28-1.89 2.61V20H9.6V9.7Z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="sr-only"
+                            data-i18n="ui.footer.socialLinkedIn"
+                            >{localize(ui.footer.socialLinkedIn, lang)}</span
+                        >
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <ul class="footer-links">
+            {
+                ui.footer.links.map((item, index) => (
+                    <li>
+                        <a
+                            href={item.href}
+                            data-i18n={`ui.footer.links.${index}.label`}
+                        >
+                            {localize(item.label, lang)}
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</footer>

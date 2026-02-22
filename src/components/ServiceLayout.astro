@@ -1,0 +1,168 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "./Section.astro";
+import CTAButton from "./CTAButton.astro";
+import PricingSidebar from "./PricingSidebar.astro";
+import BenefitList from "./BenefitList.astro";
+import QualificationGrid from "./QualificationGrid.astro";
+import ProcessTimeline from "./ProcessTimeline.astro";
+import TestimonialBlock from "./TestimonialBlock.astro";
+import RelatedServices from "./RelatedServices.astro";
+import { localize, type Lang, type L10n } from "../i18n";
+import { ui } from "../data/ui";
+
+interface DienstData {
+    slug: string;
+    checkoutUrl: string;
+    seo: { title: L10n; description: L10n };
+    hero: {
+        title: L10n;
+        subtitle: L10n;
+        primaryCtaLabel: L10n;
+        trustLine?: L10n;
+    };
+    persuasion: { title: L10n; body: L10n; highlight: L10n };
+    benefits: { title: L10n; items: L10n[] };
+    audience: {
+        title: L10n;
+        fitTitle: L10n;
+        fitItems: L10n[];
+        notTitle: L10n;
+        notItems: L10n[];
+    };
+    timeline: {
+        title: L10n;
+        steps: Array<{ title: L10n; text: L10n }>;
+    };
+    testimonial: { quote: L10n; byline?: L10n };
+    pricing: {
+        title: L10n;
+        priceText: L10n;
+        metaLines: L10n[];
+        microBenefits: L10n[];
+        options?: Array<{ label: L10n; priceText: L10n; note?: L10n }>;
+    };
+    related: string[];
+}
+
+interface Props {
+    dienst: DienstData;
+    lang: Lang;
+}
+
+const { dienst, lang } = Astro.props as Props;
+const keyBase = `diensten.${dienst.slug}`;
+---
+
+<BaseLayout
+    title={localize(dienst.seo.title, lang)}
+    description={localize(dienst.seo.description, lang)}
+>
+    <Section variant="hero">
+        <div class="grid gap-8 md:grid-cols-[minmax(0,2fr)_minmax(290px,1fr)] md:items-start">
+            <div class="max-w-3xl">
+                <h1 class="text-4xl font-extrabold leading-tight text-secondary md:text-5xl">
+                    <span data-i18n={`${keyBase}.hero.title`}>
+                        {localize(dienst.hero.title, lang)}
+                    </span>
+                </h1>
+                <p class="mt-4 text-lg text-text">
+                    <span data-i18n={`${keyBase}.hero.subtitle`}>
+                        {localize(dienst.hero.subtitle, lang)}
+                    </span>
+                </p>
+                {
+                    dienst.hero.trustLine && (
+                        <p class="mt-3 text-sm font-medium text-detail">
+                            <span data-i18n={`${keyBase}.hero.trustLine`}>
+                                {localize(dienst.hero.trustLine, lang)}
+                            </span>
+                        </p>
+                    )
+                }
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <CTAButton
+                        href={dienst.checkoutUrl}
+                        variant="primary"
+                        label={localize(dienst.hero.primaryCtaLabel, lang)}
+                        labelKey={`${keyBase}.hero.primaryCtaLabel`}
+                    />
+                    <CTAButton
+                        href="/contact/"
+                        variant="secondary"
+                        label={localize(ui.common.discussFirst, lang)}
+                        labelKey="ui.common.discussFirst"
+                    />
+                </div>
+            </div>
+            <div class="md:hidden">
+                <PricingSidebar dienst={dienst} lang={lang} keyBase={keyBase} />
+            </div>
+        </div>
+    </Section>
+
+    <Section variant="normal">
+        <div class="grid gap-8 md:grid-cols-[minmax(0,2fr)_minmax(290px,1fr)]">
+            <div class="space-y-10">
+                <section class="grid gap-6 rounded-2xl border border-main/25 bg-main-soft/50 p-6 md:grid-cols-2 md:p-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-secondary md:text-3xl">
+                            <span data-i18n={`${keyBase}.persuasion.title`}>
+                                {localize(dienst.persuasion.title, lang)}
+                            </span>
+                        </h2>
+                        <p class="mt-3 text-text">
+                            <span data-i18n={`${keyBase}.persuasion.body`}>
+                                {localize(dienst.persuasion.body, lang)}
+                            </span>
+                        </p>
+                    </div>
+                    <aside class="rounded-2xl border border-secondary/20 bg-white p-5">
+                        <p class="text-base font-semibold text-secondary">
+                            <span data-i18n={`${keyBase}.persuasion.highlight`}>
+                                {localize(dienst.persuasion.highlight, lang)}
+                            </span>
+                        </p>
+                    </aside>
+                </section>
+
+                <BenefitList
+                    title={dienst.benefits.title}
+                    items={dienst.benefits.items}
+                    lang={lang}
+                    keyBase={`${keyBase}.benefits`}
+                />
+
+                <QualificationGrid
+                    title={dienst.audience.title}
+                    fitTitle={dienst.audience.fitTitle}
+                    fitItems={dienst.audience.fitItems}
+                    notTitle={dienst.audience.notTitle}
+                    notItems={dienst.audience.notItems}
+                    lang={lang}
+                    keyBase={`${keyBase}.audience`}
+                />
+
+                <ProcessTimeline
+                    title={dienst.timeline.title}
+                    steps={dienst.timeline.steps}
+                    lang={lang}
+                    keyBase={`${keyBase}.timeline`}
+                />
+
+                <TestimonialBlock
+                    quote={dienst.testimonial.quote}
+                    byline={dienst.testimonial.byline}
+                    lang={lang}
+                    keyBase={`${keyBase}.testimonial`}
+                />
+
+                <RelatedServices related={dienst.related} lang={lang} />
+            </div>
+
+            <div class="hidden md:block md:sticky md:top-24 md:self-start">
+                <PricingSidebar dienst={dienst} lang={lang} keyBase={keyBase} />
+            </div>
+        </div>
+    </Section>
+</BaseLayout>

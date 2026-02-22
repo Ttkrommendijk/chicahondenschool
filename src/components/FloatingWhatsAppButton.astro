@@ -1,0 +1,68 @@
+---
+import { localize, type Lang } from "../i18n";
+import { ui, whatsappLink } from "../data/ui";
+
+interface Props {
+    lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+---
+
+<a
+    href={whatsappLink}
+    class="floating-whatsapp"
+    aria-label={localize(ui.floatingWhatsApp.ariaLabel, lang)}
+    target="_blank"
+    rel="noreferrer"
+>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+            fill="currentColor"
+            d="M20.52 3.48A11.82 11.82 0 0 0 12.12 0C5.5 0 .12 5.38.12 12c0 2.1.54 4.17 1.58 6L0 24l6.2-1.62a11.87 11.87 0 0 0 5.92 1.52h.01c6.62 0 12-5.38 12-12 0-3.2-1.25-6.2-3.61-8.42Zm-8.4 18.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.68.96.98-3.58-.24-.37A9.83 9.83 0 0 1 2.12 12c0-5.51 4.49-10 10-10 2.67 0 5.19 1.03 7.08 2.9A9.93 9.93 0 0 1 22.12 12c0 5.51-4.49 9.88-10 9.88Zm5.47-7.42c-.3-.15-1.77-.87-2.04-.97-.27-.1-.46-.15-.66.15-.19.3-.75.97-.91 1.17-.17.2-.33.22-.62.07-.3-.15-1.25-.46-2.38-1.46-.88-.79-1.48-1.77-1.65-2.07-.17-.3-.02-.46.13-.61.13-.12.3-.32.45-.47.14-.15.19-.25.29-.42.1-.17.05-.32-.03-.47-.08-.15-.66-1.6-.9-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.07-.78.37-.27.3-1.03 1.01-1.03 2.46s1.06 2.84 1.21 3.04c.15.2 2.08 3.18 5.03 4.46.7.3 1.25.48 1.68.61.71.23 1.35.2 1.86.12.57-.09 1.77-.72 2.02-1.41.25-.69.25-1.29.17-1.41-.08-.12-.28-.2-.58-.35Z"
+        ></path>
+    </svg>
+    <span>{localize(ui.floatingWhatsApp.label, lang)}</span>
+</a>
+
+<style>
+    .floating-whatsapp {
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 1200;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        border-radius: 999px;
+        border: 1px solid #2f6f68;
+        background: #8accca;
+        color: #1f1f29;
+        font-weight: 700;
+        text-decoration: none;
+        padding: 0.7rem 0.95rem;
+        box-shadow: 0 10px 24px rgba(31, 31, 41, 0.22);
+    }
+
+    .floating-whatsapp:hover {
+        background: #74b8b6;
+        color: #1f1f29;
+    }
+
+    .floating-whatsapp:focus-visible {
+        outline: 2px solid #5b5476;
+        outline-offset: 2px;
+    }
+
+    .floating-whatsapp svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        flex: 0 0 auto;
+    }
+
+    @media (max-width: 520px) {
+        .floating-whatsapp span {
+            display: none;
+        }
+    }
+</style>

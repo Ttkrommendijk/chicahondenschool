@@ -1,0 +1,109 @@
+---
+import { getLangFromUrl, localize } from "../i18n";
+import { ui } from "../data/ui";
+
+interface Props {
+    title: string;
+    subtitle?: string;
+    imageSrc?: string;
+    imageAlt?: string;
+    imageWidth?: number;
+    imageHeight?: number;
+    primaryCta: { label: string; href: string };
+    secondaryCta?: { label: string; href: string };
+    titleKey?: string;
+    subtitleKey?: string;
+    imageAltKey?: string;
+    primaryCtaLabelKey?: string;
+    secondaryCtaLabelKey?: string;
+}
+
+const {
+    title,
+    subtitle,
+    imageSrc,
+    imageAlt = "",
+    imageWidth,
+    imageHeight,
+    primaryCta,
+    secondaryCta,
+    titleKey,
+    subtitleKey,
+    imageAltKey,
+    primaryCtaLabelKey,
+    secondaryCtaLabelKey,
+} = Astro.props as Props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<section
+    class="relative overflow-hidden bg-gradient-to-b from-main-soft via-white to-white py-16 md:py-24"
+>
+    <div
+        class="mx-auto grid w-full max-w-6xl gap-10 px-4 md:grid-cols-2 md:items-center md:px-6"
+    >
+        <div>
+            <p
+                class="mb-3 inline-flex rounded-full border border-main bg-main-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-detail"
+                data-i18n="ui.common.brandName"
+            >
+                {localize(ui.common.brandName, lang)}
+            </p>
+            <h1
+                class="text-4xl font-extrabold leading-tight text-secondary md:text-5xl"
+                data-i18n={titleKey}
+            >
+                {title}
+            </h1>
+            <p class="mt-2 h-1.5 w-24 rounded-full bg-main"></p>
+            {
+                subtitle && (
+                    <p
+                        class="mt-4 max-w-xl text-base leading-relaxed text-text md:text-lg"
+                        data-i18n={subtitleKey}
+                    >
+                        {subtitle}
+                    </p>
+                )
+            }
+            <div class="mt-7 flex flex-wrap gap-3">
+                <a
+                    href={primaryCta.href}
+                    data-i18n={primaryCtaLabelKey}
+                    class="inline-flex items-center rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-secondary/35 transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                >
+                    {primaryCta.label}
+                </a>
+                {
+                    secondaryCta && (
+                        <a
+                            href={secondaryCta.href}
+                            data-i18n={secondaryCtaLabelKey}
+                            class="inline-flex items-center rounded-full border border-secondary bg-white px-6 py-3 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                        >
+                            {secondaryCta.label}
+                        </a>
+                    )
+                }
+            </div>
+        </div>
+        {
+            imageSrc && (
+                <div class="relative">
+                    <div class="absolute -inset-3 rounded-3xl bg-main/45 blur-xl" />
+                    <img
+                        class="relative h-full w-full rounded-3xl border border-main object-cover shadow-xl"
+                        src={imageSrc}
+                        alt={imageAlt}
+                        width={imageWidth}
+                        height={imageHeight}
+                        data-i18n-attr={
+                            imageAltKey ? `alt:${imageAltKey}` : undefined
+                        }
+                        loading="eager"
+                    />
+                </div>
+            )
+        }
+    </div>
+</section>

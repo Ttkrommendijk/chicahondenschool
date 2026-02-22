@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+import ServiceCards from "../../components/ServiceCards.astro";
+import { localize, resolveLangFromUrl } from "../../i18n";
+import { dienstenIndexPage, serviceList } from "../../data/diensten";
+import { ui } from "../../data/ui";
+
+const lang = resolveLangFromUrl(Astro.url);
+---
+
+<BaseLayout
+    title={localize(dienstenIndexPage.seo.title, lang)}
+    description={localize(dienstenIndexPage.seo.description, lang)}
+>
+    <Hero
+        title={localize(dienstenIndexPage.hero.title, lang)}
+        subtitle={localize(dienstenIndexPage.hero.subtitle, lang)}
+        titleKey="diensten.index.hero.title"
+        subtitleKey="diensten.index.hero.subtitle"
+        imageSrc="/images/services/detectie.jpg"
+        imageAlt={localize(dienstenIndexPage.hero.title, lang)}
+        imageAltKey="diensten.index.hero.title"
+        primaryCta={{
+            label: localize(ui.common.contact, lang),
+            href: "/contact/",
+        }}
+        primaryCtaLabelKey="ui.common.contact"
+    />
+
+    <ServiceCards
+        title={localize(dienstenIndexPage.hero.title, lang)}
+        titleKey="diensten.index.hero.title"
+        items={serviceList.map((service, index) => ({
+            title: localize(service.title, lang),
+            description: localize(service.excerpt, lang),
+            href: service.href,
+            ctaLabel: localize(service.buttonLabel, lang),
+            titleKey: `diensten.list.${index}.title`,
+            descriptionKey: `diensten.list.${index}.excerpt`,
+            ctaLabelKey: `diensten.list.${index}.buttonLabel`,
+        }))}
+    />
+</BaseLayout>

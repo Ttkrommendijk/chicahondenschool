@@ -1,0 +1,33 @@
+---
+interface Props {
+    title: string;
+    text: string;
+    titleKey?: string;
+    textKey?: string;
+}
+
+const { title, text, titleKey, textKey } = Astro.props as Props;
+---
+
+<section class="section">
+    <div class="container">
+        <div
+            class="rounded-2xl border border-main/50 bg-secondary-soft px-6 py-6 shadow-sm"
+        >
+            <div class="border-l-4 border-main pl-4">
+                <h2 class="mb-2">
+                    {
+                        titleKey ? (
+                            <span data-i18n={titleKey}>{title}</span>
+                        ) : (
+                            title
+                        )
+                    }
+                </h2>
+                <p class="m-0 max-w-3xl text-text">
+                    {textKey ? <span data-i18n={textKey}>{text}</span> : text}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,126 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import { page } from "../../data/contact";
+import { getLangFromUrl, localize } from "../../i18n";
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout
+    title={localize(page.seo.title, lang)}
+    description={localize(page.seo.description, lang)}
+>
+    <section class="section">
+        <div class="container">
+            <div
+                class="rounded-3xl border border-main/40 bg-gradient-to-br from-main-soft via-white to-secondary-soft px-6 py-8"
+            >
+                <h1
+                    class="text-4xl font-extrabold leading-tight text-secondary md:text-5xl"
+                >
+                    <span data-i18n="contact.page.hero.title"
+                        >{localize(page.hero.title, lang)}</span
+                    >
+                </h1>
+                <p class="lead" data-i18n="contact.page.hero.lead">
+                    {localize(page.hero.lead, lang)}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container grid gap-6 lg:grid-cols-[1.55fr,1fr]">
+            <article
+                class="rounded-2xl border border-secondary/25 bg-white p-6 shadow-sm"
+            >
+                <h2
+                    class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+                >
+                    <span data-i18n="contact.page.formSectionTitle"
+                        >{localize(page.formSectionTitle, lang)}</span
+                    >
+                </h2>
+                <ContactForm lang={lang} />
+            </article>
+
+            <aside
+                class="rounded-2xl border border-main/35 bg-main-soft p-6 shadow-sm"
+            >
+                <h2
+                    class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+                >
+                    <span data-i18n="contact.page.directSectionTitle"
+                        >{localize(page.directSectionTitle, lang)}</span
+                    >
+                </h2>
+                <p>
+                    <strong data-i18n="contact.page.contactDetails.phoneLabel"
+                        >{
+                            localize(page.contactDetails.phoneLabel, lang)
+                        }</strong
+                    >:
+                    <a
+                        href={localize(page.contactDetails.phoneHref, lang)}
+                        data-i18n-attr="href:contact.page.contactDetails.phoneHref"
+                    >
+                        <span data-i18n="contact.page.contactDetails.phone">
+                            {localize(page.contactDetails.phone, lang)}
+                        </span>
+                    </a>
+                </p>
+                <p>
+                    <strong data-i18n="contact.page.contactDetails.emailLabel"
+                        >{
+                            localize(page.contactDetails.emailLabel, lang)
+                        }</strong
+                    >:
+                    <a
+                        href={localize(page.contactDetails.emailHref, lang)}
+                        data-i18n-attr="href:contact.page.contactDetails.emailHref"
+                    >
+                        <span data-i18n="contact.page.contactDetails.email">
+                            {localize(page.contactDetails.email, lang)}
+                        </span>
+                    </a>
+                </p>
+                <p>
+                    <strong
+                        data-i18n="contact.page.contactDetails.serviceAreaLabel"
+                        >{
+                            localize(page.contactDetails.serviceAreaLabel, lang)
+                        }</strong
+                    >:
+                    <span data-i18n="contact.page.contactDetails.serviceArea">
+                        {localize(page.contactDetails.serviceArea, lang)}
+                    </span>
+                </p>
+                <p>
+                    <strong data-i18n="contact.page.contactDetails.kvkLabel"
+                        >{localize(page.contactDetails.kvkLabel, lang)}</strong
+                    >:
+                    <span data-i18n="contact.page.contactDetails.kvk">
+                        {localize(page.contactDetails.kvk, lang)}
+                    </span>
+                </p>
+                <hr class="my-4 border-main/35" />
+                <p class="m-0 text-sm text-text">
+                    <span data-i18n="contact.page.bookingHelp"
+                        >{localize(page.bookingHelp, lang)}</span
+                    >
+                </p>
+                <div class="btn-row mt-4">
+                    <a
+                        class="btn btn-primary"
+                        href={page.bookingCta.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-i18n="contact.page.bookingCta.label"
+                        >{localize(page.bookingCta.label, lang)}</a
+                    >
+                </div>
+            </aside>
+        </div>
+    </section>
+</BaseLayout>

@@ -1,0 +1,174 @@
+---
+import type { ReviewItem } from "../data/reviews";
+import type { Lang } from "../i18n";
+import { localize } from "../i18n";
+
+interface Props {
+    reviews: ReviewItem[];
+    initialVisible?: number;
+    batchSize?: number;
+    title: string;
+    intro: string;
+    readMoreLabel: string;
+    showMoreLabel: string;
+    defaultAuthorLabel: string;
+    lang: Lang;
+    titleKey?: string;
+    introKey?: string;
+    readMoreLabelKey?: string;
+    showMoreLabelKey?: string;
+    defaultAuthorLabelKey?: string;
+    itemsKeyPrefix?: string;
+}
+
+const {
+    reviews,
+    initialVisible = 6,
+    batchSize = 4,
+    title,
+    intro,
+    readMoreLabel,
+    showMoreLabel,
+    defaultAuthorLabel,
+    lang,
+    titleKey,
+    introKey,
+    readMoreLabelKey,
+    showMoreLabelKey,
+    defaultAuthorLabelKey,
+    itemsKeyPrefix = "reviews.allReviews",
+} = Astro.props as Props;
+---
+
+<section class="section">
+    <div class="container">
+        <h2
+            class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+        >
+            {titleKey ? <span data-i18n={titleKey}>{title}</span> : title}
+        </h2>
+        <p class="lead">
+            {introKey ? <span data-i18n={introKey}>{intro}</span> : intro}
+        </p>
+
+        <div
+            class="mt-6 grid gap-3"
+            data-review-list
+            data-batch-size={batchSize}
+        >
+            {
+                reviews.map((review, index) => (
+                    <article
+                        class="section-card py-4"
+                        data-review-item
+                        hidden={index >= initialVisible}
+                    >
+                        <details>
+                            <summary class="flex items-center justify-between gap-3 text-secondary">
+                                <span>
+                                    {review.author ? (
+                                        <span
+                                            data-i18n={`${itemsKeyPrefix}.${review.id}.author`}
+                                        >
+                                            {localize(review.author, lang)}
+                                        </span>
+                                    ) : (
+                                        <span data-i18n={defaultAuthorLabelKey}>
+                                            {defaultAuthorLabel}
+                                        </span>
+                                    )}
+                                    {review.contextTag ? (
+                                        <>
+                                            {" - "}
+                                            <span
+                                                data-i18n={`${itemsKeyPrefix}.${review.id}.contextTag`}
+                                            >
+                                                {localize(
+                                                    review.contextTag,
+                                                    lang,
+                                                )}
+                                            </span>
+                                        </>
+                                    ) : (
+                                        ""
+                                    )}
+                                </span>
+                                <span class="text-sm font-normal text-detail">
+                                    {readMoreLabelKey ? (
+                                        <span data-i18n={readMoreLabelKey}>
+                                            {readMoreLabel}
+                                        </span>
+                                    ) : (
+                                        readMoreLabel
+                                    )}
+                                </span>
+                            </summary>
+                            <p class="mt-3 text-text">
+                                <span
+                                    data-i18n={`${itemsKeyPrefix}.${review.id}.${review.fullText ? "fullText" : "quote"}`}
+                                >
+                                    {localize(
+                                        review.fullText ?? review.quote,
+                                        lang,
+                                    )}
+                                </span>
+                            </p>
+                        </details>
+                    </article>
+                ))
+            }
+        </div>
+
+        {
+            reviews.length > initialVisible && (
+                <div class="mt-5">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-show-more
+                    >
+                        {showMoreLabelKey ? (
+                            <span data-i18n={showMoreLabelKey}>
+                                {showMoreLabel}
+                            </span>
+                        ) : (
+                            showMoreLabel
+                        )}
+                    </button>
+                </div>
+            )
+        }
+    </div>
+</section>
+
+<script>
+    const list = document.querySelector("[data-review-list]");
+    const button = document.querySelector("[data-show-more]");
+
+    if (list && button) {
+        const items = Array.from(list.querySelectorAll("[data-review-item]"));
+        const batchSize = Number(list.getAttribute("data-batch-size") ?? "4");
+
+        const updateVisibility = () => {
+            const hiddenItems = items.filter((item) =>
+                item.hasAttribute("hidden"),
+            );
+            if (hiddenItems.length === 0) {
+                button.setAttribute("hidden", "hidden");
+            }
+        };
+
+        button.addEventListener("click", () => {
+            let revealed = 0;
+            for (const item of items) {
+                if (item.hasAttribute("hidden") && revealed < batchSize) {
+                    item.removeAttribute("hidden");
+                    revealed += 1;
+                }
+            }
+            updateVisibility();
+        });
+
+        updateVisibility();
+    }
+</script>

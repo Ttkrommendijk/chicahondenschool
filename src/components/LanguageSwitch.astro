@@ -1,0 +1,95 @@
+---
+import type { Lang } from "../i18n";
+import { localize } from "../i18n";
+import { ui } from "../data/ui";
+
+interface Props {
+    lang: Lang;
+    pathname: string;
+    search: string;
+}
+
+const { lang, pathname, search } = Astro.props as Props;
+const initialFromUrl = new URLSearchParams(search).get("lang");
+const active =
+    initialFromUrl === "en" || initialFromUrl === "nl" ? initialFromUrl : lang;
+---
+
+<div class="language-switch" data-language-switch>
+    <button
+        type="button"
+        class:list={["language-switch__option", active === "nl" && "is-active"]}
+        data-lang-option="nl"
+        aria-current={active === "nl" ? "true" : "false"}
+        data-pathname={pathname}
+        data-search={search}
+    >
+        <span data-i18n="ui.navigation.languageSwitch.nl"
+            >{localize(ui.navigation.languageSwitch.nl, lang)}</span
+        >
+    </button>
+    <button
+        type="button"
+        class:list={["language-switch__option", active === "en" && "is-active"]}
+        data-lang-option="en"
+        aria-current={active === "en" ? "true" : "false"}
+        data-pathname={pathname}
+        data-search={search}
+    >
+        <span data-i18n="ui.navigation.languageSwitch.en"
+            >{localize(ui.navigation.languageSwitch.en, lang)}</span
+        >
+    </button>
+</div>
+
+<script is:inline>
+    (() => {
+        const root = document.querySelector("[data-language-switch]");
+        if (!root) return;
+        const options = Array.from(root.querySelectorAll("[data-lang-option]"));
+        root.querySelectorAll("[data-lang-option]").forEach((link) => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault();
+                const lang = link.getAttribute("data-lang-option");
+                const setLang = window.__setLang;
+                if (
+                    (lang === "nl" || lang === "en") &&
+                    typeof setLang === "function"
+                ) {
+                    setLang(lang);
+                }
+            });
+        });
+    })();
+</script>
+
+<style>
+    .language-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.1rem;
+        border: 1px solid #d8d3e5;
+        border-radius: 999px;
+        background: #fff;
+        padding: 0.15rem;
+    }
+
+    .language-switch__option {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        text-decoration: none;
+        color: #5b6165;
+        font-weight: 500;
+        line-height: 1;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+    }
+
+    .language-switch__option.is-active {
+        font-weight: 700;
+        color: #ffffff;
+        background: #5b5476;
+    }
+</style>

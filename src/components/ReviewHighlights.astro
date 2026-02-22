@@ -1,0 +1,76 @@
+---
+import type { ReviewItem } from "../data/reviews";
+import type { Lang } from "../i18n";
+import { localize } from "../i18n";
+
+interface Props {
+    reviews: ReviewItem[];
+    title: string;
+    intro: string;
+    lang: Lang;
+    titleKey?: string;
+    introKey?: string;
+    itemsKeyPrefix?: string;
+}
+
+const {
+    reviews,
+    title,
+    intro,
+    lang,
+    titleKey,
+    introKey,
+    itemsKeyPrefix = "reviews.allReviews",
+} = Astro.props as Props;
+---
+
+<section class="section">
+    <div class="container">
+        <h2
+            class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+            data-i18n={titleKey}
+        >
+            {titleKey ? <span data-i18n={titleKey}>{title}</span> : title}
+        </h2>
+        <p class="lead">
+            {introKey ? <span data-i18n={introKey}>{intro}</span> : intro}
+        </p>
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+            {
+                reviews.map((review) => (
+                    <article class="section-card h-full border-l-4 border-main">
+                        <p class="text-lg leading-relaxed text-text">
+                            "
+                            <span
+                                data-i18n={`${itemsKeyPrefix}.${review.id}.quote`}
+                            >
+                                {localize(review.quote, lang)}
+                            </span>
+                            "
+                        </p>
+                        <div class="mt-4 flex flex-wrap items-center gap-2">
+                            {review.author && (
+                                <p class="m-0 font-semibold text-secondary">
+                                    <span
+                                        data-i18n={`${itemsKeyPrefix}.${review.id}.author`}
+                                    >
+                                        {localize(review.author, lang)}
+                                    </span>
+                                </p>
+                            )}
+                            {review.contextTag && (
+                                <span class="inline-flex rounded-full bg-main-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-detail">
+                                    <span
+                                        data-i18n={`${itemsKeyPrefix}.${review.id}.contextTag`}
+                                    >
+                                        {localize(review.contextTag, lang)}
+                                    </span>
+                                </span>
+                            )}
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+    </div>
+</section>

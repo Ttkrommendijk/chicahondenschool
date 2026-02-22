@@ -1,0 +1,34 @@
+---
+interface Props {
+    title: string;
+    items: Array<{
+        title: string;
+        text: string;
+    }>;
+}
+
+const { title, items } = Astro.props as Props;
+---
+
+<section class="section">
+    <div class="container">
+        <h2>{title}</h2>
+        <div class="mt-4 grid gap-4 md:grid-cols-2">
+            {
+                items.map((item, index) => (
+                    <article
+                        class:list={[
+                            "rounded-2xl border px-5 py-5",
+                            index % 2 === 0
+                                ? "border-main/40 bg-main-soft/70"
+                                : "border-secondary/30 bg-secondary-soft/70",
+                        ]}
+                    >
+                        <h3 class="mb-2 text-lg">{item.title}</h3>
+                        <p class="m-0 text-text">{item.text}</p>
+                    </article>
+                ))
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,5 @@
+{
+  "title": "Local JSCPD Schema",
+  "type": "object",
+  "additionalProperties": true
+}
