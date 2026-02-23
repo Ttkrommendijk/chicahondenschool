@@ -78,17 +78,6 @@ export const dienst = {
         "you want training to stay fun and goal-focused",
       ),
     ],
-    notTitle: l10n("Minder passend als", "Less ideal if"),
-    notItems: [
-      l10n(
-        "je alleen passieve rustoefeningen zoekt",
-        "you only seek passive calmness exercises",
-      ),
-      l10n(
-        "je nu geen ruimte hebt voor actieve training",
-        "you currently have no room for active training",
-      ),
-    ],
   },
   timeline: {
     enabled: false,
@@ -148,5 +137,6 @@ export const dienst = {
   },
   related: ["detectie", "fun-speuren-neuswerk", "priveles-op-locatie"],
 } as const;
+
 
 

@@ -81,14 +81,6 @@ export const dienst = {
         "you want to learn step-by-step handling",
       ),
     ],
-    notTitle: l10n("Minder passend als", "Less ideal if"),
-    notItems: [
-      l10n("je alleen basisopvoeding wilt", "you only want basic obedience"),
-      l10n(
-        "je nu geen ruimte hebt voor herhaling",
-        "you currently lack room for repetition",
-      ),
-    ],
   },
   timeline: {
     enabled: false,
@@ -153,5 +145,6 @@ export const dienst = {
   },
   related: ["fun-speuren-neuswerk", "sport-en-spel", "priveles-op-locatie"],
 } as const;
+
 
 

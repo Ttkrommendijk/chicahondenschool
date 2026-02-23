@@ -31,8 +31,6 @@ interface DienstData {
         title: L10n;
         fitTitle: L10n;
         fitItems: readonly L10n[];
-        notTitle: L10n;
-        notItems: readonly L10n[];
     };
     timeline?: {
         enabled?: boolean;
@@ -190,8 +188,6 @@ const primaryCheckout =
                     title={dienst.audience.title}
                     fitTitle={dienst.audience.fitTitle}
                     fitItems={dienst.audience.fitItems}
-                    notTitle={dienst.audience.notTitle}
-                    notItems={dienst.audience.notItems}
                     lang={lang}
                     keyBase={`${keyBase}.audience`}
                 />

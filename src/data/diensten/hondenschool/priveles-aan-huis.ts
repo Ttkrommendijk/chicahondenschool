@@ -84,14 +84,6 @@ export const dienst = {
         "you want concrete steps for daily use",
       ),
     ],
-    notTitle: l10n("Minder passend als", "Less ideal if"),
-    notItems: [
-      l10n("je alleen buiten wilt trainen", "you only want outdoor training"),
-      l10n(
-        "je geen tijd hebt om thuis te oefenen",
-        "you do not have time to practice at home",
-      ),
-    ],
   },
   timeline: {
     enabled: false,
@@ -156,5 +148,6 @@ export const dienst = {
   },
   related: ["5-privelessen-op-maat", "priveles-op-locatie", "sport-en-spel"],
 } as const;
+
 
 

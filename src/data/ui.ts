@@ -1,14 +1,17 @@
 import { l10n } from "./l10n";
 
+const whatsappPrefilledText = l10n(
+  "He Carine, ik heb een vraagje...",
+  "Hi Carine, I have a question...",
+);
+
 export const ui = {
   links: {
     bookingUrl: "https://chica-hondenschool.trainin.app/",
     kennismakingUrl: "https://chica-hondenschool.trainin.app/checkout/PRZ7A4",
     whatsappPhone: "31626467714",
-    whatsappPrefilledText: l10n(
-      "He Carine, ik heb een vraagje...",
-      "Hi Carine, I have a question...",
-    ),
+    whatsappPrefilledText,
+    whatsappUrl: `https://api.whatsapp.com/send?phone=31626467714&text=${encodeURIComponent(whatsappPrefilledText.nl)}`,
     instagram:
       "https://www.instagram.com/chicahondenschool?igsh=bjJlOW84ZDNzcHIx",
     facebook: "https://www.facebook.com/www.chicahondenschool.nl/",
@@ -46,7 +49,7 @@ export const ui = {
     price: l10n("Prijs", "Price"),
     options: l10n("Opties", "Options"),
     relatedServices: l10n("Gerelateerde diensten", "Related services"),
-    bookYourTraining: l10n("Boek jouw training", "Book your training"),
+    bookYourTraining: l10n("Boek jouw priveles", "Book your personal lesson"),
     discussFirst: l10n("Eerst overleggen?", "Discuss first?"),
     bookNow: l10n("Boek direct", "Book now"),
     planIntro: l10n("Plan een kennismaking", "Plan an introduction"),
@@ -159,10 +162,11 @@ export const ui = {
       "Twijfel je wat past bij jouw hond?",
       "Not sure what fits your dog?",
     ),
-    doubtText: l10n(
-      "Je hoeft het niet alleen uit te zoeken. We denken graag met je mee welk traject het beste aansluit op jullie situatie.",
-      "You do not have to figure it out alone. We are happy to think along about which track best fits your situation.",
+    doubtQuestion: l10n(
+      "Niet zeker of dit aansluit bij je wensen?",
+      "Not sure if this fits what you need?",
     ),
+    whatsappCta: l10n("Stuur een berichtje", "Send a message"),
     priceInvestment: l10n("Investering", "Investment"),
   },
   redirect: {
@@ -212,6 +216,4 @@ export const ui = {
 export const buildWhatsAppLink = (message: string) =>
   `https://api.whatsapp.com/send?phone=${ui.links.whatsappPhone}&text=${encodeURIComponent(message)}`;
 
-export const whatsappLink = buildWhatsAppLink(
-  ui.links.whatsappPrefilledText.nl,
-);
+export const whatsappLink = ui.links.whatsappUrl;

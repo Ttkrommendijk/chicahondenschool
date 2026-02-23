@@ -75,17 +75,6 @@ export const dienst = {
         "your dog benefits from one consistent handler",
       ),
     ],
-    notTitle: l10n("Minder passend als", "Less ideal if"),
-    notItems: [
-      l10n(
-        "je een vast trainingspakket zoekt met lesopbouw",
-        "you want a fixed training package with lesson progression",
-      ),
-      l10n(
-        "je geen behoefte hebt aan terugkoppeling",
-        "you do not need feedback after sessions",
-      ),
-    ],
   },
   timeline: {
     enabled: false,
@@ -146,6 +135,7 @@ export const dienst = {
   },
   related: ["kennismaking", "priveles-aan-huis", "5-privelessen-op-maat"],
 } as const;
+
 
 
 

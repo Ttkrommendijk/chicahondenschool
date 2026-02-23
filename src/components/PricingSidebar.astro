@@ -1,6 +1,5 @@
 ---
 import { localize, type Lang, type L10n } from "../i18n";
-import { ui } from "../data/ui";
 import CTAButton from "./CTAButton.astro";
 
 interface PricingOption {
@@ -130,12 +129,5 @@ const { dienst, lang, keyBase } = Astro.props as Props;
                 />
             )
         }
-
-        <CTAButton
-            href="/contact/"
-            variant="secondary"
-            label={localize(ui.common.discussFirst, lang)}
-            labelKey="ui.common.discussFirst"
-        />
     </div>
 </aside>

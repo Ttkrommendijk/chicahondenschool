@@ -1,21 +1,20 @@
 ---
 import { localize, type Lang, type L10n } from "../i18n";
+import { ui } from "../data/ui";
+import CTAButton from "./CTAButton.astro";
 
 interface Props {
     title: L10n;
     fitTitle: L10n;
     fitItems: readonly L10n[];
-    notTitle: L10n;
-    notItems: readonly L10n[];
     lang: Lang;
     keyBase: string;
 }
 
-const { title, fitTitle, fitItems, notTitle, notItems, lang, keyBase } =
-    Astro.props as Props;
+const { title, fitTitle, fitItems, lang, keyBase } = Astro.props as Props;
 ---
 
-<section class="rounded-2xl border border-main/30 bg-main-soft/70 p-6 md:p-8">
+<section class="rounded-3xl border border-main bg-secondary-soft p-8 md:p-10">
     <h2 class="text-2xl font-bold text-secondary md:text-3xl">
         <span data-i18n={`${keyBase}.title`}>{localize(title, lang)}</span>
     </h2>
@@ -38,23 +37,22 @@ const { title, fitTitle, fitItems, notTitle, notItems, lang, keyBase } =
                 }
             </ul>
         </div>
-        <div>
+        <div class="rounded-2xl border border-main/30 bg-white/60 p-5">
             <h3 class="text-lg font-semibold text-secondary">
-                <span data-i18n={`${keyBase}.notTitle`}>
-                    {localize(notTitle, lang)}
+                <span data-i18n="ui.serviceDetail.doubtQuestion">
+                    {localize(ui.serviceDetail.doubtQuestion, lang)}
                 </span>
             </h3>
-            <ul class="mt-3 space-y-2">
-                {
-                    notItems.map((item, index) => (
-                        <li class="text-text">
-                            <span data-i18n={`${keyBase}.notItems.${index}`}>
-                                {localize(item, lang)}
-                            </span>
-                        </li>
-                    ))
-                }
-            </ul>
+            <div class="mt-4">
+                <CTAButton
+                    href={ui.links.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="secondary"
+                    label={localize(ui.serviceDetail.whatsappCta, lang)}
+                    labelKey="ui.serviceDetail.whatsappCta"
+                />
+            </div>
         </div>
     </div>
 </section>

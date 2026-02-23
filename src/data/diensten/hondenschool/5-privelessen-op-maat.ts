@@ -75,17 +75,6 @@ export const dienst = {
         "you value personal guidance",
       ),
     ],
-    notTitle: l10n("Minder passend als", "Less ideal if"),
-    notItems: [
-      l10n(
-        "je alleen een eenmalig los advies zoekt",
-        "you only want a one-time loose tip",
-      ),
-      l10n(
-        "je nog niet klaar bent voor actief oefenen",
-        "you are not ready for active practice",
-      ),
-    ],
   },
   timeline: {
     enabled: false,
@@ -147,6 +136,7 @@ export const dienst = {
   },
   related: ["priveles-aan-huis", "priveles-op-locatie", "detectie"],
 } as const;
+
 
 
 

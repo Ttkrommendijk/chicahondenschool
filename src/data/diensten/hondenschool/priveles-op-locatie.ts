@@ -81,17 +81,6 @@ export const dienst = {
         "you want practical, goal-focused training",
       ),
     ],
-    notTitle: l10n("Minder passend als", "Less ideal if"),
-    notItems: [
-      l10n(
-        "je vraag alleen binnenshuis speelt",
-        "your question is only about indoors",
-      ),
-      l10n(
-        "je nu geen ruimte hebt om buiten te oefenen",
-        "you currently have no room to practice outdoors",
-      ),
-    ],
   },
   timeline: {
     enabled: false,
@@ -156,5 +145,6 @@ export const dienst = {
   },
   related: ["priveles-aan-huis", "5-privelessen-op-maat", "detectie"],
 } as const;
+
 
 

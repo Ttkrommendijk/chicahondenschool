@@ -75,17 +75,6 @@ export const dienst = {
         "you want tailored advice for your situation",
       ),
     ],
-    notTitle: l10n("Minder passend als", "Less ideal if"),
-    notItems: [
-      l10n(
-        "je direct een volledig pakket wilt starten",
-        "you want to start a full package immediately",
-      ),
-      l10n(
-        "je geen intakegesprek nodig vindt",
-        "you feel you do not need an intake conversation",
-      ),
-    ],
   },
   timeline: {
     enabled: false,
@@ -142,6 +131,7 @@ export const dienst = {
   },
   related: ["5-privelessen-op-maat", "priveles-aan-huis", "strippenkaart"],
 } as const;
+
 
 
 

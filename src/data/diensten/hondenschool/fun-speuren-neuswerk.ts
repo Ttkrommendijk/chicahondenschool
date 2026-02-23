@@ -72,17 +72,6 @@ export const dienst = {
         "you want to strengthen focus and cooperation",
       ),
     ],
-    notTitle: l10n("Minder passend als", "Less ideal if"),
-    notItems: [
-      l10n(
-        "je alleen snelle gehoorzaamheidsresultaten zoekt",
-        "you only seek quick obedience outcomes",
-      ),
-      l10n(
-        "je nu geen tijd hebt voor oefening tussen lessen",
-        "you currently have no time to practice between lessons",
-      ),
-    ],
   },
   timeline: {
     enabled: false,
@@ -144,5 +133,6 @@ export const dienst = {
   },
   related: ["detectie", "sport-en-spel", "5-privelessen-op-maat"],
 } as const;
+
 
 
