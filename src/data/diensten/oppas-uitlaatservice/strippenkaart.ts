@@ -45,7 +45,6 @@ export const dienst = {
     },
   },
   benefits: {
-    title: l10n("Wat je krijgt", "What you get"),
     items: [
       l10n("Keuze uit meerdere uurbundels", "Choice of multiple hour bundles"),
       l10n(
@@ -133,11 +132,6 @@ export const dienst = {
       l10n("1, 3, 5 of 10 uur", "1, 3, 5 or 10 hours"),
       l10n("Aan huis / directe omgeving", "At home / direct area"),
     ],
-    microBenefits: [
-      l10n("Flexibel inzetbaar", "Flexible use"),
-      l10n("Persoonlijke begeleiding", "Personal guidance"),
-      l10n("Duidelijke afspraken", "Clear agreements"),
-    ],
     options: [
       {
         label: l10n("Boek strippenkaart", "Book punch card"),
@@ -152,4 +146,6 @@ export const dienst = {
   },
   related: ["kennismaking", "priveles-aan-huis", "5-privelessen-op-maat"],
 } as const;
+
+
 

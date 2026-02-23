@@ -45,7 +45,6 @@ export const dienst = {
     },
   },
   benefits: {
-    title: l10n("Wat je krijgt", "What you get"),
     items: [
       l10n("5 lessen van 30 minuten", "5 lessons of 30 minutes"),
       l10n("1-op-1 aanpak op maat", "Tailored 1-on-1 approach"),
@@ -133,11 +132,6 @@ export const dienst = {
       l10n("5 lessen van 30 minuten", "5 lessons of 30 minutes"),
       l10n("Afgesproken locatie in Rijswijk", "Agreed location in Rijswijk"),
     ],
-    microBenefits: [
-      l10n("Compact en resultaatgericht", "Compact and results-focused"),
-      l10n("Volledig 1-op-1", "Fully 1-on-1"),
-      l10n("Direct boeken mogelijk", "Direct booking available"),
-    ],
     options: [
       {
         label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
@@ -153,4 +147,6 @@ export const dienst = {
   },
   related: ["priveles-aan-huis", "priveles-op-locatie", "detectie"],
 } as const;
+
+
 

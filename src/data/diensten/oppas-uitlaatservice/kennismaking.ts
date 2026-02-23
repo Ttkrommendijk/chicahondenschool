@@ -45,7 +45,6 @@ export const dienst = {
     },
   },
   benefits: {
-    title: l10n("Wat je krijgt", "What you get"),
     items: [
       l10n(
         "Persoonlijke intake van ca. 30 minuten",
@@ -133,11 +132,6 @@ export const dienst = {
       l10n("ca. 30 minuten", "about 30 minutes"),
       l10n("Aan huis of in overleg", "At home or by agreement"),
     ],
-    microBenefits: [
-      l10n("Laagdrempelige start", "Low-threshold start"),
-      l10n("Persoonlijk advies", "Personal advice"),
-      l10n("Duidelijk vervolg", "Clear follow-up"),
-    ],
     options: [
       {
         label: l10n("Boek kennismaking", "Book introduction"),
@@ -148,4 +142,6 @@ export const dienst = {
   },
   related: ["5-privelessen-op-maat", "priveles-aan-huis", "strippenkaart"],
 } as const;
+
+
 

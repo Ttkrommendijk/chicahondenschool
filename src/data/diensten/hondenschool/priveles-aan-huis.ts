@@ -48,7 +48,6 @@ export const dienst = {
     },
   },
   benefits: {
-    title: l10n("Wat je krijgt", "What you get"),
     items: [
       l10n(
         "1 les van 75 minuten bij jou thuis",
@@ -142,11 +141,6 @@ export const dienst = {
     title: ui.common.price,
     priceText: l10n("EUR 75,-", "EUR 75"),
     metaLines: [l10n("75 minuten", "75 minutes"), l10n("Aan huis", "At home")],
-    microBenefits: [
-      l10n("Diepgaande 1-op-1 sessie", "In-depth 1-on-1 session"),
-      l10n("Direct toepasbaar advies", "Directly usable advice"),
-      l10n("Duidelijk vervolgplan", "Clear follow-up plan"),
-    ],
     options: [
       {
         label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
@@ -162,3 +156,5 @@ export const dienst = {
   },
   related: ["5-privelessen-op-maat", "priveles-op-locatie", "sport-en-spel"],
 } as const;
+
+

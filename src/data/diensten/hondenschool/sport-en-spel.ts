@@ -45,7 +45,6 @@ export const dienst = {
     },
   },
   benefits: {
-    title: l10n("Wat je krijgt", "What you get"),
     items: [
       l10n(
         "5 actieve lessen met duidelijke structuur",
@@ -139,11 +138,6 @@ export const dienst = {
       l10n("5 lessen", "5 lessons"),
       l10n("Locatie: Voorschoten", "Location: Voorschoten"),
     ],
-    microBenefits: [
-      l10n("Actief en doelgericht", "Active and goal-focused"),
-      l10n("Persoonlijke begeleiding", "Personal guidance"),
-      l10n("Praktisch vervolg", "Practical follow-up"),
-    ],
     options: [
       {
         label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
@@ -154,3 +148,5 @@ export const dienst = {
   },
   related: ["detectie", "fun-speuren-neuswerk", "priveles-op-locatie"],
 } as const;
+
+

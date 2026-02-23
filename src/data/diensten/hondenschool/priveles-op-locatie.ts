@@ -45,7 +45,6 @@ export const dienst = {
     },
   },
   benefits: {
-    title: l10n("Wat je krijgt", "What you get"),
     items: [
       l10n(
         "1-op-1 les op een passende locatie",
@@ -142,11 +141,6 @@ export const dienst = {
       l10n("60 minuten", "60 minutes"),
       l10n("Op locatie", "On location"),
     ],
-    microBenefits: [
-      l10n("Praktijkgerichte begeleiding", "Practice-focused guidance"),
-      l10n("Directe feedback", "Immediate feedback"),
-      l10n("Snelle toepasbaarheid", "Quick practical use"),
-    ],
     options: [
       {
         label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
@@ -162,3 +156,5 @@ export const dienst = {
   },
   related: ["priveles-aan-huis", "5-privelessen-op-maat", "detectie"],
 } as const;
+
+

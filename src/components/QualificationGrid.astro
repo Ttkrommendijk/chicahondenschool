@@ -4,9 +4,9 @@ import { localize, type Lang, type L10n } from "../i18n";
 interface Props {
     title: L10n;
     fitTitle: L10n;
-    fitItems: L10n[];
+    fitItems: readonly L10n[];
     notTitle: L10n;
-    notItems: L10n[];
+    notItems: readonly L10n[];
     lang: Lang;
     keyBase: string;
 }

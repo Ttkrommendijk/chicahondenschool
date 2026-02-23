@@ -45,7 +45,6 @@ export const dienst = {
     },
   },
   benefits: {
-    title: l10n("Wat je krijgt", "What you get"),
     items: [
       l10n(
         "5 lessen met technische opbouw",
@@ -139,11 +138,6 @@ export const dienst = {
       l10n("5 lessen", "5 lessons"),
       l10n("Op locatie in overleg", "On location by agreement"),
     ],
-    microBenefits: [
-      l10n("Technische opbouw", "Technical progression"),
-      l10n("Nauwkeurige begeleiding", "Precise guidance"),
-      l10n("Sterkere samenwerking", "Stronger cooperation"),
-    ],
     options: [
       {
         label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
@@ -159,3 +153,5 @@ export const dienst = {
   },
   related: ["fun-speuren-neuswerk", "sport-en-spel", "priveles-op-locatie"],
 } as const;
+
+

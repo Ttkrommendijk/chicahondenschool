@@ -8,7 +8,7 @@ interface Step {
 
 interface Props {
     title: L10n;
-    steps: Step[];
+    steps: readonly Step[];
     lang: Lang;
     keyBase: string;
 }

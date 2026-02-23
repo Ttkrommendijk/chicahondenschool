@@ -3,6 +3,13 @@
   "compilerOptions": {
     "types": ["node"],
   },
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"],
+  "include": [
+    ".astro/types.d.ts",
+    "src/**/*",
+    "scripts/**/*",
+    "astro.config.mjs",
+    "tailwind.config.mjs",
+    "postcss.config.cjs",
+  ],
+  "exclude": ["dist", "node_modules"],
 }

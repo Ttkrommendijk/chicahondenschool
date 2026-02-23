@@ -45,7 +45,6 @@ export const dienst = {
     },
   },
   benefits: {
-    title: l10n("Wat je krijgt", "What you get"),
     items: [
       l10n(
         "5 lessen met duidelijke opbouw",
@@ -130,11 +129,6 @@ export const dienst = {
       l10n("5 lessen", "5 lessons"),
       l10n("Praktijkgericht", "Practice-focused"),
     ],
-    microBenefits: [
-      l10n("Mentale uitdaging", "Mental challenge"),
-      l10n("Meer focus", "More focus"),
-      l10n("Samenwerking centraal", "Cooperation first"),
-    ],
     options: [
       {
         label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
@@ -150,3 +144,5 @@ export const dienst = {
   },
   related: ["detectie", "sport-en-spel", "5-privelessen-op-maat"],
 } as const;
+
+

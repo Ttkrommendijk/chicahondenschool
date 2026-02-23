@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "./Section.astro";
 import CTAButton from "./CTAButton.astro";
 import PricingSidebar from "./PricingSidebar.astro";
-import BenefitList from "./BenefitList.astro";
 import QualificationGrid from "./QualificationGrid.astro";
 import ProcessTimeline from "./ProcessTimeline.astro";
 import TestimonialBlock from "./TestimonialBlock.astro";
@@ -27,33 +26,32 @@ interface DienstData {
         highlight: L10n;
         quote?: { text: L10n; byline?: L10n };
     };
-    benefits: { title: L10n; items: L10n[] };
+    benefits: { items: readonly L10n[] };
     audience: {
         title: L10n;
         fitTitle: L10n;
-        fitItems: L10n[];
+        fitItems: readonly L10n[];
         notTitle: L10n;
-        notItems: L10n[];
+        notItems: readonly L10n[];
     };
     timeline?: {
         enabled?: boolean;
         title: L10n;
-        steps: Array<{ title: L10n; text: L10n }>;
+        steps: readonly { title: L10n; text: L10n }[];
     };
     testimonial: { quote: L10n; byline?: L10n };
     pricing: {
         title: L10n;
         priceText: L10n;
-        metaLines: L10n[];
-        microBenefits: L10n[];
-        options?: Array<{
+        metaLines: readonly L10n[];
+        options?: readonly {
             label: L10n;
             href: string;
             external?: boolean;
             note?: L10n;
-        }>;
+        }[];
     };
-    related: string[];
+    related: readonly string[];
 }
 
 interface Props {
@@ -187,13 +185,6 @@ const primaryCheckout =
                         }
                     </aside>
                 </section>
-
-                <BenefitList
-                    title={dienst.benefits.title}
-                    items={dienst.benefits.items}
-                    lang={lang}
-                    keyBase={`${keyBase}.benefits`}
-                />
 
                 <QualificationGrid
                     title={dienst.audience.title}
