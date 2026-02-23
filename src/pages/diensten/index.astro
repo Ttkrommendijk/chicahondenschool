@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Hero from "../../components/Hero.astro";
 import ServiceCards from "../../components/ServiceCards.astro";
 import { localize, resolveLangFromUrl } from "../../i18n";
-import { dienstenIndexPage, serviceList } from "../../data/diensten";
+import { dienstenIndexPage } from "../../data/diensten";
 import { ui } from "../../data/ui";
 
 const lang = resolveLangFromUrl(Astro.url);
@@ -31,14 +31,14 @@ const lang = resolveLangFromUrl(Astro.url);
     <ServiceCards
         title={localize(dienstenIndexPage.hero.title, lang)}
         titleKey="diensten.index.hero.title"
-        items={serviceList.map((service, index) => ({
-            title: localize(service.title, lang),
-            description: localize(service.excerpt, lang),
-            href: service.href,
-            ctaLabel: localize(service.buttonLabel, lang),
-            titleKey: `diensten.list.${index}.title`,
-            descriptionKey: `diensten.list.${index}.excerpt`,
-            ctaLabelKey: `diensten.list.${index}.buttonLabel`,
+        items={dienstenIndexPage.categories.map((category, index) => ({
+            title: localize(category.title, lang),
+            description: localize(category.excerpt, lang),
+            href: category.href,
+            ctaLabel: localize(category.buttonLabel, lang),
+            titleKey: `diensten.index.categories.${index}.title`,
+            descriptionKey: `diensten.index.categories.${index}.excerpt`,
+            ctaLabelKey: `diensten.index.categories.${index}.buttonLabel`,
         }))}
     />
 </BaseLayout>

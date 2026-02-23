@@ -5,7 +5,8 @@ import CTAButton from "./CTAButton.astro";
 
 interface PricingOption {
     label: L10n;
-    priceText: L10n;
+    href: string;
+    external?: boolean;
     note?: L10n;
 }
 
@@ -58,7 +59,9 @@ const { dienst, lang, keyBase } = Astro.props as Props;
         {
             dienst.pricing.microBenefits.map((line, index) => (
                 <li class="text-sm text-text">
-                    <span data-i18n={`${keyBase}.pricing.microBenefits.${index}`}>
+                    <span
+                        data-i18n={`${keyBase}.pricing.microBenefits.${index}`}
+                    >
                         {localize(line, lang)}
                     </span>
                 </li>
@@ -66,48 +69,48 @@ const { dienst, lang, keyBase } = Astro.props as Props;
         }
     </ul>
 
-    {
-        dienst.pricing.options && dienst.pricing.options.length > 0 && (
-            <ul class="mt-4 space-y-2 border-t border-secondary/15 pt-4">
-                {dienst.pricing.options.map((option, index) => (
-                    <li class="text-sm text-text">
-                        <p class="font-semibold text-secondary">
-                            <span
-                                data-i18n={`${keyBase}.pricing.options.${index}.label`}
-                            >
-                                {localize(option.label, lang)}
-                            </span>
-                            :{" "}
-                            <span
-                                data-i18n={`${keyBase}.pricing.options.${index}.priceText`}
-                            >
-                                {localize(option.priceText, lang)}
-                            </span>
-                        </p>
-                        {
-                            option.note && (
-                                <p class="mt-1">
-                                    <span
-                                        data-i18n={`${keyBase}.pricing.options.${index}.note`}
-                                    >
-                                        {localize(option.note, lang)}
-                                    </span>
-                                </p>
-                            )
-                        }
-                    </li>
-                ))}
-            </ul>
-        )
-    }
-
     <div class="mt-5 space-y-3">
-        <CTAButton
-            href={dienst.checkoutUrl}
-            variant="primary"
-            label={localize(dienst.hero.primaryCtaLabel, lang)}
-            labelKey={`${keyBase}.hero.primaryCtaLabel`}
-        />
+        {
+            dienst.pricing.options && dienst.pricing.options.length > 0 ? (
+                dienst.pricing.options.map((option, index) => (
+                    <div class="space-y-1.5">
+                        <CTAButton
+                            href={option.href}
+                            target={
+                                option.external === true ? "_blank" : undefined
+                            }
+                            rel={
+                                option.external === true
+                                    ? "noopener noreferrer"
+                                    : undefined
+                            }
+                            variant={index === 0 ? "primary" : "secondary"}
+                            label={localize(option.label, lang)}
+                            labelKey={`${keyBase}.pricing.options.${index}.label`}
+                        />
+                        {option.note && (
+                            <p class="text-sm text-text">
+                                <span
+                                    data-i18n={`${keyBase}.pricing.options.${index}.note`}
+                                >
+                                    {localize(option.note, lang)}
+                                </span>
+                            </p>
+                        )}
+                    </div>
+                ))
+            ) : (
+                <CTAButton
+                    href={dienst.checkoutUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="primary"
+                    label={localize(dienst.hero.primaryCtaLabel, lang)}
+                    labelKey={`${keyBase}.hero.primaryCtaLabel`}
+                />
+            )
+        }
+
         <CTAButton
             href="/contact/"
             variant="secondary"

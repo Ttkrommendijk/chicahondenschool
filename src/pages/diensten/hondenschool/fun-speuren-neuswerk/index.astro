@@ -1,0 +1,11 @@
+---
+import ServiceLayout from "../../../../components/ServiceLayout.astro";
+import { dienst } from "../../../../data/diensten/hondenschool/fun-speuren-neuswerk";
+import { resolveLangFromUrl } from "../../../../i18n";
+
+const lang = resolveLangFromUrl(Astro.url);
+---
+
+<ServiceLayout dienst={dienst} lang={lang} />
+
+

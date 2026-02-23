@@ -16,7 +16,10 @@ const normalizePath = (value: string) => {
 
 const pathname = normalizePath(Astro.url.pathname);
 const isActive = (href: string) => pathname === normalizePath(href);
-const isServicesActive = pathname.startsWith("/diensten/");
+const isServicesActive =
+    pathname.startsWith("/diensten/") ||
+    pathname.startsWith("/hondenschool/") ||
+    pathname.startsWith("/oppas-uitlaatservice/");
 const topNavItemClass = "nav-link";
 const subNavItemClass = "nav-sublink";
 const topNavStateClass = (active: boolean) =>
@@ -75,7 +78,10 @@ const subNavStateClass = (active: boolean) =>
                                         normalizePath(
                                             "/diensten/hondenschool/",
                                         ),
-                                    ),
+                                    ) ||
+                                        pathname.startsWith(
+                                            normalizePath("/hondenschool/"),
+                                        ),
                                 )}
                                 href="/diensten/hondenschool/"
                             >
@@ -94,7 +100,12 @@ const subNavStateClass = (active: boolean) =>
                                         normalizePath(
                                             "/diensten/oppas-uitlaatservice/",
                                         ),
-                                    ),
+                                    ) ||
+                                        pathname.startsWith(
+                                            normalizePath(
+                                                "/oppas-uitlaatservice/",
+                                            ),
+                                        ),
                                 )}
                                 href="/diensten/oppas-uitlaatservice/"
                             >

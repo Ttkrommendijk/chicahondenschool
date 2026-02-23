@@ -1,5 +1,5 @@
-import { l10n } from "../l10n";
-import { ui } from "../ui";
+import { l10n } from "../../l10n";
+import { ui } from "../../ui";
 import { dienst as dienst5Privelessen } from "./5-privelessen-op-maat";
 import { dienst as dienstPrivelesAanHuis } from "./priveles-aan-huis";
 import { dienst as dienstPrivelesOpLocatie } from "./priveles-op-locatie";
@@ -9,43 +9,43 @@ import { dienst as dienstSportEnSpel } from "./sport-en-spel";
 
 export const services = [
   {
-    slug: dienst5Privelessen.slug,
-    href: `/diensten/${dienst5Privelessen.slug}/`,
-    shortTitle: dienst5Privelessen.hero.title,
-    shortDescription: dienst5Privelessen.persuasion.body,
-    priceLabel: dienst5Privelessen.pricing.priceText,
-  },
-  {
-    slug: dienstPrivelesAanHuis.slug,
-    href: `/diensten/${dienstPrivelesAanHuis.slug}/`,
-    shortTitle: dienstPrivelesAanHuis.hero.title,
-    shortDescription: dienstPrivelesAanHuis.persuasion.body,
-    priceLabel: dienstPrivelesAanHuis.pricing.priceText,
-  },
-  {
     slug: dienstPrivelesOpLocatie.slug,
-    href: `/diensten/${dienstPrivelesOpLocatie.slug}/`,
+    href: `/diensten/hondenschool/${dienstPrivelesOpLocatie.slug}/`,
     shortTitle: dienstPrivelesOpLocatie.hero.title,
     shortDescription: dienstPrivelesOpLocatie.persuasion.body,
     priceLabel: dienstPrivelesOpLocatie.pricing.priceText,
   },
   {
+    slug: dienstPrivelesAanHuis.slug,
+    href: `/diensten/hondenschool/${dienstPrivelesAanHuis.slug}/`,
+    shortTitle: dienstPrivelesAanHuis.hero.title,
+    shortDescription: dienstPrivelesAanHuis.persuasion.body,
+    priceLabel: dienstPrivelesAanHuis.pricing.priceText,
+  },
+  {
+    slug: dienst5Privelessen.slug,
+    href: `/diensten/hondenschool/${dienst5Privelessen.slug}/`,
+    shortTitle: dienst5Privelessen.hero.title,
+    shortDescription: dienst5Privelessen.persuasion.body,
+    priceLabel: dienst5Privelessen.pricing.priceText,
+  },
+  {
     slug: dienstFunSpeuren.slug,
-    href: `/diensten/${dienstFunSpeuren.slug}/`,
+    href: `/diensten/hondenschool/${dienstFunSpeuren.slug}/`,
     shortTitle: dienstFunSpeuren.hero.title,
     shortDescription: dienstFunSpeuren.persuasion.body,
     priceLabel: dienstFunSpeuren.pricing.priceText,
   },
   {
     slug: dienstDetectie.slug,
-    href: `/diensten/${dienstDetectie.slug}/`,
+    href: `/diensten/hondenschool/${dienstDetectie.slug}/`,
     shortTitle: dienstDetectie.hero.title,
     shortDescription: dienstDetectie.persuasion.body,
     priceLabel: dienstDetectie.pricing.priceText,
   },
   {
     slug: dienstSportEnSpel.slug,
-    href: `/diensten/${dienstSportEnSpel.slug}/`,
+    href: `/diensten/hondenschool/${dienstSportEnSpel.slug}/`,
     shortTitle: dienstSportEnSpel.hero.title,
     shortDescription: dienstSportEnSpel.persuasion.body,
     priceLabel: dienstSportEnSpel.pricing.priceText,

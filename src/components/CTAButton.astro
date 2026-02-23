@@ -1,6 +1,8 @@
 ---
 interface Props {
     href?: string;
+    target?: "_blank" | "_self" | "_parent" | "_top";
+    rel?: string;
     type?: "button" | "submit" | "reset";
     variant?:
         | "primary"
@@ -13,6 +15,8 @@ interface Props {
 
 const {
     href,
+    target,
+    rel,
     type = "button",
     variant = "primary",
     label,
@@ -22,7 +26,7 @@ const {
 
 {
     href ? (
-        <a class={`btn btn-${variant}`} href={href}>
+        <a class={`btn btn-${variant}`} href={href} target={target} rel={rel}>
             {labelKey ? <span data-i18n={labelKey}>{label}</span> : label}
         </a>
     ) : (

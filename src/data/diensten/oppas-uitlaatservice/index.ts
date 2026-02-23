@@ -1,8 +1,6 @@
-import { l10n } from "../l10n";
-import { ui, whatsappLink } from "../ui";
-import type { L10n } from "../l10n";
-import { dienst as dienstKennismaking } from "./kennismaking";
-import { dienst as dienstStrippenkaart } from "./strippenkaart";
+import { l10n } from "../../l10n";
+import { ui, whatsappLink } from "../../ui";
+import type { L10n } from "../../l10n";
 
 export type LinkItem = {
   label: L10n;
@@ -21,22 +19,41 @@ type ScenarioItem = {
 
 export const services = [
   {
-    slug: dienstKennismaking.slug,
-    href: `/diensten/${dienstKennismaking.slug}/`,
-    shortTitle: dienstKennismaking.hero.title,
-    shortDescription: dienstKennismaking.persuasion.body,
-    priceLabel: dienstKennismaking.pricing.priceText,
+    slug: "kennismaking",
+    href: "/diensten/oppas-uitlaatservice/kennismaking/",
+    shortTitle: l10n("Kennismaking", "Introduction"),
+    shortDescription: l10n(
+      "Een eerste gesprek om jouw situatie, planning en hulpvraag helder te krijgen.",
+      "A first conversation to clarify your situation, schedule, and support request.",
+    ),
+    priceLabel: l10n("EUR 40,00", "EUR 40.00"),
   },
   {
-    slug: dienstStrippenkaart.slug,
-    href: `/diensten/${dienstStrippenkaart.slug}/`,
-    shortTitle: dienstStrippenkaart.hero.title,
-    shortDescription: dienstStrippenkaart.persuasion.body,
-    variants:
-      dienstStrippenkaart.pricing.options?.map((option) => ({
-        label: option.label,
-        priceLabel: option.priceText,
-      })) ?? [],
+    slug: "strippenkaart",
+    href: "/diensten/oppas-uitlaatservice/strippenkaart/",
+    shortTitle: l10n("Strippenkaart", "Punch card"),
+    shortDescription: l10n(
+      "Flexibele urenbundels voor oppas en uitlaatservice, afgestemd op jouw planning.",
+      "Flexible hour bundles for pet sitting and walking, tailored to your planning.",
+    ),
+    variants: [
+      {
+        label: l10n("1 uur", "1 hour"),
+        priceLabel: l10n("EUR 70,00", "EUR 70.00"),
+      },
+      {
+        label: l10n("3 uur", "3 hours"),
+        priceLabel: l10n("EUR 150,00", "EUR 150.00"),
+      },
+      {
+        label: l10n("5 uur", "5 hours"),
+        priceLabel: l10n("EUR 225,00", "EUR 225.00"),
+      },
+      {
+        label: l10n("10 uur", "10 hours"),
+        priceLabel: l10n("EUR 450,00", "EUR 450.00"),
+      },
+    ],
   },
 ] as const;
 
@@ -237,3 +254,6 @@ export const page = {
     },
   },
 } as const;
+
+
+

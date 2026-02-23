@@ -7,8 +7,8 @@ import ProcessStrip from "../../../components/ProcessStrip.astro";
 import {
     services,
     strippenkaartLowestVariant,
-} from "../../../data/diensten/oppas-uitlaatservice";
-import { page } from "../../../data/diensten/oppas-uitlaatservice";
+} from "../../../data/diensten/oppas-uitlaatservice/index";
+import { page } from "../../../data/diensten/oppas-uitlaatservice/index";
 import { localize, resolveLangFromUrl } from "../../../i18n";
 
 const lang = resolveLangFromUrl(Astro.url);
