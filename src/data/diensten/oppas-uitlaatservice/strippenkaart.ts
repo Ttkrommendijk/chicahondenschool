@@ -1,4 +1,4 @@
-import { l10n } from "../../l10n";
+﻿import { l10n } from "../../l10n";
 import { ui } from "../../ui";
 
 export const dienst = {
@@ -109,33 +109,51 @@ export const dienst = {
   },
   testimonial: {
     quote: l10n(
-      "“De strippenkaart gaf ons precies de flexibiliteit die we zochten.”",
-      '"The punch card gave us exactly the flexibility we needed."',
+      "De strippenkaart gaf ons precies de flexibiliteit die we zochten.",
+      "The punch card gave us exactly the flexibility we needed.",
     ),
     byline: l10n("Hondeneigenaar", "Dog owner"),
   },
-  pricing: {
-    title: ui.common.price,
-    priceText: l10n("Vanaf EUR 70,00", "From EUR 70.00"),
-    metaLines: [
-      l10n("1, 3, 5 of 10 uur", "1, 3, 5 or 10 hours"),
-      l10n("Aan huis / directe omgeving", "At home / direct area"),
-    ],
-    options: [
+  strippenkaart: {
+    selectorLabel: l10n("Kies je bundel", "Choose your bundle"),
+    ctaLabel: l10n("Koop strippenkaart", "Buy a pass"),
+    unavailableLabel: l10n("Binnenkort beschikbaar", "Available soon"),
+    bundles: [
       {
-        label: l10n("Boek strippenkaart", "Book punch card"),
-        href: ui.links.bookingUrl,
+        id: "kennismaking",
+        label: l10n("Kennismaking", "Introduction session"),
+        price: l10n("€ 40,00", "€ 40.00"),
+        href: "https://chica-hondenschool.trainin.app/checkout/PRZ7A4",
         external: true,
-        note: l10n(
-          "1, 3, 5 of 10 uur mogelijk in overleg.",
-          "1, 3, 5, or 10 hours available by arrangement.",
-        ),
+      },
+      {
+        id: "1h",
+        label: l10n("Strippenkaart 1 uur", "1-hour pass"),
+        price: l10n("€ 70,00", "€ 70.00"),
+        href: "https://chica-hondenschool.trainin.app/checkout/P2A2Y9",
+        external: true,
+      },
+      {
+        id: "3h",
+        label: l10n("Strippenkaart 3 uur", "3-hour pass"),
+        price: l10n("€ 150,00", "€ 150.00"),
+      },
+      {
+        id: "5h",
+        label: l10n("Strippenkaart 5 uur", "5-hour pass"),
+        price: l10n("€ 225,00", "€ 225.00"),
+        href: "https://chica-hondenschool.trainin.app/checkout/PGNYQN",
+        external: true,
+      },
+      {
+        id: "10h",
+        label: l10n("Strippenkaart 10 uur", "10-hour pass"),
+        price: l10n("€ 450,00", "€ 450.00"),
       },
     ],
   },
+  pricing: {
+    title: l10n("Prijzen", "Pricing"),
+  },
   related: ["kennismaking", "priveles-aan-huis", "5-privelessen-op-maat"],
 } as const;
-
-
-
-

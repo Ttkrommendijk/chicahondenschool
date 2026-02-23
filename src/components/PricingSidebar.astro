@@ -1,15 +1,25 @@
 ---
 import { localize, type Lang, type L10n } from "../i18n";
+import { ui } from "../data/ui";
 import CTAButton from "./CTAButton.astro";
 
 interface PricingOption {
     label: L10n;
-    href: string;
+    href?: string;
     external?: boolean;
     note?: L10n;
+    price?: L10n;
+}
+
+interface PricingCta {
+    label: L10n;
+    href: string;
+    external?: boolean;
+    variant?: "primary" | "secondary";
 }
 
 interface DienstData {
+    slug?: string;
     checkoutUrl: string;
     hero: { primaryCtaLabel: L10n };
     benefits: {
@@ -17,9 +27,22 @@ interface DienstData {
     };
     pricing: {
         title: L10n;
-        priceText: L10n;
-        metaLines: readonly L10n[];
+        priceText?: L10n;
+        metaLines?: readonly L10n[];
         options?: readonly PricingOption[];
+        ctas?: readonly PricingCta[];
+    };
+    strippenkaart?: {
+        selectorLabel: L10n;
+        ctaLabel: L10n;
+        unavailableLabel: L10n;
+        bundles: readonly {
+            id: "kennismaking" | "1h" | "3h" | "5h" | "10h";
+            label: L10n;
+            price: L10n;
+            href?: string;
+            external?: true;
+        }[];
     };
 }
 
@@ -30,6 +53,14 @@ interface Props {
 }
 
 const { dienst, lang, keyBase } = Astro.props as Props;
+const hasTieredPrices = Boolean(
+    dienst.pricing.options?.some((option) => option.price),
+);
+const strippenkaartBundles = dienst.strippenkaart?.bundles ?? [];
+const hasStrippenkaartSelector = strippenkaartBundles.length > 0;
+const firstAvailableBundle =
+    strippenkaartBundles.find((bundle) => Boolean(bundle.href)) ??
+    strippenkaartBundles[0];
 ---
 
 <aside class="rounded-2xl border border-main/35 bg-main-soft px-5 py-6">
@@ -38,23 +69,31 @@ const { dienst, lang, keyBase } = Astro.props as Props;
             {localize(dienst.pricing.title, lang)}
         </span>
     </p>
-    <p class="mt-2 text-3xl font-extrabold text-secondary">
-        <span data-i18n={`${keyBase}.pricing.priceText`}>
-            {localize(dienst.pricing.priceText, lang)}
-        </span>
-    </p>
+    {
+        dienst.pricing.priceText && (
+            <p class="mt-2 text-3xl font-extrabold text-secondary">
+                <span data-i18n={`${keyBase}.pricing.priceText`}>
+                    {localize(dienst.pricing.priceText, lang)}
+                </span>
+            </p>
+        )
+    }
 
-    <ul class="mt-3 space-y-1">
-        {
-            dienst.pricing.metaLines.map((line, index) => (
-                <li class="text-sm text-text">
-                    <span data-i18n={`${keyBase}.pricing.metaLines.${index}`}>
-                        {localize(line, lang)}
-                    </span>
-                </li>
-            ))
-        }
-    </ul>
+    {
+        dienst.pricing.metaLines && dienst.pricing.metaLines.length > 0 && (
+            <ul class="mt-3 space-y-1">
+                {dienst.pricing.metaLines.map((line, index) => (
+                    <li class="text-sm text-text">
+                        <span
+                            data-i18n={`${keyBase}.pricing.metaLines.${index}`}
+                        >
+                            {localize(line, lang)}
+                        </span>
+                    </li>
+                ))}
+            </ul>
+        )
+    }
 
     {
         dienst.benefits.items.length > 0 && (
@@ -90,11 +129,136 @@ const { dienst, lang, keyBase } = Astro.props as Props;
 
     <div class="mt-5 space-y-3">
         {
-            dienst.pricing.options && dienst.pricing.options.length > 0 ? (
+            hasStrippenkaartSelector ? (
+                <div
+                    class="space-y-3"
+                    data-strip-root
+                    data-label-available={localize(
+                        dienst.strippenkaart!.ctaLabel,
+                        lang,
+                    )}
+                    data-label-unavailable={localize(
+                        dienst.strippenkaart!.unavailableLabel,
+                        lang,
+                    )}
+                >
+                    <ul class="space-y-2">
+                        {strippenkaartBundles.map((bundle, index) => (
+                            <li class="flex items-start justify-between gap-4 border-b border-secondary/15 pb-2 text-sm text-text">
+                                <span
+                                    data-i18n={`${keyBase}.strippenkaart.bundles.${index}.label`}
+                                >
+                                    {localize(bundle.label, lang)}
+                                </span>
+                                <strong class="shrink-0 font-semibold text-secondary">
+                                    <span
+                                        data-i18n={`${keyBase}.strippenkaart.bundles.${index}.price`}
+                                    >
+                                        {localize(bundle.price, lang)}
+                                    </span>
+                                </strong>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <label class="block text-sm font-semibold text-secondary">
+                        <span data-i18n={`${keyBase}.strippenkaart.selectorLabel`}>
+                            {localize(dienst.strippenkaart!.selectorLabel, lang)}
+                        </span>
+                    </label>
+                    <select
+                        class="w-full rounded-xl border border-secondary/25 bg-white px-3 py-2 text-sm text-text focus:border-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                        data-strip-select
+                    >
+                        {strippenkaartBundles.map((bundle, index) => (
+                            <option
+                                value={bundle.id}
+                                data-href={bundle.href ?? ""}
+                                selected={bundle.id === firstAvailableBundle?.id}
+                            >
+                                {localize(bundle.label, lang)} — {localize(bundle.price, lang)}
+                            </option>
+                        ))}
+                    </select>
+
+                    <a
+                        class:list={[
+                            "btn btn-primary",
+                            !firstAvailableBundle?.href &&
+                                "pointer-events-none opacity-60",
+                        ]}
+                        href={firstAvailableBundle?.href ?? "#"}
+                        target={firstAvailableBundle?.href ? "_blank" : undefined}
+                        rel={firstAvailableBundle?.href
+                            ? "noopener noreferrer"
+                            : undefined}
+                        aria-disabled={firstAvailableBundle?.href
+                            ? undefined
+                            : "true"}
+                        data-strip-cta
+                    >
+                        {firstAvailableBundle?.href
+                            ? localize(dienst.strippenkaart!.ctaLabel, lang)
+                            : localize(dienst.strippenkaart!.unavailableLabel, lang)}
+                    </a>
+                </div>
+            ) : hasTieredPrices ? (
+                <>
+                    <ul class="space-y-2">
+                        {(dienst.pricing.options ?? []).map((option, index) => (
+                            <li class="flex items-start justify-between gap-4 border-b border-secondary/15 pb-2 text-sm text-text">
+                                <span
+                                    data-i18n={`${keyBase}.pricing.options.${index}.label`}
+                                >
+                                    {localize(option.label, lang)}
+                                </span>
+                                <strong class="shrink-0 font-semibold text-secondary">
+                                    {option.price ? (
+                                        <span
+                                            data-i18n={`${keyBase}.pricing.options.${index}.price`}
+                                        >
+                                            {localize(option.price, lang)}
+                                        </span>
+                                    ) : (
+                                        ""
+                                    )}
+                                </strong>
+                            </li>
+                        ))}
+                    </ul>
+                    {dienst.pricing.ctas && dienst.pricing.ctas.length > 0 ? (
+                        dienst.pricing.ctas.map((cta, index) => (
+                            <CTAButton
+                                href={cta.href}
+                                target={
+                                    cta.external === true ? "_blank" : undefined
+                                }
+                                rel={
+                                    cta.external === true
+                                        ? "noopener noreferrer"
+                                        : undefined
+                                }
+                                variant={cta.variant ?? "secondary"}
+                                label={localize(cta.label, lang)}
+                                labelKey={`${keyBase}.pricing.ctas.${index}.label`}
+                            />
+                        ))
+                    ) : (
+                        <CTAButton
+                            href={ui.links.whatsappUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            variant="secondary"
+                            label={localize(ui.serviceDetail.whatsappCta, lang)}
+                            labelKey="ui.serviceDetail.whatsappCta"
+                        />
+                    )}
+                </>
+            ) : dienst.pricing.options && dienst.pricing.options.length > 0 ? (
                 dienst.pricing.options.map((option, index) => (
                     <div class="space-y-1.5">
                         <CTAButton
-                            href={option.href}
+                            href={option.href ?? dienst.checkoutUrl}
                             target={
                                 option.external === true ? "_blank" : undefined
                             }
@@ -131,3 +295,57 @@ const { dienst, lang, keyBase } = Astro.props as Props;
         }
     </div>
 </aside>
+
+{
+    hasStrippenkaartSelector && (
+        <script is:inline>
+            (() => {
+                const roots = document.querySelectorAll("[data-strip-root]");
+                roots.forEach((root) => {
+                    if (!(root instanceof HTMLElement)) return;
+                    if (root.dataset.stripBound === "true") return;
+                    root.dataset.stripBound = "true";
+
+                    const select = root.querySelector("[data-strip-select]");
+                    const cta = root.querySelector("[data-strip-cta]");
+                    if (!(select instanceof HTMLSelectElement)) return;
+                    if (!(cta instanceof HTMLAnchorElement)) return;
+
+                    const availableLabel =
+                        root.getAttribute("data-label-available") ?? "";
+                    const unavailableLabel =
+                        root.getAttribute("data-label-unavailable") ?? "";
+
+                    const applyState = () => {
+                        const option = select.options[select.selectedIndex];
+                        const href = option?.dataset.href ?? "";
+                        const isAvailable = href.length > 0;
+
+                        cta.textContent = isAvailable
+                            ? availableLabel
+                            : unavailableLabel;
+                        if (isAvailable) {
+                            cta.href = href;
+                            cta.target = "_blank";
+                            cta.rel = "noopener noreferrer";
+                            cta.removeAttribute("aria-disabled");
+                            cta.classList.remove(
+                                "pointer-events-none",
+                                "opacity-60",
+                            );
+                        } else {
+                            cta.removeAttribute("href");
+                            cta.removeAttribute("target");
+                            cta.removeAttribute("rel");
+                            cta.setAttribute("aria-disabled", "true");
+                            cta.classList.add("pointer-events-none", "opacity-60");
+                        }
+                    };
+
+                    select.addEventListener("change", applyState);
+                    applyState();
+                });
+            })();
+        </script>
+    )
+}

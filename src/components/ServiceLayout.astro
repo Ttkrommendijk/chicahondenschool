@@ -40,13 +40,20 @@ interface DienstData {
     testimonial: { quote: L10n; byline?: L10n };
     pricing: {
         title: L10n;
-        priceText: L10n;
-        metaLines: readonly L10n[];
+        priceText?: L10n;
+        metaLines?: readonly L10n[];
         options?: readonly {
+            label: L10n;
+            href?: string;
+            external?: boolean;
+            note?: L10n;
+            price?: L10n;
+        }[];
+        ctas?: readonly {
             label: L10n;
             href: string;
             external?: boolean;
-            note?: L10n;
+            variant?: "primary" | "secondary";
         }[];
     };
     related: readonly string[];
@@ -63,9 +70,7 @@ const hasEmbeddedQuote = Boolean(dienst.persuasion.quote?.text);
 const showTimeline =
     Boolean(dienst.timeline) && dienst.timeline?.enabled !== false;
 const primaryCheckout =
-    dienst.pricing.options && dienst.pricing.options.length > 0
-        ? dienst.pricing.options[0]
-        : null;
+    dienst.pricing.options?.find((option) => Boolean(option.href)) ?? null;
 ---
 
 <BaseLayout
