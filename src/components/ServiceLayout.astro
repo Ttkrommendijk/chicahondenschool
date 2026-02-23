@@ -1,14 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "./Section.astro";
-import CTAButton from "./CTAButton.astro";
 import PricingSidebar from "./PricingSidebar.astro";
 import QualificationGrid from "./QualificationGrid.astro";
 import ProcessTimeline from "./ProcessTimeline.astro";
 import TestimonialBlock from "./TestimonialBlock.astro";
 import RelatedServices from "./RelatedServices.astro";
 import { localize, type Lang, type L10n } from "../i18n";
-import { ui } from "../data/ui";
 
 interface DienstData {
     slug: string;
@@ -17,8 +15,11 @@ interface DienstData {
     hero: {
         title: L10n;
         subtitle: L10n;
-        primaryCtaLabel: L10n;
         trustLine?: L10n;
+        image?: {
+            src: string;
+            alt: L10n;
+        };
     };
     persuasion: {
         title: L10n;
@@ -69,8 +70,6 @@ const keyBase = `diensten.${dienst.slug}`;
 const hasEmbeddedQuote = Boolean(dienst.persuasion.quote?.text);
 const showTimeline =
     Boolean(dienst.timeline) && dienst.timeline?.enabled !== false;
-const primaryCheckout =
-    dienst.pricing.options?.find((option) => Boolean(option.href)) ?? null;
 ---
 
 <BaseLayout
@@ -79,7 +78,12 @@ const primaryCheckout =
 >
     <Section variant="hero">
         <div
-            class="grid gap-8 md:grid-cols-[minmax(0,2fr)_minmax(290px,1fr)] md:items-start"
+            class:list={[
+                "grid gap-8 md:items-start",
+                dienst.hero.image
+                    ? "md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]"
+                    : "md:grid-cols-[minmax(0,2fr)_minmax(290px,1fr)]",
+            ]}
         >
             <div class="max-w-3xl">
                 <h1
@@ -103,30 +107,38 @@ const primaryCheckout =
                         </p>
                     )
                 }
-                <div class="mt-6 flex flex-wrap gap-3">
-                    <CTAButton
-                        href={primaryCheckout?.href ?? dienst.checkoutUrl}
-                        target={(primaryCheckout?.external ?? true)
-                            ? "_blank"
-                            : undefined}
-                        rel={(primaryCheckout?.external ?? true)
-                            ? "noopener noreferrer"
-                            : undefined}
-                        variant="primary"
-                        label={localize(dienst.hero.primaryCtaLabel, lang)}
-                        labelKey={`${keyBase}.hero.primaryCtaLabel`}
-                    />
-                    <CTAButton
-                        href="/contact/"
-                        variant="secondary"
-                        label={localize(ui.common.discussFirst, lang)}
-                        labelKey="ui.common.discussFirst"
-                    />
-                </div>
             </div>
-            <div class="md:hidden">
-                <PricingSidebar dienst={dienst} lang={lang} keyBase={keyBase} />
-            </div>
+            {
+                dienst.hero.image && (
+                    <div class="space-y-6">
+                        <img
+                            src={dienst.hero.image.src}
+                            alt={localize(dienst.hero.image.alt, lang)}
+                            data-i18n-attr={`alt:${keyBase}.hero.image.alt`}
+                            class="w-full rounded-3xl border border-main/25 object-cover shadow-sm"
+                            loading="eager"
+                        />
+                        <div class="md:hidden">
+                            <PricingSidebar
+                                dienst={dienst}
+                                lang={lang}
+                                keyBase={keyBase}
+                            />
+                        </div>
+                    </div>
+                )
+            }
+            {
+                !dienst.hero.image && (
+                    <div class="md:hidden">
+                        <PricingSidebar
+                            dienst={dienst}
+                            lang={lang}
+                            keyBase={keyBase}
+                        />
+                    </div>
+                )
+            }
         </div>
     </Section>
 

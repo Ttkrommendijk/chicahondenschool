@@ -25,6 +25,13 @@ export const dienst = {
       "Persoonlijk, rustig en volledig afgestemd op jouw situatie.",
       "Personal, calm, and fully tailored to your situation.",
     ),
+    image: {
+      src: "/images/services/prive-aan-huis.jpg",
+      alt: l10n(
+        "Privéles aan huis met hond en begeleider",
+        "Private in-home lesson with dog and coach",
+      ),
+    },
   },
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
@@ -148,6 +155,3 @@ export const dienst = {
   },
   related: ["5-privelessen-op-maat", "priveles-op-locatie", "sport-en-spel"],
 } as const;
-
-
-

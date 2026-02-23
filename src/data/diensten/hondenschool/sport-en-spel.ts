@@ -25,6 +25,13 @@ export const dienst = {
       "Ideaal voor honden die graag bezig zijn.",
       "Ideal for dogs that like to stay active.",
     ),
+    image: {
+      src: "/images/services/sport-en-spel.jpg",
+      alt: l10n(
+        "Actieve sport- en spelles met hond",
+        "Active sport and play session with a dog",
+      ),
+    },
   },
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
@@ -137,6 +144,3 @@ export const dienst = {
   },
   related: ["detectie", "fun-speuren-neuswerk", "priveles-op-locatie"],
 } as const;
-
-
-

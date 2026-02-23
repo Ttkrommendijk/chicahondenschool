@@ -10,6 +10,7 @@ import {
 } from "../../../data/diensten/oppas-uitlaatservice/index";
 import { page } from "../../../data/diensten/oppas-uitlaatservice/index";
 import { localize, resolveLangFromUrl } from "../../../i18n";
+import { ui } from "../../../data/ui";
 
 const lang = resolveLangFromUrl(Astro.url);
 ---
@@ -27,10 +28,10 @@ const lang = resolveLangFromUrl(Astro.url);
         imageAlt={localize(page.hero.imageAlt, lang)}
         imageAltKey="oppas.page.hero.imageAlt"
         primaryCta={{
-            label: localize(page.hero.primaryCta.label, lang),
-            href: page.hero.primaryCta.href,
+            label: localize(ui.common.chooseService, lang),
+            href: "#diensten",
         }}
-        primaryCtaLabelKey="oppas.page.hero.primaryCta.label"
+        primaryCtaLabelKey="ui.common.chooseService"
         secondaryCta={{
             label: localize(page.hero.secondaryCta.label, lang),
             href: page.hero.secondaryCta.href,
@@ -87,6 +88,7 @@ const lang = resolveLangFromUrl(Astro.url);
     </section>
 
     <ServiceCards
+        sectionId="diensten"
         title={localize(page.cards.title, lang)}
         titleKey="oppas.page.cards.title"
         variant="priced"

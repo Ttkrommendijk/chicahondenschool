@@ -25,6 +25,13 @@ export const dienst = {
       "Persoonlijke begeleiding op een afgesproken locatie in Rijswijk.",
       "Personal guidance on an agreed location in Rijswijk.",
     ),
+    image: {
+      src: "/images/services/5-privelessen.jpg",
+      alt: l10n(
+        "Privéles met hond in training op maat",
+        "Private tailored training session with a dog",
+      ),
+    },
   },
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
@@ -136,7 +143,3 @@ export const dienst = {
   },
   related: ["priveles-aan-huis", "priveles-op-locatie", "detectie"],
 } as const;
-
-
-
-

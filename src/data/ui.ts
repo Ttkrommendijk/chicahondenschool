@@ -53,6 +53,7 @@ export const ui = {
     discussFirst: l10n("Eerst overleggen?", "Discuss first?"),
     bookNow: l10n("Boek direct", "Book now"),
     planIntro: l10n("Plan een kennismaking", "Plan an introduction"),
+    chooseService: l10n("Kies een dienst", "Choose a service"),
     skipToContent: l10n("Direct naar inhoud", "Skip to content"),
     menu: l10n("Menu", "Menu"),
   },

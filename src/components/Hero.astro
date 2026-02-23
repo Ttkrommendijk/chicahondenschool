@@ -9,7 +9,7 @@ interface Props {
     imageAlt?: string;
     imageWidth?: number;
     imageHeight?: number;
-    primaryCta: { label: string; href: string };
+    primaryCta?: { label: string; href: string };
     secondaryCta?: { label: string; href: string };
     titleKey?: string;
     subtitleKey?: string;
@@ -66,26 +66,30 @@ const lang = getLangFromUrl(Astro.url);
                     </p>
                 )
             }
-            <div class="mt-7 flex flex-wrap gap-3">
-                <a
-                    href={primaryCta.href}
-                    data-i18n={primaryCtaLabelKey}
-                    class="inline-flex items-center rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-secondary/35 transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
-                >
-                    {primaryCta.label}
-                </a>
-                {
-                    secondaryCta && (
-                        <a
-                            href={secondaryCta.href}
-                            data-i18n={secondaryCtaLabelKey}
-                            class="inline-flex items-center rounded-full border border-secondary bg-white px-6 py-3 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
-                        >
-                            {secondaryCta.label}
-                        </a>
-                    )
-                }
-            </div>
+            {
+                (primaryCta || secondaryCta) && (
+                    <div class="mt-7 flex flex-wrap gap-3">
+                        {primaryCta && (
+                            <a
+                                href={primaryCta.href}
+                                data-i18n={primaryCtaLabelKey}
+                                class="inline-flex items-center rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-secondary/35 transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                            >
+                                {primaryCta.label}
+                            </a>
+                        )}
+                        {secondaryCta && (
+                            <a
+                                href={secondaryCta.href}
+                                data-i18n={secondaryCtaLabelKey}
+                                class="inline-flex items-center rounded-full border border-secondary bg-white px-6 py-3 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                            >
+                                {secondaryCta.label}
+                            </a>
+                        )}
+                    </div>
+                )
+            }
         </div>
         {
             imageSrc && (

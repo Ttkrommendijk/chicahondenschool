@@ -1,4 +1,4 @@
----
+﻿---
 import { localize, type Lang, type L10n } from "../i18n";
 import { ui } from "../data/ui";
 import CTAButton from "./CTAButton.astro";
@@ -176,7 +176,7 @@ const firstAvailableBundle =
                                 data-href={bundle.href ?? ""}
                                 selected={bundle.id === firstAvailableBundle?.id}
                             >
-                                {localize(bundle.label, lang)} — {localize(bundle.price, lang)}
+                                {localize(bundle.label, lang)} â€” {localize(bundle.price, lang)}
                             </option>
                         ))}
                     </select>

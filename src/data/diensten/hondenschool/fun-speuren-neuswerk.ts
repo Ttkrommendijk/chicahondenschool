@@ -25,6 +25,13 @@ export const dienst = {
       "Positieve opbouw, stap voor stap.",
       "Positive progression, step by step.",
     ),
+    image: {
+      src: "/images/services/fun-speuren.jpg",
+      alt: l10n(
+        "Hond aan het speuren tijdens neuswerk",
+        "Dog tracking during nose work",
+      ),
+    },
   },
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
@@ -133,6 +140,3 @@ export const dienst = {
   },
   related: ["detectie", "sport-en-spel", "5-privelessen-op-maat"],
 } as const;
-
-
-

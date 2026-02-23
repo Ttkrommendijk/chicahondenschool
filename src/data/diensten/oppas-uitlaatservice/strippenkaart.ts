@@ -25,6 +25,13 @@ export const dienst = {
       "Flexibel plannen met een vaste, vertrouwde aanpak.",
       "Flexible planning with a consistent trusted approach.",
     ),
+    image: {
+      src: "/images/services/oppas-strippenkaart.jpg",
+      alt: l10n(
+        "Strippenkaart voor oppas- en uitlaatservice",
+        "Punch card for pet sitting and walking service",
+      ),
+    },
   },
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),

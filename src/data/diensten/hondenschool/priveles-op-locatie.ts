@@ -25,6 +25,13 @@ export const dienst = {
       "Gericht op wandelen, prikkels en samenwerking.",
       "Focused on walks, stimuli, and cooperation.",
     ),
+    image: {
+      src: "/images/services/prive-op-locatie.jpg",
+      alt: l10n(
+        "Privéles op locatie tijdens een wandeling",
+        "Private lesson on location during a walk",
+      ),
+    },
   },
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
@@ -145,6 +152,3 @@ export const dienst = {
   },
   related: ["priveles-aan-huis", "5-privelessen-op-maat", "detectie"],
 } as const;
-
-
-

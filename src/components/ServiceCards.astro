@@ -1,8 +1,40 @@
----
+﻿---
 import { getLangFromUrl, localize } from "../i18n";
 import { ui } from "../data/ui";
 
+type DirectCta = {
+    kind: "direct";
+    label: string;
+    href: string;
+    external?: boolean;
+};
+
+type SelectableOption = {
+    id: string;
+    label: string;
+    href?: string;
+    external?: boolean;
+    price?: string;
+};
+
+type LocationCta = {
+    kind: "location";
+    label: string;
+    options: SelectableOption[];
+};
+
+type SelectorCta = {
+    kind: "selector";
+    label: string;
+    selectorLabel: string;
+    unavailableLabel: string;
+    options: SelectableOption[];
+};
+
+type CardCta = DirectCta | LocationCta | SelectorCta;
+
 interface Props {
+    sectionId?: string;
     title: string;
     titleKey?: string;
     variant?: "default" | "priced";
@@ -22,10 +54,12 @@ interface Props {
         badgeKey?: string;
         priceLabel?: string;
         headerTone?: "secondary" | "main";
+        cta?: CardCta;
     }>;
 }
 
 const {
+    sectionId,
     title,
     titleKey,
     items,
@@ -34,6 +68,9 @@ const {
     actionLinkLabelKey,
 } = Astro.props as Props;
 const lang = getLangFromUrl(Astro.url);
+const hasInteractiveCta = items.some(
+    (item) => item.cta && item.cta.kind !== "direct",
+);
 
 function resolveHref(href: string, title: string): string {
     if (href && href.trim().length > 0) {
@@ -48,7 +85,7 @@ function resolveHref(href: string, title: string): string {
 }
 ---
 
-<section class="py-14 md:py-20">
+<section id={sectionId} class="py-14 md:py-20">
     <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
         <div class="flex flex-wrap items-end justify-between gap-3">
             <h2
@@ -77,6 +114,110 @@ function resolveHref(href: string, title: string): string {
             {
                 items.map((item, index) => {
                     const href = resolveHref(item.href, item.title);
+                    const cta = item.cta;
+                    const selectableOptions =
+                        cta && cta.kind !== "direct" ? cta.options : [];
+                    const firstAvailableOption =
+                        selectableOptions.find((option) => Boolean(option.href)) ??
+                        selectableOptions[0];
+
+                    const ctaBlock = cta ? (
+                        cta.kind === "direct" ? (
+                            <a
+                                href={cta.href}
+                                target={cta.external === true ? "_blank" : undefined}
+                                rel={
+                                    cta.external === true
+                                        ? "noopener noreferrer"
+                                        : undefined
+                                }
+                                class="inline-flex items-center rounded-full bg-secondary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                            >
+                                {cta.label}
+                            </a>
+                        ) : (
+                            <div
+                                class="space-y-2"
+                                data-card-cta-root
+                                data-available-label={cta.label}
+                                data-unavailable-label={
+                                    cta.kind === "selector"
+                                        ? cta.unavailableLabel
+                                        : cta.label
+                                }
+                            >
+                                {cta.kind === "selector" && (
+                                    <label class="block text-sm font-semibold text-secondary">
+                                        {cta.selectorLabel}
+                                    </label>
+                                )}
+                                <select
+                                    class="w-full rounded-xl border border-secondary/25 bg-white px-3 py-2 text-sm text-text focus:border-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                                    data-card-cta-select
+                                >
+                                    {selectableOptions.map((option) => (
+                                        <option
+                                            value={option.id}
+                                            data-href={option.href ?? ""}
+                                            data-external={
+                                                option.external === true
+                                                    ? "true"
+                                                    : "false"
+                                            }
+                                            selected={
+                                                option.id === firstAvailableOption?.id
+                                            }
+                                        >
+                                            {option.label}
+                                            {cta.kind === "selector" && option.price
+                                                ? ` - ${option.price}`
+                                                : ""}
+                                        </option>
+                                    ))}
+                                </select>
+                                <a
+                                    href={firstAvailableOption?.href ?? "#"}
+                                    target={
+                                        firstAvailableOption?.href &&
+                                        firstAvailableOption.external === true
+                                            ? "_blank"
+                                            : undefined
+                                    }
+                                    rel={
+                                        firstAvailableOption?.href &&
+                                        firstAvailableOption.external === true
+                                            ? "noopener noreferrer"
+                                            : undefined
+                                    }
+                                    aria-disabled={
+                                        firstAvailableOption?.href
+                                            ? undefined
+                                            : "true"
+                                    }
+                                    class:list={[
+                                        "inline-flex items-center rounded-full bg-secondary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main",
+                                        !firstAvailableOption?.href &&
+                                            "pointer-events-none opacity-60",
+                                    ]}
+                                    data-card-cta-button
+                                >
+                                    {firstAvailableOption?.href
+                                        ? cta.label
+                                        : cta.kind === "selector"
+                                          ? cta.unavailableLabel
+                                          : cta.label}
+                                </a>
+                            </div>
+                        )
+                    ) : (
+                        <a
+                            href={href}
+                            class="inline-flex items-center rounded-full bg-secondary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                        >
+                            {item.ctaLabel ?? localize(ui.common.viewService, lang)}
+                        </a>
+                    );
+
                     if (variant === "priced") {
                         const headerIsMain = item.headerTone
                             ? item.headerTone === "main"
@@ -107,35 +248,14 @@ function resolveHref(href: string, title: string): string {
                                     </h3>
                                     <p class="text-text">
                                         {item.descriptionKey ? (
-                                            <span
-                                                data-i18n={item.descriptionKey}
-                                            >
+                                            <span data-i18n={item.descriptionKey}>
                                                 {item.description}
                                             </span>
                                         ) : (
                                             item.description
                                         )}
                                     </p>
-                                    <a
-                                        href={href}
-                                        class="inline-flex items-center rounded-full bg-secondary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
-                                    >
-                                        {item.ctaLabelKey ? (
-                                            <span data-i18n={item.ctaLabelKey}>
-                                                {item.ctaLabel ??
-                                                    localize(
-                                                        ui.common.viewService,
-                                                        lang,
-                                                    )}
-                                            </span>
-                                        ) : (
-                                            (item.ctaLabel ??
-                                            localize(
-                                                ui.common.viewService,
-                                                lang,
-                                            ))
-                                        )}
-                                    </a>
+                                    {ctaBlock}
                                 </div>
                             </article>
                         );
@@ -199,23 +319,7 @@ function resolveHref(href: string, title: string): string {
                                         item.description
                                     )}
                                 </p>
-                                <a
-                                    href={href}
-                                    class="inline-flex items-center rounded-full bg-secondary px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-secondary/25 transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
-                                >
-                                    {item.ctaLabelKey ? (
-                                        <span data-i18n={item.ctaLabelKey}>
-                                            {item.ctaLabel ??
-                                                localize(
-                                                    ui.common.viewService,
-                                                    lang,
-                                                )}
-                                        </span>
-                                    ) : (
-                                        (item.ctaLabel ??
-                                        localize(ui.common.viewService, lang))
-                                    )}
-                                </a>
+                                {ctaBlock}
                             </div>
                         </article>
                     );
@@ -224,3 +328,67 @@ function resolveHref(href: string, title: string): string {
         </div>
     </div>
 </section>
+
+{
+    hasInteractiveCta && (
+        <script is:inline>
+            (() => {
+                const roots = document.querySelectorAll("[data-card-cta-root]");
+                roots.forEach((root) => {
+                    if (!(root instanceof HTMLElement)) return;
+                    if (root.dataset.ctaBound === "true") return;
+                    root.dataset.ctaBound = "true";
+
+                    const select = root.querySelector("[data-card-cta-select]");
+                    const button = root.querySelector("[data-card-cta-button]");
+                    if (!(select instanceof HTMLSelectElement)) return;
+                    if (!(button instanceof HTMLAnchorElement)) return;
+
+                    const availableLabel =
+                        root.getAttribute("data-available-label") ?? "";
+                    const unavailableLabel =
+                        root.getAttribute("data-unavailable-label") ?? "";
+
+                    const applyState = () => {
+                        const selected = select.options[select.selectedIndex];
+                        const href = selected?.dataset.href ?? "";
+                        const external = selected?.dataset.external === "true";
+                        const isAvailable = href.length > 0;
+
+                        button.textContent = isAvailable
+                            ? availableLabel
+                            : unavailableLabel;
+
+                        if (isAvailable) {
+                            button.href = href;
+                            if (external) {
+                                button.target = "_blank";
+                                button.rel = "noopener noreferrer";
+                            } else {
+                                button.removeAttribute("target");
+                                button.removeAttribute("rel");
+                            }
+                            button.removeAttribute("aria-disabled");
+                            button.classList.remove(
+                                "pointer-events-none",
+                                "opacity-60",
+                            );
+                        } else {
+                            button.removeAttribute("href");
+                            button.removeAttribute("target");
+                            button.removeAttribute("rel");
+                            button.setAttribute("aria-disabled", "true");
+                            button.classList.add(
+                                "pointer-events-none",
+                                "opacity-60",
+                            );
+                        }
+                    };
+
+                    select.addEventListener("change", applyState);
+                    applyState();
+                });
+            })();
+        </script>
+    )
+}

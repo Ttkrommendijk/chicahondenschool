@@ -25,6 +25,13 @@ export const dienst = {
       "Een rustige eerste stap zonder druk.",
       "A calm first step without pressure.",
     ),
+    image: {
+      src: "/images/services/oppas-kennismaking.jpg",
+      alt: l10n(
+        "Kennismaking voor oppas- en uitlaatservice",
+        "Introduction session for pet sitting and walking service",
+      ),
+    },
   },
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
@@ -131,7 +138,3 @@ export const dienst = {
   },
   related: ["5-privelessen-op-maat", "priveles-aan-huis", "strippenkaart"],
 } as const;
-
-
-
-

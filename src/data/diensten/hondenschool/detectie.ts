@@ -25,6 +25,13 @@ export const dienst = {
       "Duidelijke opbouw, rustige begeleiding.",
       "Clear progression, calm guidance.",
     ),
+    image: {
+      src: "/images/services/detectie.jpg",
+      alt: l10n(
+        "Detectietraining met hond en begeleider",
+        "Detection training with dog and coach",
+      ),
+    },
   },
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
@@ -145,6 +152,3 @@ export const dienst = {
   },
   related: ["fun-speuren-neuswerk", "sport-en-spel", "priveles-op-locatie"],
 } as const;
-
-
-
