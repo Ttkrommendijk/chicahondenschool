@@ -36,8 +36,8 @@ export const dienst = {
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
     body: l10n(
-      "Met de strippenkaart houd je ruimte voor wisselende weken zonder dat je begeleiding versnipperd raakt. Je plant flexibel en behoudt tegelijkertijd een duidelijke lijn voor je hond.",
-      "With the punch card, you keep room for changing weeks without fragmented guidance. You plan flexibly while keeping a clear line for your dog.",
+      "Met de strippenkaart kun je flexibel oppas inplannen in weken waarin je extra ondersteuning nodig hebt. Je hond blijft vertrouwd met dezelfde professionele oppas, terwijl jij de vrijheid hebt om per week te bepalen wanneer opvang nodig is.",
+      "With the punch card, you can schedule dog sitting flexibly during weeks when you need extra support. Your dog stays familiar with the same professional sitter, while you have the freedom to decide each week when care is needed.",
     ),
     highlight: l10n(
       "Flexibiliteit zonder in te leveren op kwaliteit.",
@@ -134,28 +134,21 @@ export const dienst = {
         external: true,
       },
       {
-        id: "1h",
-        label: l10n("Strippenkaart 1 uur", "1-hour pass"),
-        price: l10n("€ 70,00", "€ 70.00"),
-        href: "https://chica-hondenschool.trainin.app/checkout/P2A2Y9",
-        external: true,
-      },
-      {
         id: "3h",
         label: l10n("Strippenkaart 3 uur", "3-hour pass"),
         price: l10n("€ 150,00", "€ 150.00"),
       },
       {
-        id: "5h",
-        label: l10n("Strippenkaart 5 uur", "5-hour pass"),
-        price: l10n("€ 225,00", "€ 225.00"),
+        id: "6h",
+        label: l10n("Strippenkaart 6 uur", "6-hour pass"),
+        price: l10n("€ 270,00", "€ 270.00"),
         href: "https://chica-hondenschool.trainin.app/checkout/PGNYQN",
         external: true,
       },
       {
-        id: "10h",
-        label: l10n("Strippenkaart 10 uur", "10-hour pass"),
-        price: l10n("€ 450,00", "€ 450.00"),
+        id: "12h",
+        label: l10n("Strippenkaart 12 uur", "12-hour pass"),
+        price: l10n("€ 525,00", "€ 525.00"),
       },
     ],
   },

@@ -36,8 +36,8 @@ export const dienst = {
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
     body: l10n(
-      "Tijdens de kennismaking nemen we rustig de tijd om uw hond en uw wensen te bespreken. We bekijken welke commando’s uw hond al kent en of er specifieke aandachtspunten zijn voor de oppas- of uitlaatsituatie.",
-      "During the introductory meeting, we take the time to discuss your dog and your wishes. We look at which commands your dog already knows and whether there are any specific points of attention for the sitting or walking situation.",
+      "Tijdens de kennismaking nemen we rustig de tijd om uw hond en uw wensen te bespreken. We bekijken welke verzoek uw hond al kent en of er specifieke aandachtspunten zijn voor de oppas- of uitlaatsituatie.",
+      "During the introductory meeting, we take the time to discuss your dog and your wishes. We look at which requests your dog already knows and whether there are any specific points of attention for the sitting or walking situation.",
     ),
     highlight: l10n(
       "Eerst duidelijkheid, daarna doelgericht trainen.",
@@ -132,7 +132,7 @@ export const dienst = {
     title: ui.common.price,
     priceText: l10n("EUR 40,00", "EUR 40.00"),
     metaLines: [
-      l10n("ca. 30 minuten", "about 30 minutes"),
+      l10n("ca. 45 minuten", "about 45 minutes"),
       l10n("Aan huis of in overleg", "At home or by agreement"),
     ],
     options: [

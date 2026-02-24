@@ -113,8 +113,8 @@ export const page = {
         "This ensures your dog is well cared for and you come home to a relaxed dog.",
       ),
       l10n(
-        "Samen bepalen we wat praktisch en prettig werkt. Je krijgt een duidelijke aanpak, heldere afspraken en een vaste, betrouwbare lijn in de begeleiding.",
-        "Together we determine what works practically and comfortably. You receive a clear approach, clear agreements, and a consistent, reliable line of guidance.",
+        "Samen bepalen we wat praktisch en prettig werkt. Je krijgt een duidelijke aanpak, heldere afspraken en vaste betrouwbare .",
+        "Together we determine what works practically and comfortably. You receive a clear approach, clear agreements, and a consistent, reliable guidance.",
       ),
     ],
     bullets: [
@@ -186,13 +186,13 @@ export const page = {
       "Practical examples from daily life — so you can quickly see what fits your situation.",
     ),
     chips: [
-      l10n("Werkdagen", "Workdays"),
-      l10n("Vakantieperiodes", "Holiday periods"),
+      l10n("Lange werkdagen", "Long workdays"),
+      l10n("Dagje weg", "Day out"),
       l10n("Tijdelijke ondersteuning", "Temporary support"),
     ],
     items: [
       {
-        title: l10n("Werkdagen", "Workdays"),
+        title: l10n("Lange werkdagen", "Long workdays"),
         textBeforeLink: l10n(
           "Voor lange werkdagen of onregelmatige diensten bieden we individuele uitlaatmomenten aan huis. Zo blijft je hond in zijn eigen ritme en krijgt hij persoonlijke aandacht. Bekijk ook onze ",
           "For long workdays or irregular shifts, we offer individual in-home walking moments. This helps your dog stay in its own rhythm and receive personal attention. Also view our ",
@@ -205,10 +205,10 @@ export const page = {
         ),
       },
       {
-        title: l10n("Vakantieperiodes", "Holiday periods"),
+        title: l10n("Dagje weg", "Day out"),
         textBeforeLink: l10n(
-          "Tijdens vakanties of korte afwezigheid verzorgen wij oppas aan huis, zodat je hond in een vertrouwde omgeving kan blijven. Plan vooraf een ",
-          "During holidays or short absences, we provide in-home pet sitting so your dog can stay in a familiar environment. Plan an ",
+          "Wil je een dagje weg of ben je enkele uren afwezig? Wij verzorgen professionale oppas aan huis, zodat je hond in zijn vertrouwde omgeving kan blijven en jij onbezorgd kan genieten. Plan een",
+          "If you’re going out for the day or will be away for a few hours, we provide professional in-home dog sitting so your dog can stay in a familiar environment and you can enjoy your time away without worry. Plan an ",
         ),
         linkLabel: l10n("kennismaking", "introduction"),
         linkHref: "/contact/",
