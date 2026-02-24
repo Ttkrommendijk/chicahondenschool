@@ -101,7 +101,7 @@ export const page = {
     ),
     paragraphs: [
       l10n(
-        "The in-home pet sitting and walking service of ChiCa is for moments when you need extra support, without your dog missing out on attention or calmness. Everything is 1-on-1, by an experienced kynological instructor in a familiar environment.",
+        "De oppas- en uitlaatservice aan huis van ChiCa is er voor momenten waarop je extra ondersteuning nodig hebt, zonder dat je hond hoeft in te leveren op aandacht of rust. Alles gebeurt 1-op-1, door een ervaren kynologische instructeur in een vertrouwde omgeving.",
         "ChiCa's in-home pet sitting and walking service is for moments when you need extra support, without your dog missing out on attention or calmness. Everything is 1-on-1, by an experienced kynological instructor in a familiar environment.",
       ),
       l10n(
