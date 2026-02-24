@@ -1,342 +1,328 @@
-# AI_CONTRACT – ChiCa Hondenschool Website  
-(Complete Governance Version)
-
-This contract governs how the ChiCa Hondenschool website must be structured, written, optimized, and extended.
-
-It applies to all contributors — humans and AI — working on this website.  
-Any structural, narrative, SEO, or CTA changes must be reflected in this document in the same update.
-
-This contract is the single source of truth for:
-- Website structure  
-- Content standards  
-- SEO principles  
-- CTA clarity  
-- Tone and positioning  
-
-
----------------------------------------------------------------------
-
-1. SCOPE & SOURCE OF TRUTH
-
-These rules govern everything that shapes the ChiCa Hondenschool website.
-
-1.1 Website Purpose
-
-The website exists to:
-
-- Present ChiCa Hondenschool as a personal, trustworthy, in-home dog training service
-- Explain clearly what services are offered
-- Build confidence through transparency and personality
-- Convert visitors into:
-  - Training bookings
-  - Introductory meetings
-  - Contact inquiries
-
-Primary audience:
-- Dog owners in the local region
-- First-time puppy owners
-- Owners facing behavioral challenges
-- People seeking personal guidance (not group classes)
-
-
----------------------------------------------------------------------
-
-2. CORE POSITIONING
-
-ChiCa Hondenschool stands for:
-
-- Personal guidance
-- Training at home (in the dog’s real environment)
-- Calm, practical, realistic approach
-- Trust and relationship over quick fixes
-
-The website must communicate:
-
-- Why personal training at home works
-- What problems are solved
-- How the process works
-- What the next step is
-
-
----------------------------------------------------------------------
-
-3. STRUCTURE & NAVIGATION RULES
-
-3.1 Clear Page Structure
-
-Each page must follow a logical hierarchy:
-
-1. Hero (clear value proposition + CTA)
-2. Problem recognition
-3. Explanation of service
-4. Benefits
-5. Process (how it works)
-6. Social proof / credibility
-7. Clear next step (CTA)
-
-No page should feel like a wall of text.
-
-
-3.2 Navigation Principles
-
-Navigation must be:
-
-- Simple
-- Descriptive
-- Limited to core pages
-
-Recommended structure:
-
-- Home
-- Training
-- Prijzen
-- Over mij
-- Oppas / Uitlaatservice
-- Contact
-
-Navigation labels must be clear and benefit-oriented — not vague.
-
-
----------------------------------------------------------------------
-
-4. SEO RULES (LOCAL & STRUCTURAL)
-
-4.1 Local SEO Focus
-
-All core pages must:
-
-- Include “hondenschool” and relevant local area terms naturally
-- Use structured H1 → H2 → H3 hierarchy
-- Avoid duplicate page titles
-- Include clear meta descriptions
-
-The homepage H1 must clearly state the main service 
-(e.g. “Persoonlijke hondentraining aan huis”).
-
-
-4.2 On-Page SEO Structure
-
-Each page must include:
-
-- One H1 only
-- Multiple structured H2 sections
-- Keyword relevance without stuffing
-- Internal links between:
-  - Training
-  - Prijzen
-  - Contact
-  - Over mij
-
-Images must:
-- Be optimized
-- Include descriptive alt text
-
-
-4.3 Technical Expectations
-
-- Mobile-first readability
-- Fast loading (compressed images)
-- Clear CTA buttons (not text-only links)
-- No clutter
-- Strong contrast for buttons
-
-
----------------------------------------------------------------------
-
-5. CTA (CALL-TO-ACTION) RULES
-
-5.1 Every Page Must Contain:
-
-- One primary CTA
-- One supporting CTA (optional)
-
-Examples:
-
-Primary:
-- “Plan een kennismaking”
-- “Boek een training”
-- “Neem contact op”
-
-Supporting:
-- “Bekijk prijzen”
-- “Lees meer over mijn aanpak”
-
-
-5.2 CTA Design Principles
-
-CTAs must:
-
-- Be visually distinct buttons
-- Use strong contrast color
-- Appear above the fold
-- Reappear at the bottom of long pages
-
-Text links alone are not acceptable as primary CTAs.
-
-
----------------------------------------------------------------------
-
-6. CONTENT NARRATIVE RULES
-
-All service pages must follow this narrative flow:
-
-WHY  
-Why this problem matters for dog owners.
-
-WHAT  
-What ChiCa offers as solution.
-
-HOW  
-How the training works (step-by-step clarity).
-
-OUTCOME  
-What owners and dogs gain.
-
-Content must:
-
-- Be clear
-- Be warm and human
-- Avoid jargon
-- Avoid exaggeration
-
-
----------------------------------------------------------------------
-
-7. TONE & VOICE RULES
-
-Tone must be:
-
-- Personal
-- Calm
-- Trustworthy
-- Approachable
-- Professional but not corporate
-
-Avoid:
-
-- Hype language
-- Superlatives
-- Fear-based selling
-- Aggressive marketing tone
-
-The voice should feel like:
-“Een betrokken hondentrainer die je helpt in jouw eigen situatie.”
-
-
----------------------------------------------------------------------
-
-8. TRUST & CREDIBILITY
-
-The website must clearly communicate:
-
-- Who is behind ChiCa
-- Experience
-- Philosophy
-- Personal motivation
-
-The “Over mij” page must:
-
-- Feel authentic
-- Build emotional trust
-- Explain why personal training is chosen over mass classes
-
-Testimonials (if added in the future) must:
-
-- Be real
-- Not exaggerated
-- Clearly formatted
-
-
----------------------------------------------------------------------
-
-9. CONTENT EXPANSION RULES (FUTURE GROWTH)
-
-If blog or educational content is added:
-
-Each article must include:
-
-- Title
-- Short intro (problem-focused)
-- Structured subheadings
-- Practical advice
-- Soft CTA at the end
-
-Topics must align with:
-
-- Puppy training
-- Behavioral guidance
-- Owner education
-- Calm leadership
-- Everyday practical issues
-
-No medical or behavioral guarantees.
-
-
----------------------------------------------------------------------
-
-10. QUALITY STANDARDS
-
-Content must:
-
-- Be scannable
-- Use short paragraphs
-- Avoid long text blocks
-- Use bullets when helpful
-- Prioritize clarity over volume
-
-If a section does not support:
-
-- Trust
-- Clarity
-- Conversion
-- Or SEO
-
-It should be simplified or removed.
-
-
----------------------------------------------------------------------
-
-11. AI ASSISTANT RULES (FOR WRITING & EDITING)
-
-AI acts as:
-
-- Structure optimizer
-- SEO assistant
-- Conversion clarity editor
-- Tone guardian
-
-AI must:
-
-- Use only visible, real information
-- Not invent credentials or methods
-- Not fabricate results
-- Not create false urgency
-- Ask if unsure about local coverage areas or qualifications
-
-When rewriting:
-
-- Improve clarity
-- Improve CTA strength
-- Improve SEO structure
-- Maintain authenticity
-
-
----------------------------------------------------------------------
-
-12. GOVERNANCE
-
-Any change to:
-
-- Page structure
-- SEO strategy
-- Navigation
-- CTA philosophy
-- Tone
-
-Must be reflected in this contract.
-
-This contract overrides ad-hoc content decisions.
-
-When in doubt:
-
-Clarity > Simplicity > Trust > Conversion.
+# AI_CONTRACT.md — ChiCa Hondenschool Website
+
+This AI_CONTRACT defines the **product, content, SEO, CTA, tone/voice, and governance rules** for the ChiCa Hondenschool website.
+
+It is the source of truth for **what the website must communicate** and **how pages should be structured** from a visitor + SEO perspective.
+
+> Implementation constraints (folder structure, “no hardcoded text”, data sourcing, layouts, etc.) live in `development_rules.md` and must be executed for every change.  
+> If there is a conflict between content goals and engineering constraints, propose alternatives and ask for confirmation.
+
+## Enforcement Rule
+
+This AI_CONTRACT and `development_rules.md` must always be executed together.
+
+- AI_CONTRACT governs content, structure, SEO, CTA logic, and tone.
+- development_rules.md governs implementation, structure safety, and engineering constraints.
+
+If a requested change conflicts with either document:
+- Stop immediately.
+- Clearly explain the conflict.
+- Ask for explicit confirmation before proceeding.
+
+Neither document overrides the other.
+Both are mandatory.
+
+
+---
+
+## 1) Website Goals
+
+### Primary goals
+- Convert visitors into **bookings** (Trainin booking link) and **contact leads**
+- Explain the difference: **training in real-life situations** (at home / on the street) vs “training field only”
+- Build trust using:
+  - Instructor credibility (since 2015, background, method)
+  - Reviews / testimonials
+  - Clear service offerings + pricing anchors
+
+### Secondary goals
+- Support common visitor journeys:
+  - “My dog behaves at training, but not at home” → hondentraining
+  - “I need reliable 1-op-1 care/walks” → oppas & uitlaatservice
+  - “Is this trustworthy?” → over + reviews
+  - “How do I start?” → contact + booking
+
+---
+
+## 2) Site Map (Current Pages)
+
+- `/` — Home
+- `/diensten/hondenschool/` — Hondentraining aan huis (service overview + trajecten)
+- `/diensten/oppas-uitlaatservice/` — Oppas & uitlaatservice (service overview + use cases)
+- `/reviews/` — Reviews en recensies
+- `/over/` — Over ChiCa Hondenschool (Carine Krommendijk)
+- `/contact/` — Contact form + direct details
+- External booking: `https://chica-hondenschool.trainin.app` (CTA destination)
+
+The site includes a language toggle (NL/EN shown in menu on several pages). Language handling must be consistent across content and CTAs.
+
+---
+
+## 3) Narrative Flow Per Page
+
+### 3.1 Home (`/`)
+**Purpose:** explain the positioning + route visitors to the right service and a CTA.
+
+**Required structure:**
+1. **Hero**
+   - H1: clear positioning (training in practice / real life)
+   - 1–2 line value proposition
+   - Primary CTAs: “Hondenschool” and “Oppas / Uitlaatservice”
+2. **Problem recognition**
+   - “Herken je dit?” section (problem framing)
+3. **Why ChiCa**
+   - 4 key benefits (practical training, maatwerk, plezier, gezin)
+4. **Services overview**
+   - Two service cards with short descriptions + “Bekijk …” CTA
+5. **About teaser**
+   - Short intro of Carine + “Lees meer” CTA to `/over/`
+6. **Social proof**
+   - Review snippets + CTA to `/reviews/`
+7. **Conversion block**
+   - “Contact” section with:
+     - CTA to `/contact/`
+     - CTA to booking (external)
+
+**Key message:** training and support happen where it matters: at home and in daily routines.
+
+---
+
+### 3.2 Hondenschool (`/diensten/hondenschool/`)
+**Purpose:** convert people searching for training help into booking/contact.
+
+**Required structure:**
+1. **Hero**
+   - H1: “Hondentraining aan huis” (or equivalent)
+   - Short summary
+   - Primary CTAs: “Kies een dienst” + “Stel een vraag”
+2. **Process**
+   - “Hoe werkt onze hondentraining?” with steps:
+     - Kennismaking
+     - Training in je omgeving
+     - Oefenen en begeleiden
+   - Close with a “Resultaat” statement
+3. **Offer selection**
+   - “Kies jouw traject” with clearly separated options
+   - Each option must have:
+     - Name
+     - Price anchor (if shown)
+     - 2–4 lines explaining best-fit use case
+     - CTA to detail (or booking/selection)
+4. **FAQ**
+   - Expandable FAQ targeting objections (lessons needed, group vs 1-1, location, problem behavior, age, method)
+5. **Final conversion**
+   - “Klaar om gericht te trainen?” section
+   - CTAs: Contact + “Boek direct” (external)
+
+---
+
+### 3.3 Oppas & uitlaatservice (`/diensten/oppas-uitlaatservice/`)
+**Purpose:** convert visitors needing help now into booking/contact.
+
+**Required structure:**
+1. **Hero**
+   - H1: “Oppas & Uitlaatservice”
+   - Trust-focused tagline
+   - CTAs: “Boek direct” (external) + Contact
+2. **Reassurance block**
+   - “Met een gerust hart de deur uit” explanation
+   - Bullet benefits (1-op-1, flexibel, rustig, vertrouwd)
+3. **Offer selection**
+   - Options like “Kennismaking”, “Strippenkaart”
+   - Each option includes:
+     - Price anchor
+     - Use-case summary
+     - CTA to detail/booking
+4. **Real-life scenarios**
+   - “Voorbeelden uit de praktijk” with 3–6 scenarios
+5. **Final conversion**
+   - “Snel ondersteuning nodig?” section
+   - CTAs: Contact + “Boek direct” (external)
+
+---
+
+### 3.4 Reviews (`/reviews/`)
+**Purpose:** increase trust and remove doubt.
+
+**Required structure:**
+1. **Hero**
+   - H1: “Reviews en recensies”
+   - Short trust statement
+   - CTAs: “Boek direct” (external) + Contact
+2. **Selection of reviews**
+   - Quotes + name + category tag (e.g., Puppy/Detectie/Priveles)
+3. **Photo impression**
+   - Gallery with alt text for each image
+4. **Conversion**
+   - Short CTA block (book/contact)
+
+---
+
+### 3.5 Over (`/over/`)
+**Purpose:** credibility + method clarity + personal story.
+
+**Required structure:**
+1. **Hero**
+   - H1: “Over ChiCa Hondenschool”
+   - Short summary of services and approach
+   - CTA to hondentraining page
+2. **Experience & background**
+   - Bullet highlights + timeline highlights
+3. **Method**
+   - Clear method pillars (observeren, karakter, positief/duidelijk, praktijkgericht)
+4. **Personal story**
+   - Background + why this matters
+5. **Conversion**
+   - CTA to contact + CTA to services
+
+---
+
+### 3.6 Contact (`/contact/`)
+**Purpose:** capture leads and route to booking.
+
+**Required structure:**
+1. **Hero**
+   - H1: “Contact”
+   - Short instruction
+2. **Form**
+   - Basic fields + service interest dropdown
+   - Clear expectation setting (response time if desired)
+3. **Direct contact**
+   - Phone/WhatsApp
+   - Email
+   - Work area
+   - KvK
+4. **Booking alternative**
+   - “Boek direct” CTA (external)
+
+---
+
+## 4) SEO Requirements
+
+### 4.1 Headings (H1/H2/H3)
+- Exactly **one H1 per page**.
+- Use H2 for major sections (problem, method, offers, FAQ, reviews, contact).
+- Use H3 for subsection titles (steps, benefit cards, offer titles).
+- Headings must be descriptive and keyword-aware (natural Dutch).
+
+### 4.2 Metadata (per page)
+Each page must define:
+- `title` (unique, keyword-aligned, 50–60 chars target)
+- `meta description` (unique, 140–160 chars target, includes location when relevant)
+- `canonical` (if applicable)
+- Open Graph:
+  - `og:title`
+  - `og:description`
+  - `og:image` (site-appropriate default or page-specific)
+
+### 4.3 Internal linking strategy
+- Home must link prominently to:
+  - both service pages
+  - reviews
+  - about
+  - contact
+- Service pages must link to:
+  - contact
+  - booking (external)
+  - at least one trust page (reviews or about)
+- About page must link to:
+  - both service pages
+  - contact
+- Reviews page must link to:
+  - service pages and booking/contact
+
+Anchor text should be meaningful (avoid “klik hier”).
+
+### 4.4 Image alt text
+- Every image must have an **alt** text:
+  - descriptive, human-readable
+  - context-specific (training, practice moment, service scenario)
+- Decorative images may use empty alt (`alt=""`) only if truly decorative.
+- Gallery images on reviews page must have distinct alt texts.
+
+### 4.5 Local SEO (where appropriate)
+- Mention service area naturally where relevant (e.g., Den Haag / Voorschoten en omgeving).
+- Do not spam locations; prefer “werkgebied” block and 1–2 mentions in service pages.
+
+---
+
+## 5) CTA Philosophy & Placement Rules
+
+### CTA types
+- **Primary CTA:** book now / book directly (external) or choose a service
+- **Secondary CTA:** contact / ask a question / read more
+- **Support CTAs:** whatsapp, view reviews, view services
+
+### Placement rules
+- Every page must have:
+  - A primary CTA **above the fold** (hero)
+  - At least one CTA **mid-page** (after benefits/offers)
+  - A final CTA **at the end** (conversion section)
+
+### CTA text rules
+- CTA labels must be action-oriented and specific:
+  - “Boek direct”
+  - “Neem contact op”
+  - “Bekijk hondenschool”
+  - “Bekijk oppas / uitlaatservice”
+  - “Lees meer over ChiCa”
+  - “Bekijk alle recensies”
+
+### External link behavior
+- Booking and social links may open in a new tab when appropriate.
+- If opening new tab: use `target="_blank"` and `rel="noopener noreferrer"`.
+
+---
+
+## 6) Tone / Voice Rules
+
+- Calm, professional, reassuring, practical.
+- Always address the reader directly using the informal Dutch form: **jij / je / jouw**.
+- Never use the formal form: **u / uw**.
+- - Write one-on-one, as if speaking directly to the dog owner.
+- Focus on:
+  - clarity
+  - empathy (recognize frustration)
+  - confidence without exaggeration
+- Avoid:
+  - aggressive claims (“garantie”, “altijd”, “100%”)
+  - shaming language (“je doet het fout”)
+  - overly technical training jargon
+- Use short paragraphs and scannable structure:
+  - bullets
+  - short headings
+  - compact benefit blocks
+
+---
+
+## 7) Governance Rules
+
+### Source of truth
+- This AI_CONTRACT governs **content structure, messaging, SEO, CTA strategy, and tone**.
+- Engineering/implementation constraints are governed by `development_rules.md`.
+
+### Updating the contract
+Whenever you change:
+- page structure (add/remove sections),
+- CTA strategy (new CTAs, changed destinations),
+- SEO meta rules,
+- tone/positioning,
+
+…you must update this AI_CONTRACT to reflect the new reality.
+
+### Change discipline
+- If a requested change could impact SEO, routing, or conversions, call it out explicitly.
+- If content is being removed, propose safer alternatives first (e.g., rewrite, compress, move, redirect), and ask for confirmation.
+
+---
+
+## 8) Definition of Done (Content / SEO)
+
+A change is complete when:
+- Page narrative flow matches this contract (or contract updated accordingly)
+- H1/H2/H3 are correct and scannable
+- Unique meta title + description exist
+- Internal links match the linking strategy
+- Images have correct alt text
+- CTAs are present (hero + mid + end) and destinations are correct
+- Tone/voice matches the rules above

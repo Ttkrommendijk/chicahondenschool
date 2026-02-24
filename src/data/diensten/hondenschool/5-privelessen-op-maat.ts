@@ -136,7 +136,7 @@ export const dienst = {
       },
       {
         label: l10n("Boek in Voorschoten", "Book in Voorschoten"),
-        href: "https://chica-hondenschool.trainin.app/activities/LG5554/1-priveles-in-voorschoten",
+        href: "https://chica-hondenschool.trainin.app/checkout/PVRWMN",
         external: true,
       },
     ],

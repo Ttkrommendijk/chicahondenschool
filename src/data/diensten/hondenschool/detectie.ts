@@ -145,7 +145,7 @@ export const dienst = {
       },
       {
         label: l10n("Boek in Voorschoten", "Book in Voorschoten"),
-        href: "https://chica-hondenschool.trainin.app/activities/LBVWV6/strippenkaart-detectie-voorschoten",
+        href: "https://chica-hondenschool.trainin.app/checkout/PAA9MZ",
         external: true,
       },
     ],

@@ -1,92 +1,99 @@
-import { promises as fs } from "node:fs";
+ï»¿import { promises as fs } from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 
 const ROOT = process.cwd();
-const PAGES_DIR = path.join(ROOT, "src", "pages");
-const COMPONENTS_DIR = path.join(ROOT, "src", "components");
 
-const canonicalPages = [
-  "src/pages/index.astro",
-  "src/pages/diensten/hondenschool/index.astro",
-  "src/pages/diensten/oppas-uitlaatservice/index.astro",
-  "src/pages/reviews/index.astro",
-  "src/pages/over/index.astro",
-  "src/pages/contact/index.astro",
-  "src/pages/algemene-voorwaarden/index.astro",
-  "src/pages/privacy/index.astro",
+const violations = [];
+
+const CURRENT_SERVICES = [
+  "diensten/hondenschool/5-privelessen-op-maat",
+  "diensten/hondenschool/priveles-aan-huis",
+  "diensten/hondenschool/priveles-op-locatie",
+  "diensten/hondenschool/fun-speuren-neuswerk",
+  "diensten/hondenschool/detectie",
+  "diensten/hondenschool/sport-en-spel",
+  "diensten/oppas-uitlaatservice/kennismaking",
+  "diensten/oppas-uitlaatservice/strippenkaart",
 ];
 
-const pageToDataMap = {
-  "src/pages/index.astro": "src/data/home.ts",
-  "src/pages/diensten/hondenschool/index.astro":
-    "src/data/diensten/hondenschool.ts",
-  "src/pages/diensten/oppas-uitlaatservice/index.astro":
-    "src/data/diensten/oppas-uitlaatservice.ts",
-  "src/pages/reviews/index.astro": "src/data/reviews.ts",
-  "src/pages/over/index.astro": "src/data/over.ts",
-  "src/pages/contact/index.astro": "src/data/contact.ts",
-  "src/pages/algemene-voorwaarden/index.astro":
-    "src/data/algemene-voorwaarden.ts",
-  "src/pages/privacy/index.astro": "src/data/privacy.ts",
-};
-
-const translationRequiredDataFiles = [
-  "src/data/home.ts",
-  "src/data/contact.ts",
-  "src/data/over.ts",
-  "src/data/reviews.ts",
-  "src/data/diensten/hondenschool.ts",
-  "src/data/diensten/oppas-uitlaatservice.ts",
-  "src/data/privacy.ts",
-  "src/data/algemene-voorwaarden.ts",
-  "src/data/ui.ts",
-  "src/data/navigation.ts",
-];
-
-const mojibakePatternsUtf8View = [
-  "\u00e2\u20ac\u201c", // â€“
-  "\u00e2\u20ac\u2122", // â€™
-  "\u00c3\u00a9", // Ã©
-  "\u00c3\u00a4", // Ã¤
-];
-
-const mojibakePatternsLatin1View = [
-  "\u00e2\u0080\u0093", // â&#128;&#147;
-  "\u00e2\u0080\u0099", // â&#128;&#153;
-  "\u00c3\u00a9", // Ã©
-  "\u00c3\u00a4", // Ã¤
-];
-
-const findings = [];
-
-function addFinding(level, ruleId, filePath, message) {
-  findings.push({ level, ruleId, filePath, message });
+function fail(message) {
+  violations.push(message);
 }
 
-async function exists(filePath) {
+async function pathStat(relativePath) {
   try {
-    await fs.access(path.join(ROOT, filePath));
-    return true;
+    return await fs.stat(path.join(ROOT, relativePath));
   } catch {
-    return false;
+    return null;
   }
 }
 
-async function read(filePath) {
-  return fs.readFile(path.join(ROOT, filePath), "utf8");
+async function assertExists(relativePath, expected = "any") {
+  const stat = await pathStat(relativePath);
+  if (!stat) {
+    fail(`Missing required path: ${relativePath}`);
+    return;
+  }
+
+  if (expected === "dir" && !stat.isDirectory()) {
+    fail(`Expected directory but found something else: ${relativePath}`);
+  }
+
+  if (expected === "file" && !stat.isFile()) {
+    fail(`Expected file but found something else: ${relativePath}`);
+  }
 }
 
-async function walk(dir, predicate = () => true) {
-  const entries = await fs.readdir(dir, { withFileTypes: true });
+async function assertNotExists(relativePath) {
+  const stat = await pathStat(relativePath);
+  if (stat) {
+    fail(`Forbidden path exists: ${relativePath}`);
+  }
+}
+
+async function walkDirectories(startDir) {
   const out = [];
-  for (const entry of entries) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      out.push(...(await walk(full, predicate)));
-      continue;
+  const stack = [startDir];
+
+  while (stack.length) {
+    const current = stack.pop();
+    const entries = await fs.readdir(current, { withFileTypes: true });
+
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const full = path.join(current, entry.name);
+      out.push(full);
+
+      if (entry.name === "node_modules" || entry.name === "dist") continue;
+      stack.push(full);
     }
-    if (entry.isFile() && predicate(full)) out.push(full);
   }
+
+  return out;
+}
+
+async function walkFiles(startDir, predicate = () => true) {
+  const out = [];
+  const stack = [startDir];
+
+  while (stack.length) {
+    const current = stack.pop();
+    const entries = await fs.readdir(current, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const full = path.join(current, entry.name);
+
+      if (entry.isDirectory()) {
+        if (entry.name === "node_modules" || entry.name === "dist") continue;
+        stack.push(full);
+        continue;
+      }
+
+      if (entry.isFile() && predicate(full)) out.push(full);
+    }
+  }
+
   return out;
 }
 
@@ -94,451 +101,211 @@ function rel(fullPath) {
   return path.relative(ROOT, fullPath).replace(/\\/g, "/");
 }
 
-function stripFrontmatter(content) {
-  if (!content.startsWith("---")) return content;
-  const end = content.indexOf("\n---", 3);
-  if (end === -1) return content;
-  return content.slice(end + 4);
-}
+async function validateRootStructure() {
+  const requiredRootDirs = ["public", "src", "scripts"];
+  const requiredRootFiles = ["package.json", "astro.config.mjs"];
 
-function importRegexForData(dataPath) {
-  const suffix = dataPath.replace(/^src\//, "");
-  const escaped = suffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const noExt = escaped.replace(/\\\.ts$/, "");
-  return new RegExp(`from\\s+["'][^"']*${noExt}(?:\\.ts)?["']`, "i");
-}
+  for (const dir of requiredRootDirs) {
+    await assertExists(dir, "dir");
+  }
 
-function detectSpacingSystems(content) {
-  const systems = [];
-  if (/<Section\b[^>]*variant\s*=/.test(content))
-    systems.push("section-component");
-  if (/<section\b[^>]*class\s*=\s*["'][^"']*\bsection\b/.test(content))
-    systems.push("global-section-class");
-  if (/<section\b[^>]*class\s*=\s*["'][^"']*\bpy-\d+/.test(content))
-    systems.push("inline-py-classes");
-  return systems;
-}
+  for (const file of requiredRootFiles) {
+    await assertExists(file, "file");
+  }
 
-function detectHardcodedCopySignals(content) {
-  const cleaned = content
-    .replace(/---[\s\S]*?---/g, "")
-    .replace(/<script[\s\S]*?<\/script>/gi, "")
-    .replace(/<style[\s\S]*?<\/style>/gi, "");
-
-  const textNodes = [...cleaned.matchAll(/>([^<{][^<]{20,})</g)]
-    .map((m) => m[1].trim())
-    .filter((text) => /[A-Za-z]/.test(text));
-
-  return textNodes.length;
-}
-
-function isLikelySystemString(key, value) {
-  const infraKeys = new Set([
-    "href",
+  const entries = await fs.readdir(ROOT, { withFileTypes: true });
+  const allowedRootDirs = new Set([
+    "public",
     "src",
-    "image",
-    "imageSrc",
-    "phoneHref",
-    "emailHref",
-    "bookingUrl",
-    "kennismakingUrl",
-    "slug",
-    "id",
-    "icon",
-    "kvk",
-    "phone",
-    "email",
-    "author",
-    "contextTag",
-    "sourceUrl",
+    "scripts",
+    "node_modules",
+    "dist",
   ]);
 
-  if (infraKeys.has(key)) return true;
-  if (/^(\/|https?:\/\/|mailto:|tel:)/i.test(value)) return true;
-  if (/^\d+([.,]\d+)?$/.test(value)) return true;
-  if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) return true;
-  return false;
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    if (entry.name.startsWith(".")) continue;
+    if (!allowedRootDirs.has(entry.name)) {
+      fail(`Unexpected top-level directory: ${entry.name}`);
+    }
+  }
 }
 
-async function checkCanonicalRoutes() {
-  const astroFiles = await walk(PAGES_DIR, (p) => p.endsWith(".astro"));
-  const relAstro = astroFiles.map(rel);
-  const allowed = new Set(canonicalPages);
+async function validateSrcStructure() {
+  const requiredSrcDirs = [
+    "src/assets",
+    "src/components",
+    "src/layouts",
+    "src/pages",
+    "src/data",
+  ];
 
-  for (const file of relAstro) {
-    if (file.startsWith("src/pages/api/")) continue;
-    if (!allowed.has(file)) {
-      addFinding(
-        "FAIL",
-        "route-canonical-only",
-        file,
-        "Non-canonical page entrypoint gevonden. Verwijder of verplaats naar canonieke route-map.",
-      );
-    }
+  for (const dir of requiredSrcDirs) {
+    await assertExists(dir, "dir");
   }
+}
 
-  for (const file of canonicalPages) {
-    if (!(await exists(file))) {
-      addFinding(
-        "FAIL",
-        "route-canonical-missing",
-        file,
-        "Canonieke route ontbreekt. Voeg het entrypoint terug toe.",
-      );
-    }
-  }
-
-  const rootAstro = relAstro.filter(
-    (f) =>
-      /^src\/pages\/[^/]+\.astro$/.test(f) && f !== "src/pages/index.astro",
+async function validatePagesStructure() {
+  await assertExists("src/pages/index.astro", "file");
+  await assertExists("src/pages/diensten", "dir");
+  await assertExists("src/pages/diensten/oppas-uitlaatservice", "dir");
+  await assertExists(
+    "src/pages/diensten/oppas-uitlaatservice/index.astro",
+    "file",
   );
-  for (const file of rootAstro) {
-    addFinding(
-      "FAIL",
-      "route-legacy-root",
-      file,
-      "Legacy root route gevonden. Alleen src/pages/index.astro is toegestaan op rootniveau.",
-    );
-  }
-}
+  await assertExists("src/pages/diensten/hondenschool", "dir");
+  await assertExists("src/pages/diensten/hondenschool/index.astro", "file");
 
-async function checkHeadings() {
-  for (const pagePath of canonicalPages) {
-    if (!(await exists(pagePath))) continue;
-    const content = stripFrontmatter(await read(pagePath));
-
-    const explicitH1 = (content.match(/<h1\b/gi) || []).length;
-    const hasHeroProvider = /<Hero\b/.test(content);
-    const hasContentPageLayoutProvider = /<ContentPageLayout\b/.test(content);
-    const providerCount =
-      (hasHeroProvider ? 1 : 0) + (hasContentPageLayoutProvider ? 1 : 0);
-    const h1Count = explicitH1 + providerCount;
-
-    if (h1Count === 0 || h1Count > 1) {
-      addFinding(
-        "FAIL",
-        "heading-h1-count",
-        pagePath,
-        `Onjuiste H1-heurstiek: ${h1Count} gevonden (expliciet: ${explicitH1}, providers: ${providerCount}). Zorg voor exact 1 H1.`,
-      );
-    }
-
-    const firstH2 = content.search(/<h2\b/i);
-    const firstH3 = content.search(/<h3\b/i);
-    if (firstH3 !== -1 && (firstH2 === -1 || firstH3 < firstH2)) {
-      addFinding(
-        "FAIL",
-        "heading-h3-before-h2",
-        pagePath,
-        "<h3> verschijnt voor de eerste <h2>. Start hierarchie met H2.",
-      );
-    }
-  }
-}
-
-async function checkCTAConsistency() {
-  const ctaSectionPath = "src/components/CTASection.astro";
-  if (!(await exists(ctaSectionPath))) {
-    addFinding(
-      "FAIL",
-      "cta-component-missing",
-      ctaSectionPath,
-      "CTASection component ontbreekt.",
-    );
-    return;
-  }
-
-  const ctaSection = await read(ctaSectionPath);
-  if (!/cta-band-dark/.test(ctaSection)) {
-    addFinding(
-      "FAIL",
-      "cta-dark-enforced",
-      ctaSectionPath,
-      "CTASection gebruikt geen donkere CTA-band als basis.",
-    );
-  }
-
-  if (/variant\??\s*:\s*["'][^"']*light|light\s*\|/.test(ctaSection)) {
-    addFinding(
-      "FAIL",
-      "cta-light-variant-exposed",
-      ctaSectionPath,
-      "Lichte CTA-variant nog exposed in CTASection.",
-    );
-  }
-
-  const filesToScan = [...canonicalPages, "src/styles/global.css"];
-  for (const file of filesToScan) {
-    if (!(await exists(file))) continue;
-    const content = await read(file);
-    const hasLegacyClass =
-      /\bcta-band\b(?!-dark)/.test(content) || /cta-band-light/.test(content);
-    if (hasLegacyClass) {
-      addFinding(
-        "FAIL",
-        "cta-light-class-usage",
-        file,
-        "Legacy/light CTA-band class gevonden (cta-band of cta-band-light).",
-      );
-    }
-  }
-
-  for (const pagePath of canonicalPages) {
-    if (!(await exists(pagePath))) continue;
-    const content = stripFrontmatter(await read(pagePath));
-    const hasCTASection = /<CTASection\b/.test(content);
-    const likelyBandMarkup =
-      /cta-band|cta-band-dark|btn-cta-primary-dark|btn-cta-secondary-dark/.test(
-        content,
-      );
-
-    if (likelyBandMarkup && !hasCTASection) {
-      addFinding(
-        "FAIL",
-        "cta-hardcoded-band",
-        pagePath,
-        "CTA band-achtige markup gevonden zonder CTASection. Hergebruik CTASection.",
-      );
-    }
-
-    if (/<CTASection\b[^>]*variant\s*=\s*["']light["']/.test(content)) {
-      addFinding(
-        "FAIL",
-        "cta-light-variant-used",
-        pagePath,
-        "CTASection light-variant gebruik gevonden; dark is de standaard.",
-      );
-    }
-  }
-}
-
-async function checkComponentReuse() {
-  for (const pagePath of canonicalPages) {
-    if (!(await exists(pagePath))) continue;
-    const content = stripFrontmatter(await read(pagePath));
-
-    const hasFaqComponent = /<FaqAccordion\b/.test(content);
-    const accordionLike =
-      /aria-expanded/.test(content) &&
-      /aria-controls/.test(content) &&
-      /<button\b/.test(content);
-    if (accordionLike && !hasFaqComponent) {
-      addFinding(
-        "FAIL",
-        "reuse-faq",
-        pagePath,
-        "Accordion-markup gedetecteerd zonder FaqAccordion component.",
-      );
-    }
-
-    const hasProcessComponent = /<ProcessStrip\b/.test(content);
-    const processLike =
-      /1\.\s*Kennismaking/i.test(content) &&
-      /2\./.test(content) &&
-      /3\./.test(content);
-    if (processLike && !hasProcessComponent) {
-      addFinding(
-        "FAIL",
-        "reuse-process",
-        pagePath,
-        "Process-step markup gedetecteerd zonder ProcessStrip component.",
-      );
-    }
-  }
-}
-
-async function checkDataArchitecture() {
-  for (const [pagePath, dataPath] of Object.entries(pageToDataMap)) {
-    if (!(await exists(dataPath))) {
-      addFinding(
-        "FAIL",
-        "data-file-missing",
-        dataPath,
-        `Verwachte route-datafile ontbreekt voor ${pagePath}.`,
-      );
+  const astroFiles = await walkFiles(ROOT, (full) => full.endsWith(".astro"));
+  for (const file of astroFiles) {
+    const relative = rel(file);
+    if (!relative.startsWith("src/")) {
+      fail(`Astro file outside src/: ${relative}`);
       continue;
     }
 
-    if (!(await exists(pagePath))) continue;
-    const content = await read(pagePath);
-    if (!importRegexForData(dataPath).test(content)) {
-      addFinding(
-        "FAIL",
-        "data-import-missing",
-        pagePath,
-        `Pagina importeert niet de verwachte route-datafile (${dataPath}).`,
-      );
+    if (
+      !relative.startsWith("src/pages/") &&
+      !relative.startsWith("src/components/") &&
+      !relative.startsWith("src/layouts/")
+    ) {
+      fail(`Astro file in invalid src location: ${relative}`);
     }
   }
 
-  const componentFiles = await walk(COMPONENTS_DIR, (p) =>
-    p.endsWith(".astro"),
-  );
-  const offenders = [];
-  for (const file of componentFiles) {
-    const score = detectHardcodedCopySignals(await read(rel(file)));
-    if (score > 0) offenders.push({ file: rel(file), score });
-  }
-
-  offenders.sort((a, b) => b.score - a.score);
-  for (const offender of offenders.slice(0, 5)) {
-    addFinding(
-      "WARN",
-      "data-hardcoded-copy-signal",
-      offender.file,
-      `Component bevat mogelijk hardcoded user-facing copy (${offender.score} signalen).`,
+  const pageFilesOutsidePages = astroFiles
+    .map(rel)
+    .filter(
+      (file) =>
+        file.startsWith("src/") &&
+        !file.startsWith("src/pages/") &&
+        !file.startsWith("src/components/") &&
+        !file.startsWith("src/layouts/"),
     );
+
+  for (const file of pageFilesOutsidePages) {
+    fail(`Potential misplaced page file outside src/pages: ${file}`);
   }
 }
 
-async function checkSectionRhythmMix() {
-  for (const pagePath of canonicalPages) {
-    if (!(await exists(pagePath))) continue;
-    const systems = detectSpacingSystems(
-      stripFrontmatter(await read(pagePath)),
+async function validateCurrentServices() {
+  for (const serviceRoute of CURRENT_SERVICES) {
+    await assertExists(`src/pages/${serviceRoute}/index.astro`, "file");
+
+    const parts = serviceRoute.split("/");
+    const category = parts[1];
+    const slug = parts[2];
+    await assertExists(`src/data/diensten/${category}/${slug}.ts`, "file");
+  }
+}
+
+async function validateDataPlacement() {
+  // No top-level data/content directories outside src/data.
+  await assertNotExists("data");
+  await assertNotExists("content");
+
+  // Content-like files should not live in src/pages (except .astro routes).
+  const pagesFiles = await walkFiles(path.join(ROOT, "src", "pages"));
+  const disallowedInPages = pagesFiles
+    .map(rel)
+    .filter(
+      (file) =>
+        !file.endsWith(".astro") &&
+        !file.endsWith(".ts") &&
+        !file.endsWith(".js"),
     );
-    if (systems.length > 1) {
-      addFinding(
-        "WARN",
-        "section-rhythm-mixed",
-        pagePath,
-        `Meerdere spacing-systemen gemengd: ${systems.join(", ")}.`,
-      );
+
+  for (const file of disallowedInPages) {
+    fail(`Unexpected content file in src/pages: ${file}`);
+  }
+}
+
+async function validateNoNestedPublicHtml() {
+  const dirs = await walkDirectories(ROOT);
+  for (const dir of dirs) {
+    const normalized = rel(dir);
+    if (normalized.includes("public_html/public_html")) {
+      fail(`Forbidden nested public_html directory: ${normalized}`);
     }
   }
 }
 
-async function checkEncodingIntegrity() {
-  const rootEntries = await fs.readdir(ROOT, { withFileTypes: true });
-  const mdFiles = rootEntries
-    .filter((e) => e.isFile() && e.name.toLowerCase().endsWith(".md"))
-    .map((e) => e.name);
+async function validateDistNotCommitted() {
+  try {
+    const tracked = execFileSync("git", ["ls-files", "dist"], {
+      cwd: ROOT,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    })
+      .split(/\r?\n/)
+      .filter(Boolean);
 
-  for (const md of mdFiles) {
-    const buffer = await fs.readFile(path.join(ROOT, md));
-    const utf8Content = buffer.toString("utf8");
-    const latin1Content = buffer.toString("latin1");
-
-    const checks = [
-      {
-        view: "utf8",
-        content: utf8Content,
-        patterns: mojibakePatternsUtf8View,
-      },
-      {
-        view: "latin1",
-        content: latin1Content,
-        patterns: mojibakePatternsLatin1View,
-      },
-    ];
-
-    let found = false;
-    for (const check of checks) {
-      for (const pattern of check.patterns) {
-        const idx = check.content.indexOf(pattern);
-        if (idx === -1) continue;
-        const start = Math.max(0, idx - 20);
-        const end = Math.min(check.content.length, idx + 40);
-        const snippet = check.content
-          .slice(start, end)
-          .replace(/\s+/g, " ")
-          .trim();
-        addFinding(
-          "FAIL",
-          "encoding-mojibake",
-          md,
-          `Mojibake-sequentie gevonden in ${check.view}-view (${JSON.stringify(pattern)}). Snippet: "${snippet}"`,
-        );
-        found = true;
-        break;
-      }
-      if (found) break;
+    if (tracked.length > 0) {
+      fail(
+        `dist/ appears to be committed (${tracked.length} tracked file(s)).`,
+      );
     }
+  } catch {
+    // If git is unavailable, skip this check without failing.
   }
 }
 
-async function checkTranslationCompleteness() {
-  const l10nSingleArgRegex = /l10n\(\s*(["'`])(?:\\.|(?!\1)[\s\S])*\1\s*\)/g;
+async function validateScriptsFolder() {
+  await assertExists("scripts", "dir");
 
-  for (const file of translationRequiredDataFiles) {
-    if (!(await exists(file))) continue;
-    const content = await read(file);
+  const scriptFiles = await walkFiles(path.join(ROOT, "scripts"));
+  const allowedExtensions = new Set([
+    ".js",
+    ".mjs",
+    ".cjs",
+    ".ts",
+    ".sh",
+    ".ps1",
+    ".md",
+    ".json",
+  ]);
 
-    const singleArgMatches = [...content.matchAll(l10nSingleArgRegex)];
-    for (const match of singleArgMatches) {
-      addFinding(
-        "FAIL",
-        "translation-missing-en",
-        file,
-        `l10n zonder Engelse vertaling gevonden: ${match[0]}. Voeg een en-waarde toe.`,
-      );
+  for (const file of scriptFiles) {
+    const ext = path.extname(file).toLowerCase();
+    if (!allowedExtensions.has(ext)) {
+      fail(`Unexpected file type in scripts/: ${rel(file)}`);
     }
-
-    const lines = content.split("\n");
-    lines.forEach((line, index) => {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith("//")) return;
-      if (trimmed.includes("l10n(")) return;
-
-      const rawPropMatch = trimmed.match(
-        /^([A-Za-z0-9_]+)\s*:\s*(["'])(.*)\2,?$/,
-      );
-      if (!rawPropMatch) return;
-
-      const key = rawPropMatch[1];
-      const value = rawPropMatch[3];
-      if (!/[A-Za-zÀ-ÿ]/.test(value)) return;
-      if (isLikelySystemString(key, value)) return;
-
-      addFinding(
-        "FAIL",
-        "translation-raw-literal",
-        file,
-        `Raw string zonder l10n op regel ${index + 1} (${key}). Gebruik l10n("nl","en").`,
-      );
-    });
   }
-}
-
-function printReport() {
-  const byRule = new Map();
-  for (const finding of findings) {
-    if (!byRule.has(finding.ruleId)) byRule.set(finding.ruleId, []);
-    byRule.get(finding.ruleId).push(finding);
-  }
-
-  console.log("AI Contract Consistency Report\n");
-  for (const ruleId of [...byRule.keys()].sort()) {
-    console.log(`[${ruleId}]`);
-    for (const f of byRule.get(ruleId)) {
-      console.log(`${f.level} ${f.ruleId} ${f.filePath}: ${f.message}`);
-    }
-    console.log("");
-  }
-
-  const failCount = findings.filter((f) => f.level === "FAIL").length;
-  const warnCount = findings.filter((f) => f.level === "WARN").length;
-  console.log(`Summary: ${failCount} FAIL, ${warnCount} WARN`);
-
-  if (failCount > 0) process.exitCode = 1;
 }
 
 async function main() {
-  await checkCanonicalRoutes();
-  await checkHeadings();
-  await checkCTAConsistency();
-  await checkComponentReuse();
-  await checkDataArchitecture();
-  await checkSectionRhythmMix();
-  await checkEncodingIntegrity();
-  await checkTranslationCompleteness();
-  printReport();
+  await validateRootStructure();
+  await validateSrcStructure();
+  await validatePagesStructure();
+  await validateDataPlacement();
+  await validateCurrentServices();
+  await validateNoNestedPublicHtml();
+  await validateDistNotCommitted();
+  await validateScriptsFolder();
+
+  if (violations.length > 0) {
+    console.error("AI CONTRACT VALIDATION FAILED");
+    for (const message of violations) {
+      console.error(`- ${message}`);
+    }
+    console.error("- Current services (expected):");
+    for (const service of CURRENT_SERVICES) {
+      console.error(`  - /${service}/`);
+    }
+    process.exit(1);
+  }
+
+  console.log("AI CONTRACT VALIDATION PASSED");
+  console.log("Current services:");
+  for (const service of CURRENT_SERVICES) {
+    console.log(`- /${service}/`);
+  }
 }
 
 main().catch((error) => {
+  console.error("AI CONTRACT VALIDATION FAILED");
   console.error(
-    "FAIL validator runtime-error scripts/validate-ai-contract.mjs:",
-    error instanceof Error ? error.message : String(error),
+    `- Validator runtime error: ${error instanceof Error ? error.message : String(error)}`,
   );
   process.exit(1);
 });

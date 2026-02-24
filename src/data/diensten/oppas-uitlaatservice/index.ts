@@ -96,13 +96,13 @@ export const page = {
       "Leave home with peace of mind",
     ),
     lead: l10n(
-      "1-op-1 begeleiding van je hond wanneer je tijdelijk extra ondersteuning nodig hebt",
-      "1-on-1 guidance for your dog when you temporarily need extra support",
+      "Professionele 1-op-1 begeleiding van je hond wanneer je tijdelijk extra ondersteuning nodig hebt",
+      "Professional 1-on-1 guidance for your dog when you temporarily need extra support",
     ),
     paragraphs: [
       l10n(
-        "De oppas- en uitlaatservice aan huis van ChiCa is er voor momenten waarop je extra ondersteuning nodig hebt, zonder dat je hond hoeft in te leveren op aandacht of rust. Alles gebeurt 1-op-1, in een vertrouwde omgeving.",
-        "ChiCa's in-home pet sitting and walking service is for moments when you need extra support, without your dog missing out on attention or calmness. Everything is 1-on-1, in a familiar environment.",
+        "The in-home pet sitting and walking service of ChiCa is for moments when you need extra support, without your dog missing out on attention or calmness. Everything is 1-on-1, by an experienced kynological instructor in a familiar environment.",
+        "ChiCa's in-home pet sitting and walking service is for moments when you need extra support, without your dog missing out on attention or calmness. Everything is 1-on-1, by an experienced kynological instructor in a familiar environment.",
       ),
       l10n(
         "Of je nu even weg moet, langer moet werken of tijdelijk minder mobiel bent: je hond krijgt individuele begeleiding die past bij karakter, energie en dagelijkse routine.",
@@ -232,7 +232,8 @@ export const page = {
     ctas: [
       {
         label: l10n("Plan kennismaking", "Plan introduction"),
-        href: "/contact/",
+        href: "https://chica-hondenschool.trainin.app/checkout/PRZ7A4",
+        external: true,
       },
       {
         label: l10n("WhatsApp", "WhatsApp"),
@@ -247,13 +248,13 @@ export const page = {
       "Start met een kennismaking of boek direct als je al weet welke ondersteuning je nodig hebt.",
       "Start with an introduction or book directly if you already know which support you need.",
     ),
-    primary: { label: l10n("Contact", "Contact"), href: "/contact/" },
+    primary: {
+      label: l10n("Contactformulier", "Contact form"),
+      href: "/contact/",
+    },
     secondary: {
-      label: l10n("Boek direct", "Book now"),
-      href: ui.links.bookingUrl,
+      label: l10n("Boek een kennismaking", "Book introduction"),
+      href: "https://chica-hondenschool.trainin.app/checkout/PRZ7A4",
     },
   },
 } as const;
-
-
-

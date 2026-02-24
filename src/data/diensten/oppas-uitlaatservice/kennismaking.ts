@@ -36,8 +36,8 @@ export const dienst = {
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
     body: l10n(
-      "Een heldere intake voorkomt losse adviezen. Je krijgt meteen overzicht over wat past bij jouw hond en welke route het meest logisch is.",
-      "A clear intake prevents fragmented advice. You immediately get clarity on what fits your dog and which route is most logical.",
+      "Tijdens de kennismaking nemen we rustig de tijd om uw hond en uw wensen te bespreken. We bekijken welke commando’s uw hond al kent en of er specifieke aandachtspunten zijn voor de oppas- of uitlaatsituatie.",
+      "During the introductory meeting, we take the time to discuss your dog and your wishes. We look at which commands your dog already knows and whether there are any specific points of attention for the sitting or walking situation.",
     ),
     highlight: l10n(
       "Eerst duidelijkheid, daarna doelgericht trainen.",
@@ -54,32 +54,39 @@ export const dienst = {
   benefits: {
     items: [
       l10n(
-        "Persoonlijke intake van ca. 30 minuten",
-        "Personal intake of about 30 minutes",
+        "Persoonlijke intake van ca. 45 minuten",
+        "Personal intake of about 45 minutes",
       ),
       l10n(
         "Duidelijke inventarisatie van jouw hulpvraag",
         "Clear inventory of your support request",
       ),
+      l10n("Ruimte om je vragen te stellen", "Room to ask your questions"),
       l10n(
-        "Advies over passend vervolgtraject",
-        "Advice on a suitable follow-up track",
+        "Kennismaken met uw hond door middel van een korte wandeling aan de lijn",
+        "Getting to know your dog during a short walk on the leash",
       ),
-      l10n("Directe eerste handvatten", "Immediate first guidance"),
     ],
   },
   audience: {
     title: l10n("Voor wie dit is", "Who this is for"),
-    fitTitle: l10n("Dit past bij jou als", "This fits you if"),
+    fitTitle: l10n("Dit past bij jou als", "This is right for you if"),
     fitItems: [
       l10n(
-        "je wilt weten welk traject past",
-        "you want to know which track fits",
+        "je incidenteel professionele oppas zoekt",
+        "you are occasionally looking for professional dog sitting",
       ),
-      l10n("je een rustige start belangrijk vindt", "you value a calm start"),
       l10n(
-        "je advies op maat wilt voor je situatie",
-        "you want tailored advice for your situation",
+        "je hond niet mee kan met een uitlaatservice in groepen",
+        "your dog cannot join group walking services",
+      ),
+      l10n(
+        "je een pup hebt of een oudere hond",
+        "you have a puppy or a senior dog",
+      ),
+      l10n(
+        "je moet herstellen van een operatie, ziekte en minder energie hebt om te wandelen met je hond",
+        "you are recovering from surgery or illness and have less energy to walk your dog",
       ),
     ],
   },
