@@ -132,11 +132,22 @@ export const dienst = {
     priceText: l10n("EUR 160,-", "EUR 160"),
     metaLines: [
       l10n("5 lessen", "5 lessons"),
-      l10n("Locatie: Voorschoten", "Location: Voorschoten"),
+      l10n(
+        "Locaties: Den Haag, Voorschoten",
+        "Locations: Den Haag, Voorschoten",
+      ),
     ],
     options: [
       {
-        label: l10n("Boek in Voorstchoten", "Book in Voorschoten"),
+        label: l10n(
+          "Boek in Rijswijk / Den Haag",
+          "Book in Rijswijk / Den Haag",
+        ),
+        href: "https://chica-hondenschool.trainin.app/checkout/PRZ7A4",
+        external: true,
+      },
+      {
+        label: l10n("Boek in Voorschoten", "Book in Voorschoten"),
         href: "https://chica-hondenschool.trainin.app/checkout/P479WW",
         external: true,
       },

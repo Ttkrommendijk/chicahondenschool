@@ -137,6 +137,7 @@ export const dienst = {
         id: "3h",
         label: l10n("Strippenkaart 3 uur", "3-hour pass"),
         price: l10n("€ 150,00", "€ 150.00"),
+        href: "https://chica-hondenschool.trainin.app/checkout/P2A2Y9",
       },
       {
         id: "6h",
@@ -149,6 +150,7 @@ export const dienst = {
         id: "12h",
         label: l10n("Strippenkaart 12 uur", "12-hour pass"),
         price: l10n("€ 525,00", "€ 525.00"),
+        href: "https://chica-hondenschool.trainin.app/checkout/P8PJ9J",
       },
     ],
   },
