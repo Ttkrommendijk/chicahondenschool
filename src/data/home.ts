@@ -4,12 +4,12 @@ import { ui } from "./ui";
 export const home = {
   hero: {
     title: l10n(
-      "Jouw hondenschool in Zuid-Holland",
-      "Your dog school in South Holland",
+      "Hondentraining aan huis in Den Haag & Voorschoten",
+      "In-home dog training in Den Haag & Voorschoten",
     ),
     subtitle: l10n(
-      "Persoonlijke hondentraining aan huis, gericht op gedrag in het dagelijks leven.",
-      "Personal dog training at home, focused on behavior in daily life.",
+      "Persoonlijke hondentraining aan huis, gericht op gedrag in het dagelijks leven - Al jarenlang vertrouwd in Voorschoten en nu ook actief in Den Haag en Rijswijk.",
+      "Personal dog training at home, focused on behavior in daily life - Trusted in Voorschoten for years and now also active in Den Haag and Rijswijk.",
     ),
     primaryCtaLabel: l10n(
       "Hondentraining & cursussen",

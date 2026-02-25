@@ -5,6 +5,7 @@ import { ui } from "../data/ui";
 interface Props {
     title: string;
     subtitle?: string;
+    trustLine?: string;
     imageSrc?: string;
     imageAlt?: string;
     imageWidth?: number;
@@ -13,6 +14,7 @@ interface Props {
     secondaryCta?: { label: string; href: string };
     titleKey?: string;
     subtitleKey?: string;
+    trustLineKey?: string;
     imageAltKey?: string;
     primaryCtaLabelKey?: string;
     secondaryCtaLabelKey?: string;
@@ -21,6 +23,7 @@ interface Props {
 const {
     title,
     subtitle,
+    trustLine,
     imageSrc,
     imageAlt = "",
     imageWidth,
@@ -29,6 +32,7 @@ const {
     secondaryCta,
     titleKey,
     subtitleKey,
+    trustLineKey,
     imageAltKey,
     primaryCtaLabelKey,
     secondaryCtaLabelKey,
@@ -63,6 +67,16 @@ const lang = getLangFromUrl(Astro.url);
                         data-i18n={subtitleKey}
                     >
                         {subtitle}
+                    </p>
+                )
+            }
+            {
+                trustLine && (
+                    <p
+                        class="mt-3 max-w-xl text-sm text-muted"
+                        data-i18n={trustLineKey}
+                    >
+                        {trustLine}
                     </p>
                 )
             }

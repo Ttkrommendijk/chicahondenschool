@@ -20,8 +20,10 @@ const lang = resolveLangFromUrl(Astro.url);
     <Hero
         title={localize(page.heroL10n.title, lang)}
         subtitle={localize(page.heroL10n.subtitle, lang)}
+        trustLine={localize(page.heroL10n.trustLine, lang)}
         titleKey="home.hero.title"
         subtitleKey="home.hero.subtitle"
+        trustLineKey="home.hero.trustLine"
         imageSrc={page.hero.image}
         imageAlt={localize(page.heroL10n.imageAlt, lang)}
         imageAltKey="home.hero.imageAlt"
