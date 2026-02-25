@@ -79,6 +79,50 @@ export const page = {
       },
     ],
   },
+  processFlow: {
+    title: l10n("Hoe werkt het?", "How does it work?"),
+    subtitle: l10n(
+      "Een helder stappenplan, zodat je precies weet wat je kunt verwachten.",
+      "A clear step-by-step plan, so you know exactly what to expect.",
+    ),
+    steps: [
+      {
+        number: 1,
+        title: l10n("Plan je kennismaking", "Plan your introduction"),
+        description: l10n(
+          "Je kiest zelf een moment in de agenda dat jou uitkomt.",
+          "You choose a moment in the calendar that works for you.",
+        ),
+      },
+      {
+        number: 2,
+        title: l10n("Persoonlijke intake aan huis", "Personal in-home intake"),
+        description: l10n(
+          "We bespreken jouw hulpvraag en bekijken wat jouw hond nodig heeft.",
+          "We discuss your support request and assess what your dog needs.",
+        ),
+      },
+      {
+        number: 3,
+        title: l10n(
+          "Training in jouw omgeving",
+          "Training in your environment",
+        ),
+        description: l10n(
+          "We werken praktisch aan gedrag tijdens het wandelen en thuis.",
+          "We work practically on behavior during walks and at home.",
+        ),
+      },
+      {
+        number: 4,
+        title: l10n("Blijf flexibel plannen", "Stay flexible with planning"),
+        description: l10n(
+          "Via de online agenda plan je eenvoudig vervolgsessies wanneer het jou uitkomt.",
+          "Using the online calendar, you can easily schedule follow-up sessions when it suits you.",
+        ),
+      },
+    ],
+  },
   pain: {
     title: l10n("Herken je dit?", "Do you recognize this?"),
     text: l10n(
