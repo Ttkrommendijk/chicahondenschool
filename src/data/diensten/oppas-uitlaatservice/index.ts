@@ -192,7 +192,7 @@ export const page = {
     ],
     items: [
       {
-        title: l10n("Lange werkdagen", "Long workdays"),
+        title: l10n("Lange werkdag?", "Long workday?"),
         textBeforeLink: l10n(
           "Voor lange werkdagen of onregelmatige diensten bieden we individuele uitlaatmomenten aan huis. Zo blijft je hond in zijn eigen ritme en krijgt hij persoonlijke aandacht. Bekijk ook onze ",
           "For long workdays or irregular shifts, we offer individual in-home walking moments. This helps your dog stay in its own rhythm and receive personal attention. Also view our ",
@@ -205,7 +205,7 @@ export const page = {
         ),
       },
       {
-        title: l10n("Dagje weg", "Day out"),
+        title: l10n("Dagje weg?", "Day out?"),
         textBeforeLink: l10n(
           "Wil je een dagje weg of ben je enkele uren afwezig? Wij verzorgen professionale oppas aan huis, zodat je hond in zijn vertrouwde omgeving kan blijven en jij onbezorgd kan genieten. Plan een",
           "If you’re going out for the day or will be away for a few hours, we provide professional in-home dog sitting so your dog can stay in a familiar environment and you can enjoy your time away without worry. Plan an ",
@@ -218,7 +218,10 @@ export const page = {
         ),
       },
       {
-        title: l10n("Tijdelijke ondersteuning", "Temporary support"),
+        title: l10n(
+          "Tijdelijke ondersteuning nodig?",
+          "Need temporary support?",
+        ),
         textBeforeLink: l10n(
           "Bij herstel, drukte of onverwachte situaties ondersteunen wij met flexibele 1-op-1 begeleiding van je hond. Heb je direct hulp nodig? Stuur dan een bericht via ",
           "During recovery, busy periods, or unexpected situations, we support you with flexible 1-on-1 guidance for your dog. Need immediate help? Send a message via ",

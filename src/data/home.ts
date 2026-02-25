@@ -96,8 +96,8 @@ export const page = {
       "Why do dog owners choose ChiCa Dog School?",
     ),
     intro: l10n(
-      "Praktisch, persoonlijk en gericht op duurzaam resultaat in het dagelijks leven.",
-      "Practical, personal, and focused on sustainable results in daily life.",
+      "Praktisch, persoonlijk en gericht op lange termijn resultaat in het dagelijks leven.",
+      "Practical, personal, and focused on long-term results in daily life.",
     ),
     items: [
       {
@@ -114,8 +114,8 @@ export const page = {
       {
         title: l10n("1-op-1 begeleiding op maat", "Tailored 1-on-1 guidance"),
         description: l10n(
-          "Privetraining afgestemd op jouw hond en gezinssituatie, met gerichte aanpak bij trekken aan de lijn, uitvallen of opvoedvragen.",
-          "Private training tailored to your dog and family situation, with targeted support for pulling on the leash, reactivity, or upbringing questions.",
+          "1 op 1 begeleiding op maat afgestemd op jouw hond en gezinssituatie met gerichte aanpak bij trekken aan de lijn, uitvallen aan de lijn of opvoedvragen. Geen wachttijden maar alle aandacht voor jou en je hond.",
+          "Private training tailored to your dog and family situation, with targeted support for pulling on the leash, reactivity, or upbringing questions. No waiting times, all attention for you and your dog.",
         ),
         icon: "02",
       },
@@ -133,8 +133,8 @@ export const page = {
       {
         title: l10n("Ervaren instructeur", "Experienced instructor"),
         description: l10n(
-          "Actief als kynologisch instructeur sinds 2015, met regelmatige bijscholing en jarenlange praktijkervaring.",
-          "Active as a canine instructor since 2015, with regular continuing education and years of practical experience.",
+          "Met ruim 10 jaar ervaring als kynologisch instructeur, coach van cursisten en het opleiden van (assistentie)honden. Altijd up to date door bijscholing en jarenlange praktijkervaring.",
+          "With over 10 years of experience as a canine instructor, coach of students, and trainer of (assistance) dogs. Always up to date through continuing education and years of practical experience.",
         ),
         icon: "04",
       },
@@ -218,15 +218,15 @@ export const page = {
       },
       {
         quote: l10n(
-          "Je leert je hond goed kennen en begrijpen. Ook een privelesje heeft mij enorm op weg geholpen.",
-          "You really get to know and understand your dog. A private lesson helped me a lot.",
+          "Je leert je hond goed kennen en begrijpen. De privelessen hebben mij enorm op weg geholpen.",
+          "You really get to know and understand your dog. The private lessons helped me a lot.",
         ),
         author: l10n("Ilse", "Ilse"),
       },
       {
         quote: l10n(
-          "Leuke lessen met kleine groepjes en veel persoonlijke aandacht. We zien dagelijks resultaat in gedrag.",
-          "Great lessons with small groups and lots of personal attention. We see daily progress in behavior.",
+          "Ideaal dat je zelf je planning beheert; zo oefen ik altijd op mijn eigen tempo en wanneer het mij uitkomt.",
+          "It's ideal that you yourself manage your schedule; so I always train at my own pace and when it suits me.",
         ),
         author: l10n("Petra", "Petra"),
       },
@@ -269,6 +269,16 @@ export const page = {
           "For puppies, adolescents, and adult dogs. The approach is tailored to age, experience, and support request.",
         ),
       },
+      {
+        question: l10n(
+          "Is een groepstraining niet beter voor de socialisatie?",
+          "Is a group training not better for socialization?",
+        ),
+        answer: l10n(
+          "Je hebt zeker geen groepstraining nodig om je pup te socialiseren. Socialiseren doet een pup de hele dag. Het is vooral belangrijk dat een pup leert wat normaal is in zijn omgeving, wat hij wel of niet spannend moet vinden. En dat kan juist in privélessen gewoon op straat. Daar kom je verschillende mensen, honden, geluiden, geuren, verkeer, vogels, katten enz. tegen. Vanuit de praktijk ga je daar direct mee aan de slag. Een hondenschool is leuk, maar vaak afgebakend. Er zijn veel prikkels van andere pups waardoor de hond minder in zich opneemt en sneller overprikkeld raakt. De situatie is nooit hetzelfde als in de praktijk.",
+          "You definitely don’t need group training to socialize your puppy. A puppy is socializing all day long. What really matters is that your puppy learns what is normal in their environment and what they should or shouldn’t find exciting or overwhelming. And that can actually be done very well in private lessons, simply out on the street. There, your puppy encounters different people, dogs, sounds, smells, traffic, birds, cats, and more. You work with those real-life situations directly as they happen. A dog school can be fun, but it’s often a controlled setting. There are many stimuli from other puppies, which can make it harder for your dog to process everything and may lead to overstimulation. The situation is never quite the same as in real daily life.",
+        ),
+      },
     ],
   },
   contact: {
@@ -282,10 +292,11 @@ export const page = {
     ),
     cta: { label: l10n("Neem contact op", "Contact us"), href: "/contact/" },
     secondaryCta: {
-      label: l10n("Plan een kennismaking", "Plan an introduction"),
-      href: ui.links.kennismakingUrl,
+      label: l10n(
+        "Kies een van onze opleidingen",
+        "Choose one of our training programs",
+      ),
+      href: "/diensten/hondenschool/",
     },
   },
 };
-
-
