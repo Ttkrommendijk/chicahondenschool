@@ -17,13 +17,13 @@ export const dienst = {
   hero: {
     title: l10n("1 priveles aan huis", "1 private lesson at home"),
     subtitle: l10n(
-      "Training in je eigen omgeving, waar gedrag echt ontstaat en verandert.",
-      "Training in your own environment, where behavior truly appears and changes.",
+      "Training in je eigen omgeving, waar gedrag echt ontstaat en verandert. Persoonlijk, rustig en volledig afgestemd op jouw situatie",
+      "Training in your own environment, where behavior truly appears and changes. Personal, calm, and fully tailored to your situation.",
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
-      "Persoonlijk, rustig en volledig afgestemd op jouw situatie.",
-      "Personal, calm, and fully tailored to your situation.",
+      "Beschikbaar in Den Haag, Rijswijk, Voorschoten en omstreken.",
+      "Available in Den Haag, Rijswijk, Voorschoten, and surrounding areas.",
     ),
     image: {
       src: "/images/services/prive-aan-huis.jpg",
@@ -142,7 +142,10 @@ export const dienst = {
     metaLines: [l10n("75 minuten", "75 minutes"), l10n("Aan huis", "At home")],
     options: [
       {
-        label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
+        label: l10n(
+          "Boek in Den Haag / Rijswijk",
+          "Book in Den Haag / Rijswijk",
+        ),
         href: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
         external: true,
       },

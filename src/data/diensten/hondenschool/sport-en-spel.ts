@@ -17,13 +17,13 @@ export const dienst = {
   hero: {
     title: l10n("Sport en spel", "Sport and play"),
     subtitle: l10n(
-      "Actief trainen met duidelijke structuur, zodat energie en samenwerking in balans komen.",
-      "Active training with clear structure so energy and cooperation become balanced.",
+      "Actief trainen met duidelijke structuur, zodat energie en samenwerking in balans komen. Ideaal voor honden die graag bezig zijn.",
+      "Active training with clear structure so energy and cooperation become balanced. Perfect for dogs that like to stay active.",
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
-      "Ideaal voor honden die graag bezig zijn.",
-      "Ideal for dogs that like to stay active.",
+      "Beschikbaar in Den Haag, Rijswijk, Voorschoten en omstreken.",
+      "Available in Den Haag, Rijswijk, Voorschoten and surrounding areas.",
     ),
     image: {
       src: "/images/services/sport-en-spel.jpg",
@@ -140,8 +140,8 @@ export const dienst = {
     options: [
       {
         label: l10n(
-          "Boek in Rijswijk / Den Haag",
-          "Book in Rijswijk / Den Haag",
+          "Boek in Den Haag / Rijswijk",
+          "Book in Den Haag / Rijswijk",
         ),
         href: "https://chica-hondenschool.trainin.app/checkout/PRZ7A4",
         external: true,

@@ -76,8 +76,8 @@ export const page = {
       "In-home pet sitting & walking",
     ),
     subtitle: l10n(
-      "Betrouwbare 1-op-1 oppas en uitlaatservice aan huis, met persoonlijke aandacht voor je hond.",
-      "Reliable 1-on-1 in-home pet sitting and walking service with personal attention for your dog.",
+      "Betrouwbare 1-op-1 oppas en uitlaatservice aan huis in Den Haag, Voorschoten en omstreken, met persoonlijke aandacht voor je hond.",
+      "Reliable 1-on-1 in-home pet sitting and walking service in Den Haag, Voorschoten and surrounding areas, with personal attention for your dog.",
     ),
     imageSrc: "/images/services/oppas-uitlaatservice-overview.jpg",
     imageAlt: l10n(

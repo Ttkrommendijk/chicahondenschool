@@ -17,13 +17,13 @@ export const dienst = {
   hero: {
     title: l10n("Strippenkaart", "Punch card"),
     subtitle: l10n(
-      "Kies een bundel die past bij jouw planning en de ondersteuning die je hond nodig heeft.",
-      "Choose a bundle that fits your schedule and the support your dog needs.",
+      "Kies een bundel die past bij jouw planning en de ondersteuning die je hond nodig heeft. U plant zelf flexibel in onze agenda wanneer je ons het hardst nodig heeft.",
+      "Choose a bundle that fits your schedule and the support your dog needs. You plan flexibly in our schedule when you need it the most.",
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
-      "Flexibel plannen met een vaste, vertrouwde aanpak.",
-      "Flexible planning with a consistent trusted approach.",
+      "Plan flexibel voor een betrouwbare oppas in Den Haag, Voorschoten en omstreken.",
+      "Plan flexibly for a reliable pet sitter in Den Haag, Voorschoten and surrounding areas.",
     ),
     image: {
       src: "/images/services/oppas-strippenkaart.jpg",

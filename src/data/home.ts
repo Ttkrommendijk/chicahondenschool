@@ -299,8 +299,8 @@ export const page = {
           "In which region do you provide training?",
         ),
         answer: l10n(
-          "We geven hondentraining aan huis en in de directe omgeving in Zuid-Holland.",
-          "We provide in-home dog training and in the direct area in South Holland.",
+          "We helpen moenteel klanten in Den Haag, Voorschoten en omstreken voor zowel onze persoonlijke honden cursussen als onze oppas en uitlaatservice. Mocht uw woonplaats er niet tussen staan, neem dan gerust contact op zodat we eventueel een andere oplossing kunnen bedenken.",
+          "We provide training in Den Haag, Voorschoten, and surrounding areas for both our individual dog training courses and our boarding and daycare services. If your residence is not within this area, please feel free to contact us so we can explore alternative solutions.",
         ),
       },
       {
@@ -309,8 +309,8 @@ export const page = {
           "For which ages is the training suitable?",
         ),
         answer: l10n(
-          "Voor pups, pubers en volwassen honden. De aanpak stemmen we af op leeftijd, ervaring en hulpvraag.",
-          "For puppies, adolescents, and adult dogs. The approach is tailored to age, experience, and support request.",
+          "We hebben uitgebreide ervaring met pups, pubers en volwassen honden. Onze aanpak stemmen we af op leeftijd, ervaring en hulpvraag.",
+          "We have extensive experience with puppies, adolescents, and adult dogs. Our approach is tailored to age, experience, and support request.",
         ),
       },
       {

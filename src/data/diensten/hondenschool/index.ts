@@ -66,7 +66,7 @@ export const page = {
   hero: {
     title: l10n("Hondentraining aan huis", "In-home dog training"),
     subtitle: l10n(
-      "Privé hondentraining in de praktijk, gericht op gedrag en samenwerking.",
+      "Privé hondentraining in de praktijk, gericht op gedrag en samenwerking in Den Haag, Rijswijk, Voorschoten (en omstreken).",
       "Private dog training in practice, focused on behavior and cooperation.",
     ),
     imageSrc: "/images/services/detectie.jpg",

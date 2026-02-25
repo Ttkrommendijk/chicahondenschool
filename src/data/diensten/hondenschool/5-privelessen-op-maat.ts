@@ -22,8 +22,8 @@ export const dienst = {
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
-      "Persoonlijke begeleiding op een afgesproken locatie in Rijswijk.",
-      "Personal guidance on an agreed location in Rijswijk.",
+      "Persoonlijke begeleiding op een afgesproken locatie in Den Haag, Rijswijk, Voorschoten en omstreken.",
+      "Personal guidance on an agreed location in Den Haag, Rijswijk, Voorschoten, and surrounding areas  .",
     ),
     image: {
       src: "/images/services/5-privelessen.jpg",
@@ -130,7 +130,10 @@ export const dienst = {
     ],
     options: [
       {
-        label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
+        label: l10n(
+          "Boek in Den Haag / Rijswijk",
+          "Book in Den Haag / Rijswijk",
+        ),
         href: "https://chica-hondenschool.trainin.app/checkout/PLONRJ",
         external: true,
       },

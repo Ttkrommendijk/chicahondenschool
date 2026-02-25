@@ -17,13 +17,13 @@ export const dienst = {
   hero: {
     title: l10n("Detectie", "Detection"),
     subtitle: l10n(
-      "Gerichte zoektraining waarin jij en je hond leren werken met focus en precisie.",
-      "Focused search training where you and your dog learn to work with concentration and precision.",
+      "Gerichte zoektraining waarin jij en je hond leren werken met focus en precisie. Werk met je hond op een leuke manier aan een positive relatie gebaseerd op vertrouwen.",
+      "Focused search training where you and your dog learn to work with concentration and precision. Work with your dog in a fun way to build a positive relationship based on trust.",
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
-      "Duidelijke opbouw, rustige begeleiding.",
-      "Clear progression, calm guidance.",
+      "Beschikbaar in Den Haag, Rijswijk, Voorschoten en omstreken.",
+      "Available in Den Haag, Rijswijk, Voorschoten and surrounding areas.",
     ),
     image: {
       src: "/images/services/detectie.jpg",

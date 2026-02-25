@@ -17,13 +17,13 @@ export const dienst = {
   hero: {
     title: l10n("Kennismaking", "Introduction"),
     subtitle: l10n(
-      "Start met een duidelijk gesprek over jouw hond, doelen en gewenste begeleiding.",
-      "Start with a clear conversation about your dog, goals, and desired guidance.",
+      "Start met een duidelijk gesprek met een ervaren instructeur over jouw hond, doelen en gewenste begeleiding.",
+      "Start with a clear conversation with an experienced instructor about your dog, goals, and desired guidance.",
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
-      "Een rustige eerste stap zonder druk.",
-      "A calm first step without pressure.",
+      "Beschikbaar in Den Haag, Voorschoten en omstreken.",
+      "Available in Den Haag, Voorschoten and surrounding areas.",
     ),
     image: {
       src: "/images/services/oppas-kennismaking.jpg",

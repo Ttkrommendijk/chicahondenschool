@@ -22,8 +22,8 @@ export const dienst = {
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
-      "Positieve opbouw, stap voor stap.",
-      "Positive progression, step by step.",
+      "Bouw stap voor stap aan een positive relatie, In den Haag, Rijswijk, Voorschoten en omstreken.",
+      "Build a positive relationship  step by step, in Den Haag, Rijswijk, Voorschoten and surrounding areas.",
     ),
     image: {
       src: "/images/services/fun-speuren.jpg",
@@ -127,7 +127,10 @@ export const dienst = {
     ],
     options: [
       {
-        label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
+        label: l10n(
+          "Boek in Den Haag / Rijswijk",
+          "Book in Den Haag / Rijswijk",
+        ),
         href: "https://chica-hondenschool.trainin.app/checkout/P8RE4B",
         external: true,
       },
