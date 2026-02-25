@@ -8,8 +8,12 @@ export const home = {
       "In-home dog training in Den Haag & Voorschoten",
     ),
     subtitle: l10n(
-      "Persoonlijke hondentraining aan huis, gericht op gedrag in het dagelijks leven - Al jarenlang vertrouwd in Voorschoten en nu ook actief in Den Haag en Rijswijk.",
-      "Personal dog training at home, focused on behavior in daily life - Trusted in Voorschoten for years and now also active in Den Haag and Rijswijk.",
+      "Persoonlijke hondentraining aan huis, gericht op gedrag in het dagelijks leven.",
+      "Personal dog training at home, focused on behavior in daily life.",
+    ),
+    trustLine: l10n(
+      "Actief in Den Haag, Rijswijk en Voorschoten. Training mogelijk in Nederlands en Engels.",
+      "Active in Den Haag, Rijswijk, and Voorschoten. Training available in Dutch and English.",
     ),
     primaryCtaLabel: l10n(
       "Hondentraining & cursussen",

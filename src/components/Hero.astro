@@ -71,6 +71,16 @@ const lang = getLangFromUrl(Astro.url);
                 )
             }
             {
+                trustLine && (
+                    <p
+                        class="mt-3 text-sm font-medium text-detail"
+                        data-i18n={trustLineKey}
+                    >
+                        {trustLine}
+                    </p>
+                )
+            }
+            {
                 (primaryCta || secondaryCta) && (
                     <div class="mt-7 flex flex-wrap gap-3">
                         {primaryCta && (
