@@ -1,0 +1,150 @@
+---
+interface ProcessStep {
+    number: number | string;
+    title: string;
+    description: string;
+    numberKey?: string;
+    titleKey?: string;
+    descriptionKey?: string;
+}
+
+interface Props {
+    title?: string;
+    subtitle?: string;
+    titleKey?: string;
+    subtitleKey?: string;
+    steps: ProcessStep[];
+}
+
+const { title, subtitle, titleKey, subtitleKey, steps } = Astro.props as Props;
+
+const formatStepNumber = (value: number | string, index: number): string => {
+    if (typeof value === "number" && Number.isFinite(value)) {
+        return String(value).padStart(2, "0");
+    }
+
+    const normalized = String(value).trim();
+    return normalized.length > 0 ? normalized.padStart(2, "0") : String(index + 1).padStart(2, "0");
+};
+---
+
+<section class="py-6 md:py-8" aria-label={title}>
+    <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
+        {
+            title && (
+                <h2
+                    class="text-3xl font-extrabold tracking-tight text-secondary md:text-4xl"
+                    data-i18n={titleKey}
+                >
+                    {title}
+                </h2>
+            )
+        }
+        {
+            subtitle && (
+                <p
+                    class="mt-3 max-w-3xl text-text"
+                    data-i18n={subtitleKey}
+                >
+                    {subtitle}
+                </p>
+            )
+        }
+
+        <ol class="process-flow-list mt-8">
+            {
+                steps.map((step, index) => {
+                    const stepNumber = formatStepNumber(step.number, index);
+                    return (
+                        <li class="process-flow-step">
+                            <span class="process-flow-badge" data-i18n={step.numberKey}>
+                                {stepNumber}
+                            </span>
+                            <h3 class="text-lg font-bold text-secondary" data-i18n={step.titleKey}>
+                                {step.title}
+                            </h3>
+                            <p class="mt-2 text-text" data-i18n={step.descriptionKey}>
+                                {step.description}
+                            </p>
+                        </li>
+                    );
+                })
+            }
+        </ol>
+    </div>
+</section>
+
+<style>
+    .process-flow-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .process-flow-list::before {
+        content: "";
+        position: absolute;
+        left: 1rem;
+        top: 0.95rem;
+        bottom: 0.95rem;
+        width: 2px;
+        background: var(--border);
+    }
+
+    .process-flow-step {
+        position: relative;
+        padding-left: 3rem;
+    }
+
+    .process-flow-badge {
+        align-items: center;
+        background: #f1eff6;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--primary);
+        display: inline-flex;
+        font-size: 0.8rem;
+        font-weight: 800;
+        height: 2rem;
+        justify-content: center;
+        left: 0;
+        letter-spacing: 0.04em;
+        line-height: 1;
+        position: absolute;
+        top: 0;
+        width: 2rem;
+    }
+
+    @media (min-width: 768px) {
+        .process-flow-list {
+            gap: 1.25rem;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .process-flow-list::before {
+            display: none;
+        }
+
+        .process-flow-step {
+            padding-left: 0;
+            padding-top: 2.75rem;
+        }
+
+        .process-flow-step::after {
+            content: "";
+            position: absolute;
+            top: 1rem;
+            left: 2.6rem;
+            right: -0.65rem;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .process-flow-step:last-child::after {
+            display: none;
+        }
+    }
+</style>
