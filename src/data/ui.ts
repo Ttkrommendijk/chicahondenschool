@@ -21,8 +21,8 @@ export const ui = {
     phone: l10n("06 26467714", "06 26467714"),
     email: l10n("info@chicahondenschool.nl", "info@chicahondenschool.nl"),
     serviceArea: l10n(
-      "Den Haag / Voorschoten en omgeving",
-      "The Hague / Voorschoten and surrounding area",
+      "Den Haag, Rijswijk, Voorschoten en omgeving",
+      "The Hague, Rijswijk, Voorschoten and surrounding area",
     ),
     kvk: l10n("63424924", "63424924"),
   },

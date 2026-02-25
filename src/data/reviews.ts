@@ -39,8 +39,8 @@ export const reviewsPage = {
   highlights: {
     title: l10n("Wat mensen zeggen", "What people say"),
     intro: l10n(
-      "Een selectie van reacties die het verschil in de praktijk goed laten zien.",
-      "A selection of responses that clearly show the practical difference.",
+      "Een selectie van reacties van enthousiaste klanten uit Den Haag, Rijswijk en Voorschoten die het verschil in de praktijk goed laten zien.",
+      "A selection of responses of enthusiastic customers from Den Haag, Rijswijk, and Voorschoten that clearly show the practical difference.",
     ),
   },
   gallery: {

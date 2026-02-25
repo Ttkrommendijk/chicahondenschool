@@ -134,14 +134,14 @@ export const dienst = {
       l10n("5 lessen", "5 lessons"),
       l10n(
         "Locaties: Den Haag, Voorschoten",
-        "Locations: Den Haag, Voorschoten",
+        "Locations: The Hague, Voorschoten",
       ),
     ],
     options: [
       {
         label: l10n(
           "Boek in Den Haag / Rijswijk",
-          "Book in Den Haag / Rijswijk",
+          "Book in The Hague / Rijswijk",
         ),
         href: "https://chica-hondenschool.trainin.app/checkout/PRZ7A4",
         external: true,

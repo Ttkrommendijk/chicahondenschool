@@ -129,7 +129,7 @@ export const dienst = {
       {
         label: l10n(
           "Boek in Den Haag / Rijswijk",
-          "Book in Den Haag / Rijswijk",
+          "Book in The Hague / Rijswijk",
         ),
         href: "https://chica-hondenschool.trainin.app/checkout/P8RE4B",
         external: true,

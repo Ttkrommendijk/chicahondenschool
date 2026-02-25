@@ -23,7 +23,7 @@ export const dienst = {
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
       "Beschikbaar in Den Haag, Rijswijk, Voorschoten en omstreken.",
-      "Available in Den Haag, Rijswijk, Voorschoten and surrounding areas.",
+      "Available in The Hague, Rijswijk, Voorschoten and surrounding areas.",
     ),
     image: {
       src: "/images/services/detectie.jpg",
@@ -139,7 +139,10 @@ export const dienst = {
     ],
     options: [
       {
-        label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
+        label: l10n(
+          "Boek in Den haag / Rijswijk",
+          "Book in The Hague / Rijswijk",
+        ),
         href: "https://chica-hondenschool.trainin.app/checkout/P89XKJ",
         external: true,
       },

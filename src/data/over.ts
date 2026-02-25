@@ -18,7 +18,7 @@ export const page = {
       "Carine Krommendijk - canine instructor",
     ),
     lead: l10n(
-      "Wij bienden persoonlijke hondentraining en oppas- en uitlaatservice aan huis, met focus op gedrag, rust en samenwerking.",
+      "Wij bieden persoonlijke hondentraining en oppas- en uitlaatservice aan huis, met focus op gedrag, rust en samenwerking.",
       "We offer personal in-home dog training and pet sitting & walking services, focused on behavior, calmness, and cooperation.",
     ),
     intro: l10n(
@@ -45,8 +45,8 @@ export const page = {
       href: "/diensten/hondenschool/",
       label: l10n("Bekijk onze hondentraining", "View our dog training"),
       textAfter: l10n(
-        " voor een traject met duidelijke stappen en begeleiding op maat.",
-        " for a trajectory with clear steps and tailored guidance.",
+        " voor een traject met duidelijke stappen en begeleiding op maat in Den Haag, Rijswijk, en Voorschoten.",
+        " for a trajectory with clear steps and tailored guidance in Den Haag, Rijswijk, and Voorschoten.",
       ),
     },
   },
@@ -202,5 +202,3 @@ export const page = {
     },
   },
 } as const;
-
-
