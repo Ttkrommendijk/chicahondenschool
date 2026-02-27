@@ -28,7 +28,7 @@ export const dienst = {
     image: {
       src: "/images/services/prive-aan-huis.jpg",
       alt: l10n(
-        "Extra pivéles aan huis met hond en begeleider",
+        "Extra priveles aan huis met hond en begeleider",
         "Extra private in-home lesson with dog and coach",
       ),
     },
