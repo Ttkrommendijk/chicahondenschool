@@ -6,8 +6,8 @@ export const dienst = {
   checkoutUrl: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
   seo: {
     title: l10n(
-      "Priveles aan huis | ChiCa Hondenschool",
-      "Private lesson at home | ChiCa Dog School",
+      "Extra priveles aan huis | ChiCa Hondenschool",
+      "Extra private lesson at home | ChiCa Dog School",
     ),
     description: l10n(
       "Uitgebreide 1-op-1 begeleiding bij jou thuis.",
@@ -15,7 +15,7 @@ export const dienst = {
     ),
   },
   hero: {
-    title: l10n("1 priveles aan huis", "1 private lesson at home"),
+    title: l10n("Extra priveles aan huis", "Extra private lesson at home"),
     subtitle: l10n(
       "Training in je eigen omgeving, waar gedrag echt ontstaat en verandert. Persoonlijk, rustig en volledig afgestemd op jouw situatie",
       "Training in your own environment, where behavior truly appears and changes. Personal, calm, and fully tailored to your situation.",
@@ -28,8 +28,8 @@ export const dienst = {
     image: {
       src: "/images/services/prive-aan-huis.jpg",
       alt: l10n(
-        "Privéles aan huis met hond en begeleider",
-        "Private in-home lesson with dog and coach",
+        "Extra pivéles aan huis met hond en begeleider",
+        "Extra private in-home lesson with dog and coach",
       ),
     },
   },

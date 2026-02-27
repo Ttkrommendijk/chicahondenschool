@@ -6,8 +6,8 @@ export const dienst = {
   checkoutUrl: "https://chica-hondenschool.trainin.app/checkout/PLONRJ",
   seo: {
     title: l10n(
-      "5 privelessen op maat | ChiCa Hondenschool",
-      "5 tailored private lessons | ChiCa Dog School",
+      "Privelessen op maat | ChiCa Hondenschool",
+      "Tailored private lessons | ChiCa Dog School",
     ),
     description: l10n(
       "Compact 1-op-1 traject voor snelle, praktische vooruitgang in het dagelijks leven met je hond.",
@@ -15,7 +15,7 @@ export const dienst = {
     ),
   },
   hero: {
-    title: l10n("5 privelessen op maat", "5 tailored private lessons"),
+    title: l10n("Privelessen op maat", "Tailored private lessons"),
     subtitle: l10n(
       "Duidelijke begeleiding in korte stappen, zodat je snel merkt wat werkt voor jou en je hond.",
       "Clear guidance in short steps, so you quickly see what works for you and your dog.",

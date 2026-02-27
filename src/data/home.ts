@@ -39,7 +39,7 @@ export const page = {
     ),
   },
   hero: {
-    image: "/images/hero-chica-hondenschool.jpg",
+    image: "/images/AI_homepage_puppy op trunk.webp",
     primaryCta: {
       href: "/diensten/hondenschool/",
     },
@@ -190,8 +190,8 @@ export const page = {
   },
   services: {
     title: l10n(
-      "Hondentraining en oppas aan huis in regio Den Haag",
-      "Dog training and in-home pet care in the Den Haag region",
+      "Hondentraining en oppas aan huis in Den Haag, Rijswijk, Voorschoten en omstreken",
+      "Dog training and in-home pet care in the The Hague, Rijswijk, Voorschoten and region",
     ),
     items: [
       {

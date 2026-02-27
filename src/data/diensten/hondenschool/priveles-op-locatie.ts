@@ -6,8 +6,8 @@ export const dienst = {
   checkoutUrl: "https://chica-hondenschool.trainin.app/checkout/P6QNWO",
   seo: {
     title: l10n(
-      "Priveles op locatie | ChiCa Hondenschool",
-      "Private lesson on location | ChiCa Dog School",
+      "Extra priveles op locatie | ChiCa Hondenschool",
+      "Extra private lesson on location | ChiCa Dog School",
     ),
     description: l10n(
       "Praktische 1-op-1 begeleiding op locatie.",
@@ -15,7 +15,10 @@ export const dienst = {
     ),
   },
   hero: {
-    title: l10n("1 priveles op locatie", "1 private lesson on location"),
+    title: l10n(
+      "Extra priveles op locatie",
+      "Extra private lesson on location",
+    ),
     subtitle: l10n(
       "Samen oefenen waar jij en je hond het buiten echt nodig hebben.",
       "Practice together where you and your dog truly need it outdoors.",

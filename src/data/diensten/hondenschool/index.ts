@@ -9,20 +9,6 @@ import { dienst as dienstSportEnSpel } from "./sport-en-spel";
 
 export const services = [
   {
-    slug: dienstPrivelesOpLocatie.slug,
-    href: `/diensten/hondenschool/${dienstPrivelesOpLocatie.slug}/`,
-    shortTitle: dienstPrivelesOpLocatie.hero.title,
-    shortDescription: dienstPrivelesOpLocatie.persuasion.body,
-    priceLabel: dienstPrivelesOpLocatie.pricing.priceText,
-  },
-  {
-    slug: dienstPrivelesAanHuis.slug,
-    href: `/diensten/hondenschool/${dienstPrivelesAanHuis.slug}/`,
-    shortTitle: dienstPrivelesAanHuis.hero.title,
-    shortDescription: dienstPrivelesAanHuis.persuasion.body,
-    priceLabel: dienstPrivelesAanHuis.pricing.priceText,
-  },
-  {
     slug: dienst5Privelessen.slug,
     href: `/diensten/hondenschool/${dienst5Privelessen.slug}/`,
     shortTitle: dienst5Privelessen.hero.title,
@@ -50,6 +36,20 @@ export const services = [
     shortDescription: dienstSportEnSpel.persuasion.body,
     priceLabel: dienstSportEnSpel.pricing.priceText,
   },
+  {
+    slug: dienstPrivelesOpLocatie.slug,
+    href: `/diensten/hondenschool/${dienstPrivelesOpLocatie.slug}/`,
+    shortTitle: dienstPrivelesOpLocatie.hero.title,
+    shortDescription: dienstPrivelesOpLocatie.persuasion.body,
+    priceLabel: dienstPrivelesOpLocatie.pricing.priceText,
+  },
+  {
+    slug: dienstPrivelesAanHuis.slug,
+    href: `/diensten/hondenschool/${dienstPrivelesAanHuis.slug}/`,
+    shortTitle: dienstPrivelesAanHuis.hero.title,
+    shortDescription: dienstPrivelesAanHuis.persuasion.body,
+    priceLabel: dienstPrivelesAanHuis.pricing.priceText,
+  },
 ] as const;
 
 export const page = {
@@ -69,7 +69,7 @@ export const page = {
       "Privé hondentraining in de praktijk, gericht op gedrag en samenwerking in Den Haag, Rijswijk, Voorschoten (en omstreken).",
       "Private dog training in practice, focused on behavior and cooperation.",
     ),
-    imageSrc: "/images/services/detectie.jpg",
+    imageSrc: "/images/services/sniffing.webp",
     imageAlt: l10n(
       "Detectie en training bij ChiCa Hondenschool",
       "Detection and training at ChiCa Dog School",
@@ -168,8 +168,8 @@ export const page = {
           "Where does training take place?",
         ),
         answer: l10n(
-          "Wij geven hondentraining aan huis of in je directe omgeving. Zo oefenen we in de situaties waar het gedrag ook echt speelt, zoals tijdens het wandelen of thuis.",
-          "We provide dog training at home or in your immediate area. This way we practice in the situations where the behavior really occurs, such as during walks or at home.",
+          "Je kan kiezen tussen bundels waarbij we bij jou thuis en in de directe omgeving aan de slag gaan of waarbij een specifieke locatie afspreken. Zo kunnen we ons aanpassen aan de behoefte van je hond en in die omgeving trainen en socialiseren waar het meeste behoefte aan is",
+          "You can choose between packages where we work with you at home and in your immediate surroundings, or packages where we agree on a specific training location. This way, we can adapt to your dog’s needs and train and socialize in the environment where it is most needed.",
         ),
       },
       {
