@@ -26,7 +26,7 @@ export const dienst = {
       "Plan flexibly for a reliable pet sitter in Den Haag, Voorschoten and surrounding areas.",
     ),
     image: {
-      src: "/images/services/oppas-strippenkaart.jpg",
+      src: "/images/services/strippenkaart.webp",
       alt: l10n(
         "Strippenkaart voor oppas- en uitlaatservice",
         "Punch card for pet sitting and walking service",
