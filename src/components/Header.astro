@@ -2,6 +2,7 @@
 import LanguageSwitch from "./LanguageSwitch.astro";
 import { localize, type Lang } from "../i18n";
 import { ui } from "../data/ui";
+import { dienstenIndexPage, services } from "../data/diensten";
 
 interface Props {
     lang: Lang;
@@ -26,6 +27,13 @@ const topNavStateClass = (active: boolean) =>
     `${topNavItemClass} ${active ? "is-active" : ""}`;
 const subNavStateClass = (active: boolean) =>
     `${subNavItemClass} ${active ? "is-active" : ""}`;
+
+const serviceGroups = dienstenIndexPage.categories.map((category) => ({
+    slug: category.slug,
+    href: category.href,
+    label: localize(category.title, lang),
+    services: services.filter((service) => service.category === category.slug),
+}));
 ---
 
 <header class="site-header">
@@ -67,54 +75,104 @@ const subNavStateClass = (active: boolean) =>
                             <span data-i18n="ui.navigation.services"
                                 >{localize(ui.navigation.services, lang)}</span
                             >
-                            <span class="services-chevron" aria-hidden="true"
-                                >&#9662;</span
+                            <span
+                                class="services-chevron services-root-chevron"
+                                aria-hidden="true">&#9662;</span
                             >
                         </summary>
-                        <div class="services-dropdown grouped-dropdown">
-                            <a
-                                class={subNavStateClass(
-                                    pathname.startsWith(
-                                        normalizePath(
-                                            "/diensten/hondenschool/",
-                                        ),
-                                    ) ||
-                                        pathname.startsWith(
-                                            normalizePath("/hondenschool/"),
-                                        ),
-                                )}
-                                href="/diensten/hondenschool/"
-                            >
-                                <span data-i18n="ui.navigation.dogTraining"
-                                    >{
-                                        localize(
-                                            ui.navigation.dogTraining,
-                                            lang,
-                                        )
-                                    }</span
-                                >
-                            </a>
-                            <a
-                                class={subNavStateClass(
-                                    pathname.startsWith(
-                                        normalizePath(
-                                            "/diensten/oppas-uitlaatservice/",
-                                        ),
-                                    ) ||
-                                        pathname.startsWith(
-                                            normalizePath(
-                                                "/oppas-uitlaatservice/",
-                                            ),
-                                        ),
-                                )}
-                                href="/diensten/oppas-uitlaatservice/"
-                            >
-                                <span data-i18n="ui.navigation.petSitting"
-                                    >{
-                                        localize(ui.navigation.petSitting, lang)
-                                    }</span
-                                >
-                            </a>
+                        <div class="services-dropdown vertical-dropdown">
+                            <ul class="services-groups" role="list">
+                                {
+                                    serviceGroups.map((group) => {
+                                        const categoryActive =
+                                            pathname.startsWith(
+                                                normalizePath(group.href),
+                                            );
+                                        const hasActiveService =
+                                            group.services.some((service) =>
+                                                pathname.startsWith(
+                                                    normalizePath(service.href),
+                                                ),
+                                            );
+                                        const panelId = `services-panel-${group.slug}`;
+                                        const shouldOpenByDefault =
+                                            categoryActive || hasActiveService;
+
+                                        return (
+                                            <li class="services-group">
+                                                <div class="services-group-header">
+                                                    <a
+                                                        class={subNavStateClass(
+                                                            categoryActive ||
+                                                                hasActiveService,
+                                                        )}
+                                                        href={group.href}
+                                                    >
+                                                        <span>
+                                                            {group.label}
+                                                        </span>
+                                                    </a>
+                                                    <button
+                                                        type="button"
+                                                        class="services-group-toggle"
+                                                        aria-expanded={
+                                                            shouldOpenByDefault
+                                                                ? "true"
+                                                                : "false"
+                                                        }
+                                                        aria-controls={panelId}
+                                                    >
+                                                        <span class="sr-only">
+                                                            {group.label}
+                                                        </span>
+                                                        <span
+                                                            class="services-chevron"
+                                                            aria-hidden="true"
+                                                        >
+                                                            &#9662;
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <div
+                                                    id={panelId}
+                                                    class:list={[
+                                                        "subservices-panel",
+                                                        shouldOpenByDefault &&
+                                                            "is-open",
+                                                    ]}
+                                                >
+                                                    <ul
+                                                        class="subservices-list"
+                                                        role="list"
+                                                    >
+                                                        {group.services.map(
+                                                            (service) => (
+                                                                <li>
+                                                                    <a
+                                                                        class={subNavStateClass(
+                                                                            isActive(
+                                                                                service.href,
+                                                                            ),
+                                                                        )}
+                                                                        href={
+                                                                            service.href
+                                                                        }
+                                                                    >
+                                                                        {localize(
+                                                                            service.title,
+                                                                            lang,
+                                                                        )}
+                                                                    </a>
+                                                                </li>
+                                                            ),
+                                                        )}
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        );
+                                    })
+                                }
+                            </ul>
                         </div>
                     </details>
                 </li>
@@ -159,3 +217,59 @@ const subNavStateClass = (active: boolean) =>
         </nav>
     </div>
 </header>
+
+<script>
+    const mobileMediaQuery = window.matchMedia("(max-width: 900px)");
+    const servicesMenus = Array.from(
+        document.querySelectorAll<HTMLElement>(".services-menu"),
+    );
+
+    const closeOtherGroups = (
+        currentButton: HTMLButtonElement,
+        allButtons: HTMLButtonElement[],
+    ) => {
+        for (const button of allButtons) {
+            if (button === currentButton) continue;
+            const panelId = button.getAttribute("aria-controls");
+            if (!panelId) continue;
+            const panel = document.getElementById(panelId);
+            if (!panel) continue;
+            button.setAttribute("aria-expanded", "false");
+            panel.classList.remove("is-open");
+        }
+    };
+
+    for (const menu of servicesMenus) {
+        const groupButtons = Array.from(
+            menu.querySelectorAll<HTMLButtonElement>(".services-group-toggle"),
+        );
+
+        for (const button of groupButtons) {
+            button.addEventListener("click", () => {
+                const panelId = button.getAttribute("aria-controls");
+                if (!panelId) return;
+                const panel = document.getElementById(panelId);
+                if (!panel) return;
+                const nextExpanded =
+                    button.getAttribute("aria-expanded") !== "true";
+
+                if (mobileMediaQuery.matches && nextExpanded) {
+                    closeOtherGroups(button, groupButtons);
+                }
+
+                button.setAttribute(
+                    "aria-expanded",
+                    nextExpanded ? "true" : "false",
+                );
+                panel.classList.toggle("is-open", nextExpanded);
+            });
+        }
+
+        menu.addEventListener("keydown", (event) => {
+            if (event.key !== "Escape") return;
+            const details = menu.closest("details");
+            if (!(details instanceof HTMLDetailsElement)) return;
+            details.open = false;
+        });
+    }
+</script>

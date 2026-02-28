@@ -334,16 +334,12 @@ h2 {
     transition: transform 160ms ease;
 }
 
-.services-menu[open] .services-chevron {
+.services-menu[open] > summary .services-root-chevron {
     transform: rotate(180deg);
 }
 
 .services-menu[open] > .services-dropdown {
     display: block;
-}
-
-.services-menu[open] > .grouped-dropdown {
-    display: grid;
 }
 
 .services-dropdown {
@@ -358,24 +354,90 @@ h2 {
     position: absolute;
 }
 
-.grouped-dropdown {
-    display: none;
-    grid-template-columns: repeat(2, minmax(180px, 1fr));
-    gap: var(--space-3);
-    min-width: 420px;
+.vertical-dropdown {
+    min-width: 320px;
+    padding: var(--space-2);
 }
 
-.grouped-dropdown a {
+.services-groups,
+.subservices-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.services-group + .services-group {
+    margin-top: 0.35rem;
+}
+
+.services-group-header {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.services-group-header > a {
+    flex: 1;
+}
+
+.services-group-toggle {
+    align-items: center;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #5b5476;
+    cursor: pointer;
+    display: inline-flex;
+    height: 2rem;
+    justify-content: center;
+    width: 2rem;
+}
+
+.services-group-toggle:hover,
+.services-group-toggle:focus-visible {
+    background: #f1eff6;
+    border-color: #d8d3e5;
+}
+
+.services-group-toggle .services-chevron {
+    font-size: 0.7rem;
+    transition: transform 160ms ease;
+}
+
+.services-group-toggle[aria-expanded="true"] .services-chevron {
+    transform: rotate(180deg);
+}
+
+.subservices-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 180ms ease;
+}
+
+.subservices-panel.is-open {
+    grid-template-rows: 1fr;
+}
+
+.subservices-list {
+    margin-left: 0.85rem;
+    overflow: hidden;
+    padding-left: 0.85rem;
+    border-left: 1px solid #d8d3e5;
+}
+
+.subservices-list a {
     border-radius: 8px;
     display: block;
-    padding: 0.55rem 0.65rem;
+    padding: 0.45rem 0.65rem;
     text-decoration: none;
     font-weight: 500;
 }
 
-.grouped-dropdown a:hover,
-.grouped-dropdown a:focus-visible {
-    background: var(--secondary);
+.services-group-header > a:hover,
+.services-group-header > a:focus-visible,
+.subservices-list a:hover,
+.subservices-list a:focus-visible {
+    background: #f1eff6;
 }
 
 .nav-cta {
@@ -656,8 +718,7 @@ details > summary {
         position: static;
     }
 
-    .grouped-dropdown {
-        grid-template-columns: 1fr;
+    .vertical-dropdown {
         width: 100%;
     }
 
