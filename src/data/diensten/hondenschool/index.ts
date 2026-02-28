@@ -158,7 +158,7 @@ export const page = {
           "Do you train in groups or individually?",
         ),
         answer: l10n(
-          "De trainingen zijn voornamelijk individueel (1-op-1). Zo kunnen we gericht werken aan het gedrag van je hond in je eigen omgeving.",
+          "De trainingen zijn uitsluitend individueel (1-op-1). Zo kunnen we gericht werken aan het gedrag van je hond in je eigen omgeving.",
           "Training sessions are mainly individual (1-on-1). This allows targeted work on your dog's behavior in your own environment.",
         ),
       },

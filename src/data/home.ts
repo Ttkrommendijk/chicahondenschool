@@ -341,7 +341,7 @@ export const page = {
     cta: { label: l10n("Neem contact op", "Contact us"), href: "/contact/" },
     secondaryCta: {
       label: l10n(
-        "Kies een van onze opleidingen",
+        "Kies een van onze cursussen",
         "Choose one of our training programs",
       ),
       href: "/diensten/hondenschool/",

@@ -39,7 +39,7 @@ export const services = [
     variants: [
       {
         label: l10n("1 uur", "1 hour"),
-        priceLabel: l10n("EUR 70,00", "EUR 70.00"),
+        priceLabel: l10n("EUR 150.00", "EUR 150.00"),
       },
       {
         label: l10n("3 uur", "3 hours"),
