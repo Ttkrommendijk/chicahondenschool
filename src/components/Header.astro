@@ -219,57 +219,175 @@ const serviceGroups = dienstenIndexPage.categories.map((category) => ({
 </header>
 
 <script>
-    const mobileMediaQuery = window.matchMedia("(max-width: 900px)");
-    const servicesMenus = Array.from(
-        document.querySelectorAll<HTMLElement>(".services-menu"),
-    );
-
-    const closeOtherGroups = (
-        currentButton: HTMLButtonElement,
-        allButtons: HTMLButtonElement[],
-    ) => {
-        for (const button of allButtons) {
-            if (button === currentButton) continue;
-            const panelId = button.getAttribute("aria-controls");
-            if (!panelId) continue;
-            const panel = document.getElementById(panelId);
-            if (!panel) continue;
-            button.setAttribute("aria-expanded", "false");
-            panel.classList.remove("is-open");
-        }
+    const INIT_KEY = "__chicaHeaderNavCleanup";
+    const windowWithCleanup = window as Window & {
+        [INIT_KEY]?: () => void;
     };
+    windowWithCleanup[INIT_KEY]?.();
 
-    for (const menu of servicesMenus) {
-        const groupButtons = Array.from(
-            menu.querySelectorAll<HTMLButtonElement>(".services-group-toggle"),
+    const header = document.querySelector<HTMLElement>(".site-header");
+    if (!header) {
+        windowWithCleanup[INIT_KEY] = undefined;
+    } else {
+        const mobileMediaQuery = window.matchMedia("(max-width: 900px)");
+        const servicesMenus = Array.from(
+            header.querySelectorAll<HTMLElement>(".services-menu"),
         );
+        const siteNav = header.querySelector<HTMLElement>(".site-nav");
+        const navToggle = header.querySelector<HTMLInputElement>("#nav-toggle");
+        const navToggleLabel =
+            header.querySelector<HTMLElement>(".menu-toggle");
+        const menuLinks = Array.from(
+            header.querySelectorAll<HTMLAnchorElement>(".site-nav a"),
+        );
+        const pointerEventName =
+            "onpointerdown" in window ? "pointerdown" : "mousedown";
+        let outsideHandlerAttached = false;
 
-        for (const button of groupButtons) {
-            button.addEventListener("click", () => {
-                const panelId = button.getAttribute("aria-controls");
-                if (!panelId) return;
-                const panel = document.getElementById(panelId);
-                if (!panel) return;
-                const nextExpanded =
-                    button.getAttribute("aria-expanded") !== "true";
+        const closeMenus = () => {
+            if (navToggle) navToggle.checked = false;
+            for (const menu of servicesMenus) {
+                const details = menu as HTMLDetailsElement;
+                details.open = false;
+            }
+        };
 
-                if (mobileMediaQuery.matches && nextExpanded) {
-                    closeOtherGroups(button, groupButtons);
-                }
+        const isMenuOpen = () =>
+            Boolean(navToggle?.checked) ||
+            servicesMenus.some((menu) => (menu as HTMLDetailsElement).open);
 
-                button.setAttribute(
-                    "aria-expanded",
-                    nextExpanded ? "true" : "false",
+        const onDocumentPointerDown = (event: Event) => {
+            if (!isMenuOpen()) return;
+            const target = event.target;
+            if (!(target instanceof Node)) return;
+            const clickedInsideNav = siteNav?.contains(target) ?? false;
+            const clickedMenuToggle =
+                navToggleLabel?.contains(target) || navToggle?.contains(target);
+            if (clickedInsideNav || clickedMenuToggle) return;
+            closeMenus();
+        };
+
+        const syncOutsideHandler = () => {
+            if (isMenuOpen() && !outsideHandlerAttached) {
+                document.addEventListener(
+                    pointerEventName,
+                    onDocumentPointerDown,
+                    true,
                 );
-                panel.classList.toggle("is-open", nextExpanded);
-            });
+                outsideHandlerAttached = true;
+                return;
+            }
+
+            if (!isMenuOpen() && outsideHandlerAttached) {
+                document.removeEventListener(
+                    pointerEventName,
+                    onDocumentPointerDown,
+                    true,
+                );
+                outsideHandlerAttached = false;
+            }
+        };
+
+        const closeOtherGroups = (
+            currentButton: HTMLButtonElement,
+            allButtons: HTMLButtonElement[],
+        ) => {
+            for (const button of allButtons) {
+                if (button === currentButton) continue;
+                const panelId = button.getAttribute("aria-controls");
+                if (!panelId) continue;
+                const panel = document.getElementById(panelId);
+                if (!panel) continue;
+                button.setAttribute("aria-expanded", "false");
+                panel.classList.remove("is-open");
+            }
+        };
+
+        const cleanupTasks: Array<() => void> = [];
+
+        for (const menu of servicesMenus) {
+            const groupButtons = Array.from(
+                menu.querySelectorAll<HTMLButtonElement>(
+                    ".services-group-toggle",
+                ),
+            );
+
+            for (const button of groupButtons) {
+                const onToggleClick = () => {
+                    const panelId = button.getAttribute("aria-controls");
+                    if (!panelId) return;
+                    const panel = document.getElementById(panelId);
+                    if (!panel) return;
+                    const nextExpanded =
+                        button.getAttribute("aria-expanded") !== "true";
+
+                    if (mobileMediaQuery.matches && nextExpanded) {
+                        closeOtherGroups(button, groupButtons);
+                    }
+
+                    button.setAttribute(
+                        "aria-expanded",
+                        nextExpanded ? "true" : "false",
+                    );
+                    panel.classList.toggle("is-open", nextExpanded);
+                };
+
+                button.addEventListener("click", onToggleClick);
+                cleanupTasks.push(() =>
+                    button.removeEventListener("click", onToggleClick),
+                );
+            }
+
+            const onMenuKeydown = (event: KeyboardEvent) => {
+                if (event.key !== "Escape") return;
+                const details = menu.closest("details");
+                if (!(details instanceof HTMLDetailsElement)) return;
+                details.open = false;
+                syncOutsideHandler();
+            };
+            menu.addEventListener("keydown", onMenuKeydown);
+            cleanupTasks.push(() =>
+                menu.removeEventListener("keydown", onMenuKeydown),
+            );
+
+            const onMenuToggle = () => syncOutsideHandler();
+            menu.addEventListener("toggle", onMenuToggle);
+            cleanupTasks.push(() =>
+                menu.removeEventListener("toggle", onMenuToggle),
+            );
         }
 
-        menu.addEventListener("keydown", (event) => {
-            if (event.key !== "Escape") return;
-            const details = menu.closest("details");
-            if (!(details instanceof HTMLDetailsElement)) return;
-            details.open = false;
-        });
+        if (navToggle) {
+            const onNavToggleChange = () => syncOutsideHandler();
+            navToggle.addEventListener("change", onNavToggleChange);
+            cleanupTasks.push(() =>
+                navToggle.removeEventListener("change", onNavToggleChange),
+            );
+        }
+
+        for (const link of menuLinks) {
+            const onLinkClick = () => {
+                closeMenus();
+                syncOutsideHandler();
+            };
+            link.addEventListener("click", onLinkClick);
+            cleanupTasks.push(() =>
+                link.removeEventListener("click", onLinkClick),
+            );
+        }
+
+        syncOutsideHandler();
+
+        windowWithCleanup[INIT_KEY] = () => {
+            for (const task of cleanupTasks) task();
+            if (outsideHandlerAttached) {
+                document.removeEventListener(
+                    pointerEventName,
+                    onDocumentPointerDown,
+                    true,
+                );
+            }
+            outsideHandlerAttached = false;
+        };
     }
 </script>

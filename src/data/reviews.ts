@@ -25,7 +25,7 @@ export const reviewsPage = {
       "Experiences from dog owners about practical training and coaching: personal, calm, and focused.",
     ),
     image: {
-      src: "/images/chica-hondenschool-review-impressie.png",
+      src: "/images/chica-hondenschool-review-impressie.webp",
       alt: l10n(
         "Foto-impressie van reviews en praktijkmomenten",
         "Photo impression of reviews and practical moments",
