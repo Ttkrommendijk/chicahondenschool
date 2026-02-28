@@ -170,8 +170,8 @@ export const allReviews: ReviewItem[] = [
   {
     id: "tineke-2022",
     quote: l10n(
-      "Kleine groepen, veel persoonlijke aandacht en heel positieve begeleiding. Een echte aanrader.",
-      "Small groups, lots of personal attention, and very positive guidance. Truly recommended.",
+      "Veel persoonlijke aandacht en heel positieve begeleiding. Een echte aanrader.",
+      "Lots of personal attention, and very positive guidance. Truly recommended.",
     ),
     fullText: l10n(
       "Onlangs de puppycursus bij Carine gedaan. Hoewel dit mijn vierde hond is, heb ik veel geleerd. Kleine groepen zorgen voor tempo, iedereen krijgt aandacht en de begeleiding is positief. Je merkt dat oefeningen op een hondvriendelijke manier worden aangeleerd. Voor mij een echte aanrader.",
@@ -198,8 +198,8 @@ export const allReviews: ReviewItem[] = [
   {
     id: "queriene-2021",
     quote: l10n(
-      "Detectie én carrousel gedaan: uitdagend, leerzaam en vooral heel leuk om samen te doen.",
-      "We did both detection and carousel: challenging, educational, and above all very fun to do together.",
+      "Detectie gedaan: uitdagend, leerzaam en vooral heel leuk om samen te doen.",
+      "We did detection: challenging, educational, and above all very fun to do together.",
     ),
     fullText: l10n(
       "Wow, gisteren twee workshops gedaan met onze hond. Eerst detectie, leuk om te merken dat zowel hond als eigenaar er plezier in hadden. Daarna carrousel met een onbekende hond, een echte uitdaging. We hebben er veel van geleerd en het was erg leuk om samen te doen.",
