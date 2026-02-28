@@ -29,7 +29,7 @@ export const dienst = {
       "Focused on walks, stimuli, and cooperation in the regions of The Hague, Rijswijk, and Voorschoten.",
     ),
     image: {
-      src: "/images/services/prive-op-locatie.jpg",
+      src: "/images/services/priveles_op_locatie.webp",
       alt: l10n(
         "Privéles op locatie tijdens een wandeling",
         "Private lesson on location during a walk",

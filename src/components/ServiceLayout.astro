@@ -80,9 +80,9 @@ const showTimeline =
     <Section variant="hero">
         <div
             class:list={[
-                "grid gap-8 md:items-start",
+                "grid gap-8",
                 dienst.hero.image
-                    ? "md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]"
+                    ? "md:grid-cols-2 md:items-center"
                     : "md:grid-cols-[minmax(0,2fr)_minmax(290px,1fr)]",
             ]}
         >
@@ -112,13 +112,16 @@ const showTimeline =
             {
                 dienst.hero.image && (
                     <div class="space-y-6">
-                        <img
-                            src={dienst.hero.image.src}
-                            alt={localize(dienst.hero.image.alt, lang)}
-                            data-i18n-attr={`alt:${keyBase}.hero.image.alt`}
-                            class="w-full rounded-3xl border border-main/25 object-cover shadow-sm"
-                            loading="eager"
-                        />
+                        <div class="relative">
+                            <div class="absolute -inset-3 rounded-3xl bg-main/45 blur-xl" />
+                            <img
+                                src={dienst.hero.image.src}
+                                alt={localize(dienst.hero.image.alt, lang)}
+                                data-i18n-attr={`alt:${keyBase}.hero.image.alt`}
+                                class="relative h-full w-full rounded-3xl border border-main object-cover shadow-xl"
+                                loading="eager"
+                            />
+                        </div>
                         <div class="md:hidden">
                             <PricingSidebar
                                 dienst={dienst}

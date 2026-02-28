@@ -26,7 +26,7 @@ export const dienst = {
       "Available in The Hague, Rijswijk, Voorschoten, and surrounding areas.",
     ),
     image: {
-      src: "/images/services/prive-aan-huis.jpg",
+      src: "/images/services/op-de-plaats.webp",
       alt: l10n(
         "Extra priveles aan huis met hond en begeleider",
         "Extra private in-home lesson with dog and coach",

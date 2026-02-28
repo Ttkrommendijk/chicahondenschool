@@ -26,7 +26,7 @@ export const dienst = {
       "Available in Den Haag, Rijswijk, Voorschoten and surrounding areas.",
     ),
     image: {
-      src: "/images/services/sport-en-spel.jpg",
+      src: "/images/services/sport_spel.webp",
       alt: l10n(
         "Actieve sport- en spelles met hond",
         "Active sport and play session with a dog",

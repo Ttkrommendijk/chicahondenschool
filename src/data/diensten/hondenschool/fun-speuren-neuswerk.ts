@@ -26,7 +26,7 @@ export const dienst = {
       "Build a positive relationship  step by step, in Den Haag, Rijswijk, Voorschoten and surrounding areas.",
     ),
     image: {
-      src: "/images/services/fun-speuren.jpg",
+      src: "/images/services/speuren.webp",
       alt: l10n(
         "Hond aan het speuren tijdens neuswerk",
         "Dog tracking during nose work",

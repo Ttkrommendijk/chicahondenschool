@@ -26,7 +26,7 @@ export const dienst = {
       "Personal guidance on an agreed location in The Hague, Rijswijk, Voorschoten, and surrounding areas  .",
     ),
     image: {
-      src: "/images/services/5-privelessen.jpg",
+      src: "/images/services/priveles_op_locatie.webp",
       alt: l10n(
         "Privéles met hond in training op maat",
         "Private tailored training session with a dog",
