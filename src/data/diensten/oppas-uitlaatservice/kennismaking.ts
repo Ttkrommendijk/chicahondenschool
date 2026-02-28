@@ -26,7 +26,7 @@ export const dienst = {
       "Available in Den Haag, Voorschoten and surrounding areas.",
     ),
     image: {
-      src: "/images/services/oppas-kennismaking.jpg",
+      src: "/images/services/kennismaking.webp",
       alt: l10n(
         "Kennismaking voor oppas- en uitlaatservice",
         "Introduction session for pet sitting and walking service",
