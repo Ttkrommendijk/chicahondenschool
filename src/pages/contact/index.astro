@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import { page } from "../../data/contact";
 import { getLangFromUrl, localize } from "../../i18n";
@@ -11,24 +12,15 @@ const lang = getLangFromUrl(Astro.url);
     title={localize(page.seo.title, lang)}
     description={localize(page.seo.description, lang)}
 >
-    <section class="section">
-        <div class="container">
-            <div
-                class="rounded-3xl border border-main/40 bg-gradient-to-br from-main-soft via-white to-secondary-soft px-6 py-8"
-            >
-                <h1
-                    class="text-4xl font-extrabold leading-tight text-secondary md:text-5xl"
-                >
-                    <span data-i18n="contact.page.hero.title"
-                        >{localize(page.hero.title, lang)}</span
-                    >
-                </h1>
-                <p class="lead" data-i18n="contact.page.hero.lead">
-                    {localize(page.hero.lead, lang)}
-                </p>
-            </div>
-        </div>
-    </section>
+    <Hero
+        title={localize(page.hero.title, lang)}
+        subtitle={localize(page.hero.lead, lang)}
+        imageSrc={page.hero.image}
+        imageAlt={localize(page.hero.imageAlt, lang)}
+        titleKey="contact.page.hero.title"
+        subtitleKey="contact.page.hero.lead"
+        imageAltKey="contact.page.hero.imageAlt"
+    />
 
     <section class="section">
         <div class="container grid gap-6 lg:grid-cols-[1.55fr,1fr]">

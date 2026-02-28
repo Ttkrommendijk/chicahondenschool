@@ -11,6 +11,11 @@ export const page = {
   },
   hero: {
     title: l10n("Contact", "Contact"),
+    image: "/images/contact.webp",
+    imageAlt: l10n(
+      "Carine van ChiCa Hondenschool met een hond tijdens contactmoment",
+      "Carine from ChiCa Dog School with a dog during a contact moment",
+    ),
     lead: l10n(
       "Heb je een vraag over training, oppas of uitlaatservice? Laat je gegevens achter, dan neem ik zo snel mogelijk contact met je op.",
       "Do you have a question about training, pet sitting, or walking service? Leave your details and I will contact you as soon as possible.",
