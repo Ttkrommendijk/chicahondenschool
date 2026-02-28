@@ -21,10 +21,6 @@ export const page = {
       "Wij bieden persoonlijke hondentraining en oppas- en uitlaatservice aan huis, met focus op gedrag, rust en samenwerking.",
       "We offer personal in-home dog training and pet sitting & walking services, focused on behavior, calmness, and cooperation.",
     ),
-    intro: l10n(
-      "ChiCa Hondenschool biedt persoonlijke hondentraining en oppas- en uitlaatservice aan huis in Zuid-Holland, met focus op gedrag, rust en samenwerking.",
-      "ChiCa Dog School offers personal in-home dog training and pet sitting & walking services in South Holland, focused on behavior, calmness, and cooperation.",
-    ),
     imageSrc: "/images/carine-profile.png",
     imageAlt: l10n("Carine - ChiCa Hondenschool", "Carine - ChiCa Dog School"),
     trustPoints: [

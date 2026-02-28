@@ -12,8 +12,8 @@ export const home = {
       "Personal dog training at home, focused on behavior in daily life.",
     ),
     trustLine: l10n(
-      "Actief in Den Haag, Rijswijk en Voorschoten. Training mogelijk in Nederlands en Engels.",
-      "Active in Den Haag, Rijswijk, and Voorschoten. Training available in Dutch and English.",
+      "Actief in Den Haag, Rijswijk en Voorschoten en omstreken. Training mogelijk in Nederlands en Engels.",
+      "Active in The Hague, Rijswijk, and Voorschoten and surrounding areas. Training available in Dutch and English.",
     ),
     primaryCtaLabel: l10n(
       "Hondentraining & cursussen",
@@ -48,41 +48,6 @@ export const page = {
     },
   },
   heroL10n: home.hero,
-  uspBlock: {
-    items: [
-      {
-        title: l10n("Aan huis in Zuid-Holland", "At home in South Holland"),
-        line: l10n(
-          "Training in je eigen omgeving, waar gedrag echt plaatsvindt.",
-          "Training in your own environment, where behavior truly happens.",
-        ),
-      },
-      {
-        title: l10n("1-op-1 begeleiding", "1-on-1 guidance"),
-        line: l10n(
-          "Volledig afgestemd op je hond en jouw situatie.",
-          "Fully tailored to your dog and your situation.",
-        ),
-      },
-      {
-        title: l10n(
-          "Voor pups en volwassen honden",
-          "For puppies and adult dogs",
-        ),
-        line: l10n(
-          "Van basisopvoeding tot gerichte gedragsbegeleiding.",
-          "From basic upbringing to targeted behavioral coaching.",
-        ),
-      },
-      {
-        title: l10n("Praktijkgericht & positief", "Practical & positive"),
-        line: l10n(
-          "Toepasbaar in het dagelijks leven, met rust en duidelijkheid.",
-          "Applicable in daily life, with calmness and clarity.",
-        ),
-      },
-    ],
-  },
   processFlow: {
     title: l10n("Hoe werkt het?", "How does it work?"),
     subtitle: l10n(

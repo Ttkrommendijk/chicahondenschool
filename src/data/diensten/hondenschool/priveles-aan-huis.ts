@@ -48,10 +48,7 @@ export const dienst = {
         '"Door de les aan huis snapten wij eindelijk waar het gedrag vandaan kwam."',
         '"Because of the in-home lesson, we finally understood where the behavior came from."',
       ),
-      byline: l10n(
-        "Hondeneigenaar uit Zuid-Holland",
-        "Dog owner from South Holland",
-      ),
+      byline: l10n("Hondeneigenaar uit Den Haag", "Dog owner from The Hague"),
     },
   },
   benefits: {
@@ -132,8 +129,8 @@ export const dienst = {
       '"Because of the in-home lesson, we finally understood where the behavior came from."',
     ),
     byline: l10n(
-      "Hondeneigenaar uit Zuid-Holland",
-      "Dog owner from South Holland",
+      "Hondeneigenaar uit Voorschoten",
+      "Dog owner from Voorschoten",
     ),
   },
   pricing: {
