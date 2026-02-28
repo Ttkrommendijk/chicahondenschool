@@ -69,7 +69,7 @@ export const page = {
       "Privé hondentraining in de praktijk, gericht op gedrag en samenwerking in Den Haag, Rijswijk, Voorschoten (en omstreken).",
       "Private dog training in practice, focused on behavior and cooperation.",
     ),
-    imageSrc: "/images/services/sniffing.webp",
+    imageSrc: "/images/services/op de kruk.webp",
     imageAlt: l10n(
       "Detectie en training bij ChiCa Hondenschool",
       "Detection and training at ChiCa Dog School",

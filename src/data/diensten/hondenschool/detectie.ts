@@ -26,7 +26,7 @@ export const dienst = {
       "Available in The Hague, Rijswijk, Voorschoten and surrounding areas.",
     ),
     image: {
-      src: "/images/services/diensten_hondenschool_detectie.webp",
+      src: "/images/services/sniffing.webp",
       alt: l10n(
         "Detectietraining met hond en begeleider",
         "Detection training with dog and coach",
