@@ -2,12 +2,12 @@ import { l10n } from "../../l10n";
 import { ui } from "../../ui";
 
 export const dienst = {
-  slug: "priveles-aan-huis",
+  slug: "puppycursus",
   checkoutUrl: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
   seo: {
     title: l10n(
-      "Priveles aan huis | ChiCa Hondenschool",
-      "Extra private lesson at home | ChiCa Dog School",
+      "Puppycursus (privé) | ChiCa Hondenschool",
+      "Puppycursus (private) | ChiCa Dog School",
     ),
     description: l10n(
       "Uitgebreide 1-op-1 begeleiding bij jou thuis.",
@@ -15,10 +15,10 @@ export const dienst = {
     ),
   },
   hero: {
-    title: l10n("Priveles aan huis", "Extra private lesson at home"),
+    title: l10n("Puppycursus (privé)", "Puppycursus (private)"),
     subtitle: l10n(
-      "Training in je eigen omgeving, waar gedrag echt ontstaat en verandert. Persoonlijk, rustig en volledig afgestemd op jouw situatie",
-      "Training in your own environment, where behavior truly appears and changes. Personal, calm, and fully tailored to your situation.",
+      "Individuele aandacht zonder afleiding van een groep en zonder op je beurt te wachten en focus op die zaken die jij belangrijk vindt.",
+      "Individually tailored without distractions from a group and without having to wait your turn and focus on what you find important.",
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
@@ -26,7 +26,7 @@ export const dienst = {
       "Available in The Hague, Rijswijk, Voorschoten, and surrounding areas.",
     ),
     image: {
-      src: "/images/services/op-de-plaats.webp",
+      src: "/images/services/puppy_cursus.webp",
       alt: l10n(
         "Priveles aan huis met hond en begeleider",
         "Private in-home lesson with dog and coach",
@@ -36,8 +36,8 @@ export const dienst = {
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
     body: l10n(
-      "Door thuis te trainen zie je direct welke kleine aanpassingen veel verschil maken. Je leert hoe je gedrag begeleidt op momenten die dagelijks terugkomen.",
-      "By training at home, you immediately see which small adjustments make a big difference. You learn how to guide behavior during moments that return every day.",
+      "Je hond leert all basisvaardigheden, en met de persoonlijke individuele begeleiding passen we de activiteiten aan aan dat wat de hond nodig heeft en wat het meest van toepassingen is op de thuissituatie.",
+      "Your dog learns all basic skills, and with personalized individual guidance we tailor the activities to what your dog needs and what is most applicable to your home situation.",
     ),
     highlight: l10n(
       "Geen algemene tips, maar begeleiding in jouw realiteit.",
@@ -45,8 +45,8 @@ export const dienst = {
     ),
     quote: {
       text: l10n(
-        '"Door de les aan huis snapten wij eindelijk waar het gedrag vandaan kwam."',
-        '"Because of the in-home lesson, we finally understood where the behavior came from."',
+        '"Door de les aan huis leerde de hond veel sneller en konden we thuis veel beter doortrainen."',
+        '"Because of the in-home lesson, the dog learned much faster and we could train at home much better."',
       ),
       byline: l10n("Hondeneigenaar uit Den Haag", "Dog owner from The Hague"),
     },
@@ -76,16 +76,16 @@ export const dienst = {
   benefits: {
     items: [
       l10n(
-        "1 les van 75 minuten bij jou thuis",
-        "1 lesson of 75 minutes at home",
+        "1 les van 75 minuten op een af te spreken locatie",
+        "1 lesson of 75 minutes at an agreed location",
       ),
       l10n(
-        "Gedragsanalyse in huiselijke context",
-        "Behavior analysis in a home context",
+        "Kennismaking met jou en je hond",
+        "Meet and greet with you and your dog",
       ),
       l10n(
-        "Praktisch plan voor na de les",
-        "Practical plan for after the lesson",
+        "Praktisch plan de lessen aangepast aan jou behoeftes",
+        "Practical plan tailored to your needs",
       ),
       l10n(
         "Heldere feedback op jouw begeleiding",
@@ -98,53 +98,20 @@ export const dienst = {
     fitTitle: l10n("Dit past bij jou als", "This fits you if"),
     fitItems: [
       l10n(
-        "je thuis tegen gedrag aanloopt",
-        "you face behavior challenges at home",
+        "Je pup makkelijk overprikkelt raakt",
+        "Your pup is easily overstimulated and reactive",
       ),
       l10n(
         "je graag rustig en persoonlijk begeleid wordt",
         "you want calm and personal guidance",
       ),
       l10n(
-        "je concrete stappen wilt voor dagelijks gebruik",
-        "you want concrete steps for daily use",
+        "je een flexibel schema aan wilt houden dat past in je agenda",
+        "you want a flexible schedule that fits your schedule",
       ),
     ],
   },
-  timeline: {
-    enabled: false,
-    title: l10n("Hoe het werkt", "How it works"),
-    steps: [
-      {
-        title: l10n("Intake", "Intake"),
-        text: l10n(
-          "We bespreken je vraag en doelen.",
-          "We discuss your question and goals.",
-        ),
-      },
-      {
-        title: l10n("Observatie", "Observation"),
-        text: l10n(
-          "We kijken naar gedrag in huis.",
-          "We observe behavior at home.",
-        ),
-      },
-      {
-        title: l10n("Oefenen", "Practice"),
-        text: l10n(
-          "Je oefent met directe coaching.",
-          "You practice with direct coaching.",
-        ),
-      },
-      {
-        title: l10n("Vervolg", "Follow-up"),
-        text: l10n(
-          "Je krijgt duidelijke vervolgstappen.",
-          "You get clear next steps.",
-        ),
-      },
-    ],
-  },
+
   testimonial: {
     quote: l10n(
       "“Door de les aan huis snapten wij eindelijk waar het gedrag vandaan kwam.”",
@@ -163,10 +130,12 @@ export const dienst = {
       {
         id: "3-lessen",
         label: l10n("3 lessen", "3 lessons"),
+        price: l10n("EUR 225,-", "EUR 225"),
       },
       {
         id: "5-lessen",
         label: l10n("5 lessen", "5 lessons"),
+        price: l10n("EUR 375,-", "EUR 375"),
       },
       {
         id: "extra-les",
@@ -180,7 +149,10 @@ export const dienst = {
   pricing: {
     title: ui.common.price,
     priceText: l10n("EUR 75,-", "EUR 75"),
-    metaLines: [l10n("75 minuten", "75 minutes"), l10n("Aan huis", "At home")],
+    metaLines: [
+      l10n("60 minuten", "60 minutes"),
+      l10n("Op af te spreken locatie", "At an agreed location"),
+    ],
     options: [
       {
         label: l10n(
@@ -199,5 +171,4 @@ export const dienst = {
   },
   related: ["priveles-op-locatie", "sport-en-spel", "detectie"],
 } as const;
-
 

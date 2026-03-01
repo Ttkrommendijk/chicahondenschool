@@ -1,6 +1,7 @@
 ﻿import type { L10n } from "../l10n";
 import { l10n } from "../l10n";
-import { dienst as dienst5Privelessen } from "./hondenschool/5-privelessen-op-maat";
+import { dienst as dienstPuppycursus } from "./hondenschool/puppycursus";
+import { dienst as dienstBasiscursus } from "./hondenschool/basiscursus";
 import { dienst as dienstPrivelesAanHuis } from "./hondenschool/priveles-aan-huis";
 import { dienst as dienstPrivelesOpLocatie } from "./hondenschool/priveles-op-locatie";
 import { dienst as dienstFunSpeuren } from "./hondenschool/fun-speuren-neuswerk";
@@ -41,6 +42,54 @@ export type ServiceCard = {
 };
 
 export const services: readonly ServiceCard[] = [
+  {
+    slug: dienstPuppycursus.slug,
+    category: "hondenschool",
+    href: `/diensten/hondenschool/${dienstPuppycursus.slug}/`,
+    title: dienstPuppycursus.hero.title,
+    excerpt: dienstPuppycursus.persuasion.body,
+    priceBadge: dienstPuppycursus.pricing.priceText,
+    cta: {
+      kind: "location",
+      label: l10n("Boek training", "Book training"),
+      options: [
+        {
+          label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
+          href: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
+          external: true,
+        },
+        {
+          label: l10n("Boek in Voorschoten", "Book in Voorschoten"),
+          href: "https://chica-hondenschool.trainin.app/checkout/PPBMGZ",
+          external: true,
+        },
+      ],
+    },
+  },
+  {
+    slug: dienstBasiscursus.slug,
+    category: "hondenschool",
+    href: `/diensten/hondenschool/${dienstBasiscursus.slug}/`,
+    title: dienstBasiscursus.hero.title,
+    excerpt: dienstBasiscursus.persuasion.body,
+    priceBadge: dienstBasiscursus.pricing.priceText,
+    cta: {
+      kind: "location",
+      label: l10n("Boek training", "Book training"),
+      options: [
+        {
+          label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
+          href: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
+          external: true,
+        },
+        {
+          label: l10n("Boek in Voorschoten", "Book in Voorschoten"),
+          href: "https://chica-hondenschool.trainin.app/checkout/PPBMGZ",
+          external: true,
+        },
+      ],
+    },
+  },
   {
     slug: dienstPrivelesOpLocatie.slug,
     category: "hondenschool",
@@ -83,31 +132,7 @@ export const services: readonly ServiceCard[] = [
         },
         {
           label: l10n("Boek in Voorschoten", "Book in Voorschoten"),
-          href: "https://chica-hondenschool.trainin.app/activities/LY666G/5-privelessen-op-maat-voorschoten-zh",
-          external: true,
-        },
-      ],
-    },
-  },
-  {
-    slug: dienst5Privelessen.slug,
-    category: "hondenschool",
-    href: `/diensten/hondenschool/${dienst5Privelessen.slug}/`,
-    title: dienst5Privelessen.hero.title,
-    excerpt: dienst5Privelessen.persuasion.body,
-    priceBadge: dienst5Privelessen.pricing.priceText,
-    cta: {
-      kind: "location",
-      label: l10n("Boek training", "Book training"),
-      options: [
-        {
-          label: l10n("Boek in Rijswijk", "Book in Rijswijk"),
-          href: "https://chica-hondenschool.trainin.app/checkout/PLONRJ",
-          external: true,
-        },
-        {
-          label: l10n("Boek in Voorschoten", "Book in Voorschoten"),
-          href: "https://chica-hondenschool.trainin.app/activities/LG5554/1-priveles-in-voorschoten",
+          href: "https://chica-hondenschool.trainin.app/checkout/PPBMGZ",
           external: true,
         },
       ],
@@ -266,8 +291,8 @@ export const dienstenIndexPage = {
       href: "/diensten/hondenschool/",
       title: l10n("Hondenschool", "Dog training"),
       excerpt: l10n(
-        "Privé hondentraining met 6 trajecten, van privéles tot speuren en detectie.",
-        "Private dog training with 6 tracks, from private lessons to nose work and detection.",
+        "Privé hondentraining met 7 trajecten, van puppycursus tot speuren en detectie.",
+        "Private dog training with 7 tracks, from puppy course to nose work and detection.",
       ),
       buttonLabel: l10n("Bekijk hondenschool", "View dog training"),
     },

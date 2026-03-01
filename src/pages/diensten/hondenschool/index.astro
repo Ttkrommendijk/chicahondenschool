@@ -10,6 +10,24 @@ import { localize, resolveLangFromUrl } from "../../../i18n";
 import { ui } from "../../../data/ui";
 
 const lang = resolveLangFromUrl(Astro.url);
+const categoryOrder = [
+    "prive-cursussen",
+    "privelessen-op-maat",
+    "gebruik-je-neus",
+    "beweeg-samen",
+] as const;
+
+const orderedServices = [...services].sort((a, b) => {
+    const indexA = categoryOrder.indexOf(
+        a.slug as (typeof categoryOrder)[number],
+    );
+    const indexB = categoryOrder.indexOf(
+        b.slug as (typeof categoryOrder)[number],
+    );
+    const rankA = indexA === -1 ? Number.MAX_SAFE_INTEGER : indexA;
+    const rankB = indexB === -1 ? Number.MAX_SAFE_INTEGER : indexB;
+    return rankA - rankB;
+});
 ---
 
 <BaseLayout
@@ -50,28 +68,76 @@ const lang = resolveLangFromUrl(Astro.url);
         }))}
     />
 
-    <ServiceCards
-        sectionId="diensten"
-        title={localize(page.cards.title, lang)}
-        titleKey="hondenschool.page.cards.title"
-        variant="priced"
-        actionLink={{
-            label: localize(page.cards.actionLink.label, lang),
-            href: page.cards.actionLink.href,
-        }}
-        actionLinkLabelKey="hondenschool.page.cards.actionLink.label"
-        items={services.map((service, index) => ({
-            title: localize(service.shortTitle, lang),
-            description: localize(service.shortDescription, lang),
-            href: service.href,
-            ctaLabel: localize(page.cards.cardCtaLabel, lang),
-            priceLabel: localize(service.priceLabel, lang),
-            headerTone: index % 3 === 1 ? "main" : "secondary",
-            titleKey: `hondenschool.page.services.${index}.shortTitle`,
-            descriptionKey: `hondenschool.page.services.${index}.shortDescription`,
-            ctaLabelKey: "hondenschool.page.cards.cardCtaLabel",
-        }))}
-    />
+    <section id="diensten" class="py-14 md:py-20">
+        <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
+            <div class="flex flex-wrap items-end justify-between gap-3">
+                <h2
+                    class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+                >
+                    <span data-i18n="hondenschool.page.cards.title">
+                        {localize(page.cards.title, lang)}
+                    </span>
+                </h2>
+                <a
+                    href={page.cards.actionLink.href}
+                    class="inline-flex items-center rounded-full border border-secondary bg-white px-5 py-2.5 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                >
+                    <span data-i18n="hondenschool.page.cards.actionLink.label">
+                        {localize(page.cards.actionLink.label, lang)}
+                    </span>
+                </a>
+            </div>
+
+            <div class="mt-10 space-y-12 md:space-y-16">
+                {
+                    orderedServices.map((service, serviceIndex) => {
+                        const options = service.groupedOptions ?? [];
+                        return (
+                            <section
+                                class:list={[
+                                    "px-0 py-1 md:px-2",
+                                    serviceIndex % 2 === 1 &&
+                                        "bg-secondary-soft/35",
+                                ]}
+                            >
+                                <h3 class="text-2xl font-bold tracking-tight text-secondary md:text-3xl">
+                                    {localize(service.shortTitle, lang)}
+                                </h3>
+                                <div class="mt-2 h-1 w-14 rounded-full bg-main" />
+                                <p class="mt-4 max-w-4xl text-text">
+                                    {localize(service.shortDescription, lang)}
+                                </p>
+
+                                <div class="mt-6">
+                                    <ServiceCards
+                                        embedded={true}
+                                        items={options.map((option) => ({
+                                            title: localize(option.label, lang),
+                                            description: localize(
+                                                option.description,
+                                                lang,
+                                            ),
+                                            href: option.href,
+                                            ctaLabel: localize(
+                                                page.cards.cardCtaLabel,
+                                                lang,
+                                            ),
+                                            image: option.image,
+                                            imageAlt: localize(
+                                                option.imageAlt,
+                                                lang,
+                                            ),
+                                            badge: localize(option.badge, lang),
+                                        }))}
+                                    />
+                                </div>
+                            </section>
+                        );
+                    })
+                }
+            </div>
+        </div>
+    </section>
 
     <FaqAccordion
         title={localize(page.faq.title, lang)}

@@ -6,8 +6,8 @@ export const dienst = {
   checkoutUrl: "https://chica-hondenschool.trainin.app/checkout/P6QNWO",
   seo: {
     title: l10n(
-      "Extra priveles op locatie | ChiCa Hondenschool",
-      "Extra private lesson on location | ChiCa Dog School",
+      "Priveles op locatie | ChiCa Hondenschool",
+      "Private lesson on location | ChiCa Dog School",
     ),
     description: l10n(
       "Praktische 1-op-1 begeleiding op locatie.",
@@ -15,10 +15,7 @@ export const dienst = {
     ),
   },
   hero: {
-    title: l10n(
-      "Extra priveles op locatie",
-      "Extra private lesson on location",
-    ),
+    title: l10n("Priveles op locatie", "Private lesson on location"),
     subtitle: l10n(
       "Samen oefenen waar jij en je hond het buiten echt nodig hebben.",
       "Practice together where you and your dog truly need it outdoors.",
@@ -53,6 +50,28 @@ export const dienst = {
       ),
       byline: l10n("Hondeneigenaar, Den Haag", "Dog owner, The Hague"),
     },
+  },
+  whatWeDo: {
+    title: l10n("Wat gaan we doen", "What are we going to do"),
+    body: [
+      l10n(
+        "We stemmen de begeleiding af op jouw hond, jouw situatie en jouw doel.",
+        "We tailor the guidance to your dog, your situation, and your goal.",
+      ),
+      l10n(
+        "Je krijgt duidelijke oefeningen die je direct in de praktijk kunt toepassen.",
+        "You get clear exercises you can apply directly in practice.",
+      ),
+      l10n(
+        "Na iedere les weet je precies welke volgende stap je thuis kunt zetten.",
+        "After each lesson, you know exactly which next step to take at home.",
+      ),
+    ],
+    ctaLabel: l10n(
+      "Stuur een bericht met je vragen",
+      "Send a message with your questions",
+    ),
+    ctaHref: ui.links.whatsappUrl,
   },
   benefits: {
     items: [
@@ -133,6 +152,28 @@ export const dienst = {
     ),
     byline: l10n("Hondeneigenaar, Den Haag", "Dog owner, The Hague"),
   },
+  selector: {
+    selectorLabel: l10n("Kies je pakket", "Choose your package"),
+    ctaLabel: l10n("Boek gekozen optie", "Book selected option"),
+    unavailableLabel: l10n("Binnenkort beschikbaar", "Available soon"),
+    options: [
+      {
+        id: "3-lessen",
+        label: l10n("3 lessen", "3 lessons"),
+      },
+      {
+        id: "5-lessen",
+        label: l10n("5 lessen", "5 lessons"),
+      },
+      {
+        id: "extra-les",
+        label: l10n("extra les", "extra lesson"),
+        price: l10n("EUR 65,-", "EUR 65"),
+        href: "https://chica-hondenschool.trainin.app/checkout/P6QNWO",
+        external: true,
+      },
+    ],
+  },
   pricing: {
     title: ui.common.price,
     priceText: l10n("EUR 65,-", "EUR 65"),
@@ -156,5 +197,7 @@ export const dienst = {
       },
     ],
   },
-  related: ["priveles-aan-huis", "5-privelessen-op-maat", "detectie"],
+  related: ["priveles-aan-huis", "detectie", "fun-speuren-neuswerk"],
 } as const;
+
+

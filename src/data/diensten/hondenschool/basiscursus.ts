@@ -2,12 +2,12 @@ import { l10n } from "../../l10n";
 import { ui } from "../../ui";
 
 export const dienst = {
-  slug: "priveles-aan-huis",
+  slug: "basiscursus",
   checkoutUrl: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
   seo: {
     title: l10n(
-      "Priveles aan huis | ChiCa Hondenschool",
-      "Extra private lesson at home | ChiCa Dog School",
+      "Basiscursus (privé) | ChiCa Hondenschool",
+      "Basiscursus (private) | ChiCa Dog School",
     ),
     description: l10n(
       "Uitgebreide 1-op-1 begeleiding bij jou thuis.",
@@ -15,10 +15,10 @@ export const dienst = {
     ),
   },
   hero: {
-    title: l10n("Priveles aan huis", "Extra private lesson at home"),
+    title: l10n("Basiscursus (privé)", "Basiscursus (private)"),
     subtitle: l10n(
-      "Training in je eigen omgeving, waar gedrag echt ontstaat en verandert. Persoonlijk, rustig en volledig afgestemd op jouw situatie",
-      "Training in your own environment, where behavior truly appears and changes. Personal, calm, and fully tailored to your situation.",
+      "Individuele basiscursus in je eigen omgeving. Persoonlijk, rustig en volledig afgestemd op jouw situatie en de behoeftes van jouw hond.",
+      "Individual basic training at your home. Personal, calm, and fully tailored to your situation and your dog's needs.",
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
@@ -26,7 +26,7 @@ export const dienst = {
       "Available in The Hague, Rijswijk, Voorschoten, and surrounding areas.",
     ),
     image: {
-      src: "/images/services/op-de-plaats.webp",
+      src: "/images/services/basiscursus.webp",
       alt: l10n(
         "Priveles aan huis met hond en begeleider",
         "Private in-home lesson with dog and coach",
@@ -36,8 +36,8 @@ export const dienst = {
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
     body: l10n(
-      "Door thuis te trainen zie je direct welke kleine aanpassingen veel verschil maken. Je leert hoe je gedrag begeleidt op momenten die dagelijks terugkomen.",
-      "By training at home, you immediately see which small adjustments make a big difference. You learn how to guide behavior during moments that return every day.",
+      "Met de individuele basis cursus hoef je nooit op je beurt te wachten, ondervindt je geen afleiding van andere honden en kunnen we flexibel inspelen op de behoeftes van jou en van je hond.",
+      "With the individual basic training, you do not need to wait your turn, and your dog is not distracted by other dogs, and we can flexibly tailor the training to your and your dog's needs.",
     ),
     highlight: l10n(
       "Geen algemene tips, maar begeleiding in jouw realiteit.",
@@ -45,8 +45,8 @@ export const dienst = {
     ),
     quote: {
       text: l10n(
-        '"Door de les aan huis snapten wij eindelijk waar het gedrag vandaan kwam."',
-        '"Because of the in-home lesson, we finally understood where the behavior came from."',
+        '"Door de priveles snapten wij eindelijk waar het gedrag vandaan kwam."',
+        '"Because of the private lesson, we finally understood where the behavior came from."',
       ),
       byline: l10n("Hondeneigenaar uit Den Haag", "Dog owner from The Hague"),
     },
@@ -80,12 +80,12 @@ export const dienst = {
         "1 lesson of 75 minutes at home",
       ),
       l10n(
-        "Gedragsanalyse in huiselijke context",
-        "Behavior analysis in a home context",
+        "Kennismaking met jou en je hond",
+        "Meet and greet with you and your dog",
       ),
       l10n(
-        "Praktisch plan voor na de les",
-        "Practical plan for after the lesson",
+        "Praktisch plan de lessen aangepast aan jou behoeftes",
+        "Practical plan tailored to your needs",
       ),
       l10n(
         "Heldere feedback op jouw begeleiding",

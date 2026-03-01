@@ -7,7 +7,8 @@ import { allReviews, reviewsPage } from "../data/reviews";
 import { page as hondenschoolPage } from "../data/diensten/hondenschool/index";
 import { page as oppasPage } from "../data/diensten/oppas-uitlaatservice/index";
 import { dienstenIndexPage, serviceList } from "../data/diensten";
-import { dienst as dienst5Privelessen } from "../data/diensten/hondenschool/5-privelessen-op-maat";
+import { dienst as dienstPuppycursus } from "../data/diensten/hondenschool/puppycursus";
+import { dienst as dienstBasiscursus } from "../data/diensten/hondenschool/basiscursus";
 import { dienst as dienstPrivelesAanHuis } from "../data/diensten/hondenschool/priveles-aan-huis";
 import { dienst as dienstPrivelesOpLocatie } from "../data/diensten/hondenschool/priveles-op-locatie";
 import { dienst as dienstFunSpeuren } from "../data/diensten/hondenschool/fun-speuren-neuswerk";
@@ -42,7 +43,8 @@ const sources: DataTree = {
   diensten: {
     index: dienstenIndexPage,
     list: serviceList,
-    "5-privelessen-op-maat": dienst5Privelessen,
+    puppycursus: dienstPuppycursus,
+    basiscursus: dienstBasiscursus,
     "priveles-aan-huis": dienstPrivelesAanHuis,
     "priveles-op-locatie": dienstPrivelesOpLocatie,
     "fun-speuren-neuswerk": dienstFunSpeuren,

@@ -7,7 +7,8 @@ const ROOT = process.cwd();
 const violations = [];
 
 const CURRENT_SERVICES = [
-  "diensten/hondenschool/5-privelessen-op-maat",
+  "diensten/hondenschool/puppycursus",
+  "diensten/hondenschool/basiscursus",
   "diensten/hondenschool/priveles-aan-huis",
   "diensten/hondenschool/priveles-op-locatie",
   "diensten/hondenschool/fun-speuren-neuswerk",

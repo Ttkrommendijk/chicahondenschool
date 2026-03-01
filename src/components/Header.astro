@@ -84,7 +84,10 @@ const serviceGroups = dienstenIndexPage.categories.map((category) => ({
                             <ul class="services-groups" role="list">
                                 {
                                     serviceGroups.map((group) => {
-                                        const categoryActive =
+                                        const categoryIsCurrentPage = isActive(
+                                            group.href,
+                                        );
+                                        const categoryInCurrentSection =
                                             pathname.startsWith(
                                                 normalizePath(group.href),
                                             );
@@ -96,15 +99,15 @@ const serviceGroups = dienstenIndexPage.categories.map((category) => ({
                                             );
                                         const panelId = `services-panel-${group.slug}`;
                                         const shouldOpenByDefault =
-                                            categoryActive || hasActiveService;
+                                            categoryInCurrentSection ||
+                                            hasActiveService;
 
                                         return (
                                             <li class="services-group">
                                                 <div class="services-group-header">
                                                     <a
                                                         class={subNavStateClass(
-                                                            categoryActive ||
-                                                                hasActiveService,
+                                                            categoryIsCurrentPage,
                                                         )}
                                                         href={group.href}
                                                     >

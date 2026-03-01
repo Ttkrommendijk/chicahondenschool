@@ -35,13 +35,19 @@ type CardCta = DirectCta | LocationCta | SelectorCta;
 
 interface Props {
     sectionId?: string;
-    title: string;
+    title?: string;
     titleKey?: string;
+    embedded?: boolean;
     variant?: "default" | "priced";
     actionLink?: { label: string; href: string };
     actionLinkLabelKey?: string;
     items: Array<{
+        cardTitle?: string;
         title: string;
+        serviceTitle?: string;
+        name?: string;
+        label?: string;
+        heading?: string;
         description: string;
         href: string;
         image?: string;
@@ -55,6 +61,15 @@ interface Props {
         priceLabel?: string;
         headerTone?: "secondary" | "main";
         cta?: CardCta;
+        groupedOptions?: Array<{
+            label: string;
+            description: string;
+            href: string;
+            ctaLabel: string;
+            labelKey?: string;
+            descriptionKey?: string;
+            ctaLabelKey?: string;
+        }>;
     }>;
 }
 
@@ -62,12 +77,14 @@ const {
     sectionId,
     title,
     titleKey,
+    embedded = false,
     items,
     variant = "default",
     actionLink,
     actionLinkLabelKey,
 } = Astro.props as Props;
 const lang = getLangFromUrl(Astro.url);
+const hasSectionTitle = Boolean(title && title.trim().length > 0);
 const hasInteractiveCta = items.some(
     (item) => item.cta && item.cta.kind !== "direct",
 );
@@ -83,38 +100,82 @@ function resolveHref(href: string, title: string): string {
     }
     return "#";
 }
+
+function resolveHeaderTitle(item: Props["items"][number]): {
+    value: string;
+    fromTitleKey: boolean;
+} {
+    const firstNonEmpty = (...values: Array<string | undefined>) =>
+        values.find((value) => typeof value === "string" && value.trim().length > 0);
+
+    const chosen = firstNonEmpty(
+        item.cardTitle,
+        item.title,
+        item.serviceTitle,
+        item.name,
+        item.label,
+        item.heading,
+    );
+
+    if (chosen) {
+        return {
+            value: chosen,
+            fromTitleKey: chosen === item.title && Boolean(item.titleKey),
+        };
+    }
+
+    if (import.meta.env.DEV) {
+        console.warn(
+            "[ServiceCards] Missing card title for item, using fallback placeholder.",
+            item,
+        );
+    }
+
+    return { value: "Dienst", fromTitleKey: false };
+}
 ---
 
-<section id={sectionId} class="py-14 md:py-20">
-    <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
-        <div class="flex flex-wrap items-end justify-between gap-3">
-            <h2
-                class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
-            >
-                {titleKey ? <span data-i18n={titleKey}>{title}</span> : title}
-            </h2>
-            {
-                actionLink && (
-                    <a
-                        href={actionLink.href}
-                        class="inline-flex items-center rounded-full border border-secondary bg-white px-5 py-2.5 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
-                    >
-                        {actionLinkLabelKey ? (
-                            <span data-i18n={actionLinkLabelKey}>
-                                {actionLink.label}
-                            </span>
-                        ) : (
-                            actionLink.label
-                        )}
-                    </a>
-                )
-            }
-        </div>
-        <div class="mt-8 grid gap-6 md:grid-cols-2">
+<section id={sectionId} class:list={[embedded ? "py-0" : "py-14 md:py-20"]}>
+    <div class:list={[embedded ? "" : "mx-auto w-full max-w-6xl px-4 md:px-6"]}>
+        {
+            (hasSectionTitle || actionLink) && (
+                <div class="flex flex-wrap items-end justify-between gap-3">
+                    {
+                        hasSectionTitle && (
+                            <h2 class="text-3xl font-bold tracking-tight text-secondary md:text-4xl">
+                                {titleKey ? (
+                                    <span data-i18n={titleKey}>{title}</span>
+                                ) : (
+                                    title
+                                )}
+                            </h2>
+                        )
+                    }
+                    {
+                        actionLink && (
+                            <a
+                                href={actionLink.href}
+                                class="inline-flex items-center rounded-full border border-secondary bg-white px-5 py-2.5 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                            >
+                                {actionLinkLabelKey ? (
+                                    <span data-i18n={actionLinkLabelKey}>
+                                        {actionLink.label}
+                                    </span>
+                                ) : (
+                                    actionLink.label
+                                )}
+                            </a>
+                        )
+                    }
+                </div>
+            )
+        }
+        <div class:list={[(hasSectionTitle || actionLink) && "mt-8", "grid gap-6 md:grid-cols-2"]}>
             {
                 items.map((item, index) => {
                     const href = resolveHref(item.href, item.title);
                     const cta = item.cta;
+                    const headerTitle = resolveHeaderTitle(item);
                     const selectableOptions =
                         cta && cta.kind !== "direct" ? cta.options : [];
                     const firstAvailableOption =
@@ -222,30 +283,49 @@ function resolveHref(href: string, title: string): string {
                         const headerIsMain = item.headerTone
                             ? item.headerTone === "main"
                             : index % 3 === 1;
+                        const hasGroupedOptions =
+                            Boolean(item.groupedOptions) &&
+                            item.groupedOptions!.length > 0;
                         return (
-                            <article class="overflow-hidden rounded-3xl border border-secondary/20 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                            <article
+                                class:list={[
+                                    "overflow-hidden rounded-3xl border border-secondary/20 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg",
+                                    hasGroupedOptions && "md:col-span-2",
+                                ]}
+                            >
                                 <div
                                     class:list={[
-                                        "flex justify-end px-5 py-3",
+                                        "px-5 py-3",
                                         headerIsMain
                                             ? "bg-main text-text"
                                             : "bg-secondary text-white",
                                     ]}
                                 >
-                                    <p class="text-base font-extrabold md:text-lg">
-                                        {item.priceLabel}
-                                    </p>
-                                </div>
-                                <div class="space-y-4 p-6">
-                                    <h3 class="text-2xl font-bold text-secondary">
-                                        {item.titleKey ? (
+                                    <h3
+                                        class:list={[
+                                            "select-text text-base font-extrabold leading-snug md:text-lg",
+                                            headerIsMain
+                                                ? "text-text"
+                                                : "text-white",
+                                        ]}
+                                    >
+                                        {headerTitle.fromTitleKey ? (
                                             <span data-i18n={item.titleKey}>
-                                                {item.title}
+                                                {headerTitle.value}
                                             </span>
                                         ) : (
-                                            item.title
+                                            headerTitle.value
                                         )}
                                     </h3>
+                                </div>
+                                <div class="space-y-4 p-6">
+                                    {
+                                        item.priceLabel && (
+                                            <p class="text-sm font-semibold text-secondary">
+                                                {item.priceLabel}
+                                            </p>
+                                        )
+                                    }
                                     <p class="text-text">
                                         {item.descriptionKey ? (
                                             <span data-i18n={item.descriptionKey}>
@@ -255,7 +335,64 @@ function resolveHref(href: string, title: string): string {
                                             item.description
                                         )}
                                     </p>
-                                    {ctaBlock}
+                                    {
+                                        hasGroupedOptions ? (
+                                            <div
+                                                class:list={[
+                                                    "grid gap-3",
+                                                    item.groupedOptions!.length > 1 &&
+                                                        "md:grid-cols-2",
+                                                ]}
+                                            >
+                                                {item.groupedOptions!.map((option) => (
+                                                    <a
+                                                        href={resolveHref(
+                                                            option.href,
+                                                            option.label,
+                                                        )}
+                                                        class="group grouped-service-option rounded-2xl border border-secondary/20 bg-main-soft/30 p-4 transition hover:border-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                                                        aria-label={`${option.label}. ${option.description}. ${option.ctaLabel}`}
+                                                    >
+                                                        <p class="text-lg font-bold text-secondary">
+                                                            {option.labelKey ? (
+                                                                <span
+                                                                    data-i18n={option.labelKey}
+                                                                >
+                                                                    {option.label}
+                                                                </span>
+                                                            ) : (
+                                                                option.label
+                                                            )}
+                                                        </p>
+                                                        <p class="mt-2 text-sm text-text">
+                                                            {option.descriptionKey ? (
+                                                                <span
+                                                                    data-i18n={option.descriptionKey}
+                                                                >
+                                                                    {option.description}
+                                                                </span>
+                                                            ) : (
+                                                                option.description
+                                                            )}
+                                                        </p>
+                                                        <span class="mt-3 inline-flex items-center rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-white transition group-hover:bg-secondary-hover">
+                                                            {option.ctaLabelKey ? (
+                                                                <span
+                                                                    data-i18n={option.ctaLabelKey}
+                                                                >
+                                                                    {option.ctaLabel}
+                                                                </span>
+                                                            ) : (
+                                                                option.ctaLabel
+                                                            )}
+                                                        </span>
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            ctaBlock
+                                        )
+                                    }
                                 </div>
                             </article>
                         );
@@ -392,3 +529,10 @@ function resolveHref(href: string, title: string): string {
         </script>
     )
 }
+
+<style>
+    .grouped-service-option {
+        display: block;
+        text-decoration: none;
+    }
+</style>

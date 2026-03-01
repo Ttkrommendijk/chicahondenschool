@@ -51,6 +51,28 @@ export const dienst = {
       byline: l10n("Hondeneigenaar, Leiden", "Dog owner, Leiden"),
     },
   },
+  whatWeDo: {
+    title: l10n("Wat gaan we doen", "What are we going to do"),
+    body: [
+      l10n(
+        "We stemmen de begeleiding af op jouw hond, jouw situatie en jouw doel.",
+        "We tailor the guidance to your dog, your situation, and your goal.",
+      ),
+      l10n(
+        "Je krijgt duidelijke oefeningen die je direct in de praktijk kunt toepassen.",
+        "You get clear exercises you can apply directly in practice.",
+      ),
+      l10n(
+        "Na iedere les weet je precies welke volgende stap je thuis kunt zetten.",
+        "After each lesson, you know exactly which next step to take at home.",
+      ),
+    ],
+    ctaLabel: l10n(
+      "Stuur een bericht met je vragen",
+      "Send a message with your questions",
+    ),
+    ctaHref: ui.links.whatsappUrl,
+  },
   benefits: {
     items: [
       l10n(
@@ -155,3 +177,5 @@ export const dienst = {
   },
   related: ["fun-speuren-neuswerk", "sport-en-spel", "priveles-op-locatie"],
 } as const;
+
+

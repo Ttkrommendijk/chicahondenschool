@@ -1,56 +1,149 @@
 import { l10n } from "../../l10n";
 import { ui } from "../../ui";
-import { dienst as dienst5Privelessen } from "./5-privelessen-op-maat";
+import { dienst as dienstPuppycursus } from "./puppycursus";
+import { dienst as dienstBasiscursus } from "./basiscursus";
 import { dienst as dienstPrivelesAanHuis } from "./priveles-aan-huis";
 import { dienst as dienstPrivelesOpLocatie } from "./priveles-op-locatie";
 import { dienst as dienstFunSpeuren } from "./fun-speuren-neuswerk";
 import { dienst as dienstDetectie } from "./detectie";
 import { dienst as dienstSportEnSpel } from "./sport-en-spel";
+import type { L10n } from "../../l10n";
 
-export const services = [
+type GroupedServiceOption = {
+  label: L10n;
+  description: L10n;
+  href: string;
+  image: string;
+  imageAlt: L10n;
+  badge: L10n;
+};
+
+type HondenschoolServiceCard = {
+  slug: string;
+  href: string;
+  shortTitle: L10n;
+  shortDescription: L10n;
+  priceLabel?: L10n;
+  groupedOptions?: readonly GroupedServiceOption[];
+};
+
+export const services: readonly HondenschoolServiceCard[] = [
   {
-    slug: dienst5Privelessen.slug,
-    href: `/diensten/hondenschool/${dienst5Privelessen.slug}/`,
-    shortTitle: dienst5Privelessen.hero.title,
-    shortDescription: dienst5Privelessen.persuasion.body,
-    priceLabel: dienst5Privelessen.pricing.priceText,
-  },
-  {
-    slug: dienstFunSpeuren.slug,
-    href: `/diensten/hondenschool/${dienstFunSpeuren.slug}/`,
-    shortTitle: dienstFunSpeuren.hero.title,
-    shortDescription: dienstFunSpeuren.persuasion.body,
-    priceLabel: dienstFunSpeuren.pricing.priceText,
-  },
-  {
-    slug: dienstDetectie.slug,
-    href: `/diensten/hondenschool/${dienstDetectie.slug}/`,
-    shortTitle: dienstDetectie.hero.title,
-    shortDescription: dienstDetectie.persuasion.body,
-    priceLabel: dienstDetectie.pricing.priceText,
-  },
-  {
-    slug: dienstSportEnSpel.slug,
-    href: `/diensten/hondenschool/${dienstSportEnSpel.slug}/`,
-    shortTitle: dienstSportEnSpel.hero.title,
-    shortDescription: dienstSportEnSpel.persuasion.body,
-    priceLabel: dienstSportEnSpel.pricing.priceText,
-  },
-  {
-    slug: dienstPrivelesOpLocatie.slug,
-    href: `/diensten/hondenschool/${dienstPrivelesOpLocatie.slug}/`,
-    shortTitle: dienstPrivelesOpLocatie.hero.title,
-    shortDescription: dienstPrivelesOpLocatie.persuasion.body,
-    priceLabel: dienstPrivelesOpLocatie.pricing.priceText,
-  },
-  {
-    slug: dienstPrivelesAanHuis.slug,
+    slug: "privelessen-op-maat",
     href: `/diensten/hondenschool/${dienstPrivelesAanHuis.slug}/`,
-    shortTitle: dienstPrivelesAanHuis.hero.title,
-    shortDescription: dienstPrivelesAanHuis.persuasion.body,
-    priceLabel: dienstPrivelesAanHuis.pricing.priceText,
+    shortTitle: l10n(
+      "Individuele gedragstraining",
+      "Individual behavior training",
+    ),
+    shortDescription: l10n(
+      "Wanneer je hond thuis of op straat specifiek gedrag vertoont waar jij of je omgeving niet blij van wordt, bieden wij probleemgerichte trainingen aan.We kijken zorgvuldig naar het gedrag van zowel de hond als de eigenaar en passen dit gericht aan, zodat we in zo kort mogelijke tijd het gewenste resultaat bereiken.",
+      "If your dog shows specific behaviour at home or outdoors that you or your surroundings are not happy with, we offer targeted behaviour-focused training. We carefully assess both the dog’s behaviour and the owner’s role, and adjust them accordingly, so we can achieve the desired results in the shortest possible time.",
+    ),
+    groupedOptions: [
+      {
+        label: l10n("Thuisbegeleiding", "Guidance at home"),
+        description: l10n(
+          "Als je hond specifieke uitdagingen kent in je woning heeft, zoals blaffen als de bel gaat, niet alleen thuis kunnen zijn of niet op de plaats blijven liggen,",
+          "Als je hond specifieke uitdagingen kent in je woning heeft, zoals blaffen als de bel gaat, niet alleen thuis kunnen zijn of niet op de plaats blijven liggen,",
+        ),
+        href: `/diensten/hondenschool/${dienstPrivelesAanHuis.slug}/`,
+        image: dienstPrivelesAanHuis.hero.image.src,
+        imageAlt: dienstPrivelesAanHuis.hero.image.alt,
+        badge: l10n("Training", "Training"),
+      },
+      {
+        label: l10n("Locatiebegeleiding", "Guidence on location"),
+        description: l10n(
+          "Als je tijdens het wandelen problemen hebt met de omgang met andere honden of mensen, zoals te enthousiast reageren, agressie, niet los kunnen lopen,",
+          "Als je tijdens het wandelen problemen hebt met de omgang met andere honden of mensen, zoals te enthousiast reageren, agressie, niet los kunnen lopen,",
+        ),
+        href: `/diensten/hondenschool/${dienstPrivelesOpLocatie.slug}/`,
+        image: dienstPrivelesOpLocatie.hero.image.src,
+        imageAlt: dienstPrivelesOpLocatie.hero.image.alt,
+        badge: l10n("Training", "Training"),
+      },
+    ],
   },
-] as const;
+  {
+    slug: "gebruik-je-neus",
+    href: `/diensten/hondenschool/${dienstFunSpeuren.slug}/`,
+    shortTitle: l10n("Gebruik je neus", "Use your nose"),
+    shortDescription: l10n(
+      "Kies het neuswerk-traject dat past bij jouw hond: speels speuren of gerichte detectie.",
+      "Choose the nosework track that fits your dog: playful tracking or focused detection.",
+    ),
+    groupedOptions: [
+      {
+        label: dienstFunSpeuren.hero.title,
+        description: dienstFunSpeuren.persuasion.body,
+        href: `/diensten/hondenschool/${dienstFunSpeuren.slug}/`,
+        image: dienstFunSpeuren.hero.image.src,
+        imageAlt: dienstFunSpeuren.hero.image.alt,
+        badge: l10n("Training", "Training"),
+      },
+      {
+        label: dienstDetectie.hero.title,
+        description: dienstDetectie.persuasion.body,
+        href: `/diensten/hondenschool/${dienstDetectie.slug}/`,
+        image: dienstDetectie.hero.image.src,
+        imageAlt: dienstDetectie.hero.image.alt,
+        badge: l10n("Training", "Training"),
+      },
+    ],
+  },
+  {
+    slug: "prive-cursussen",
+    href: "/diensten/hondenschool/puppycursus/",
+    shortTitle: l10n("Privé cursussen", "Private courses"),
+    shortDescription: l10n(
+      "Onze privé cursussen bieden de inhoud van onze standaard trainingen, maar in een persoonlijke 1-op-1 setting. Je krijgt alle aandacht, zonder wachttijden of afleiding van andere honden. We trainen bij jou thuis of op een locatie die past bij jouw hond en jouw doelen.",
+      "Our private courses offer the content of our standard training programs in a personal 1-on-1 setting. You get full attention, without waiting times or distractions from other dogs. We train in an environment that fits your dog and your goals.",
+    ),
+    groupedOptions: [
+      {
+        label: l10n("Puppycursus (privé)", "Puppy course (private)"),
+        description: l10n(
+          "De beste start voor jouw pup, met individuele begeleiding die volledig is afgestemd op jullie tempo. We werken aan socialisatie, basisvaardigheden en rust in het dagelijks leven, zonder overprikkeling door een groep.",
+          "The best start for your puppy, with individual guidance fully tailored to your pace. We work on socialization, core skills, and calm in daily life without group overstimulation.",
+        ),
+        href: "/diensten/hondenschool/puppycursus/",
+        image: dienstPuppycursus.hero.image.src,
+        imageAlt: dienstPuppycursus.hero.image.alt,
+        badge: l10n("Training", "Training"),
+      },
+      {
+        label: l10n("Basiscursus (privé)", "Basic course (private)"),
+        description: l10n(
+          "Een stevige basis voor focus, samenwerken en betrouwbare oefeningen tijdens het wandelen en thuis. Je krijgt persoonlijke coaching en duidelijke stappen, precies afgestemd op jouw hond.",
+          "A solid foundation for focus, cooperation, and reliable exercises during walks and at home. You get personal coaching and clear steps tailored exactly to your dog.",
+        ),
+        href: "/diensten/hondenschool/basiscursus/",
+        image: dienstBasiscursus.hero.image.src,
+        imageAlt: dienstBasiscursus.hero.image.alt,
+        badge: l10n("Training", "Training"),
+      },
+    ],
+  },
+  {
+    slug: "beweeg-samen",
+    href: `/diensten/hondenschool/${dienstSportEnSpel.slug}/`,
+    shortTitle: l10n("Beweeg samen", "Move together"),
+    shortDescription: l10n(
+      "Samen actief aan de slag met een traject dat draait om plezier, focus en samenwerking.",
+      "Get active together with a track focused on fun, focus, and cooperation.",
+    ),
+    groupedOptions: [
+      {
+        label: dienstSportEnSpel.hero.title,
+        description: dienstSportEnSpel.persuasion.body,
+        href: `/diensten/hondenschool/${dienstSportEnSpel.slug}/`,
+        image: dienstSportEnSpel.hero.image.src,
+        imageAlt: dienstSportEnSpel.hero.image.alt,
+        badge: l10n("Training", "Training"),
+      },
+    ],
+  },
+];
 
 export const page = {
   seo: {
