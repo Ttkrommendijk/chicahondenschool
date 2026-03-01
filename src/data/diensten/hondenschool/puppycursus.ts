@@ -150,7 +150,7 @@ export const dienst = {
     title: ui.common.price,
     priceText: l10n("EUR 75,-", "EUR 75"),
     metaLines: [
-      l10n("60 minuten", "60 minutes"),
+      l10n("75 minuten", "75 minutes"),
       l10n("Op af te spreken locatie", "At an agreed location"),
     ],
     options: [
@@ -171,4 +171,3 @@ export const dienst = {
   },
   related: ["priveles-op-locatie", "sport-en-spel", "detectie"],
 } as const;
-

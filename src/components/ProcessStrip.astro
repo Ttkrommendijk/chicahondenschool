@@ -17,6 +17,7 @@ interface Props {
     introKey?: string;
     items?: ProcessItem[];
     cardsOnly?: boolean;
+    spacing?: "default" | "tight";
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -48,7 +49,11 @@ const {
     introKey,
     items = defaultItems,
     cardsOnly = false,
+    spacing = "default",
 } = Astro.props as Props;
+
+const sectionSpacingClass =
+    spacing === "tight" ? "pt-10 pb-8 md:pt-12 md:pb-10" : "py-12 md:py-16";
 ---
 
 {
@@ -79,7 +84,7 @@ const {
             ))}
         </div>
     ) : (
-        <section class="py-12 md:py-16">
+        <section class={sectionSpacingClass}>
             <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
                 <div class="rounded-3xl border border-main/40 bg-main-soft p-8 shadow-sm md:p-10">
                     <h2 class="text-3xl font-bold tracking-tight text-secondary md:text-4xl">
