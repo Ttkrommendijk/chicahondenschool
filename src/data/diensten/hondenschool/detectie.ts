@@ -36,8 +36,8 @@ export const dienst = {
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
     body: l10n(
-      "Detectie vraagt om heldere communicatie en consequente begeleiding. Door de training op te bouwen in logische stappen, groeit zowel het zelfvertrouwen van je hond als jouw inzicht.",
-      "Detection requires clear communication and consistent guidance. By building training in logical steps, both your dog's confidence and your insight grow.",
+      "Bij detectie leert je hond een specifieke geur te herkennen en verborgen objecten terug te vinden. Denk aan een verstopt voorwerp in een ruimte, buitenomgeving of tussen andere materialen. Detectie vraagt om heldere communicatie en consequente begeleiding. Door de training logisch op te bouwen, ontwikkelt je hond precisie, concentratie en zelfstandigheid, terwijl jij leert zijn signalen beter te lezen.",
+      "In detection training, your dog learns to recognise a specific scent and locate hidden objects. This can be a concealed item in a room, outdoor environment, or hidden among other materials. Detection requires clear communication and consistent guidance. By building the training step by step, your dog develops precision, focus, and independence, while you learn to better read and understand your dog’s signals.",
     ),
     highlight: l10n(
       "Precisie zonder druk: rustig opbouwen geeft het beste resultaat.",
@@ -177,5 +177,3 @@ export const dienst = {
   },
   related: ["fun-speuren-neuswerk", "sport-en-spel", "priveles-op-locatie"],
 } as const;
-
-

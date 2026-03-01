@@ -43,8 +43,8 @@ export const services: readonly HondenschoolServiceCard[] = [
       {
         label: l10n("Thuisbegeleiding", "Guidance at home"),
         description: l10n(
-          "Als je hond specifieke uitdagingen kent in je woning heeft, zoals blaffen als de bel gaat, niet alleen thuis kunnen zijn of niet op de plaats blijven liggen,",
-          "Als je hond specifieke uitdagingen kent in je woning heeft, zoals blaffen als de bel gaat, niet alleen thuis kunnen zijn of niet op de plaats blijven liggen,",
+          "Als je hond specifieke uitdagingen kent in je woning heeft, zoals blaffen als de bel gaat, niet alleen thuis kunnen zijn of niet op de plaats blijven liggen.",
+          "If your dog faces specific challenges at home, such as barking when the doorbell rings, being unable to stay home alone, or struggling to remain calmly in place.",
         ),
         href: `/diensten/hondenschool/${dienstPrivelesAanHuis.slug}/`,
         image: dienstPrivelesAanHuis.hero.image.src,
@@ -54,8 +54,8 @@ export const services: readonly HondenschoolServiceCard[] = [
       {
         label: l10n("Locatiebegeleiding", "Guidence on location"),
         description: l10n(
-          "Als je tijdens het wandelen problemen hebt met de omgang met andere honden of mensen, zoals te enthousiast reageren, agressie, niet los kunnen lopen,",
-          "Als je tijdens het wandelen problemen hebt met de omgang met andere honden of mensen, zoals te enthousiast reageren, agressie, niet los kunnen lopen,",
+          "Als je tijdens het wandelen problemen hebt met de omgang met andere honden of mensen, zoals te enthousiast reageren, agressie, niet los kunnen lopen.",
+          "If you experience difficulties during walks in interactions with other dogs or people, such as overexcitement, reactive or aggressive behaviour, or being unable to walk off leash,",
         ),
         href: `/diensten/hondenschool/${dienstPrivelesOpLocatie.slug}/`,
         image: dienstPrivelesOpLocatie.hero.image.src,
@@ -67,7 +67,10 @@ export const services: readonly HondenschoolServiceCard[] = [
   {
     slug: "gebruik-je-neus",
     href: `/diensten/hondenschool/${dienstFunSpeuren.slug}/`,
-    shortTitle: l10n("Gebruik je neus", "Use your nose"),
+    shortTitle: l10n(
+      "Leuke en natuurlijke uitdagingen voor je hond",
+      "Nice and natural challenges for your dog",
+    ),
     shortDescription: l10n(
       "Kies het neuswerk-traject dat past bij jouw hond: speels speuren of gerichte detectie.",
       "Choose the nosework track that fits your dog: playful tracking or focused detection.",
@@ -75,7 +78,10 @@ export const services: readonly HondenschoolServiceCard[] = [
     groupedOptions: [
       {
         label: dienstFunSpeuren.hero.title,
-        description: dienstFunSpeuren.persuasion.body,
+        description: l10n(
+          "Samen op zoek naar een spoor. Je hond leert een geur volgen en een persoon opsporen. Ideaal voor energie, concentratie en onderlinge band.",
+          "Together you follow the trail. Your dog learns to track a scent and locate a person. Perfect for channeling energy, building focus, and strengthening your bond.",
+        ),
         href: `/diensten/hondenschool/${dienstFunSpeuren.slug}/`,
         image: dienstFunSpeuren.hero.image.src,
         imageAlt: dienstFunSpeuren.hero.image.alt,
@@ -83,7 +89,10 @@ export const services: readonly HondenschoolServiceCard[] = [
       },
       {
         label: dienstDetectie.hero.title,
-        description: dienstDetectie.persuasion.body,
+        description: l10n(
+          "Je hond leert een specifieke geur herkennen en verborgen objecten opsporen. Een uitdagende activiteit die focus, precisie en samenwerking versterkt.",
+          "Your dog learns to recognise a specific scent and locate hidden objects. A challenging activity that strengthens focus, precision, and teamwork.",
+        ),
         href: `/diensten/hondenschool/${dienstDetectie.slug}/`,
         image: dienstDetectie.hero.image.src,
         imageAlt: dienstDetectie.hero.image.alt,
@@ -144,6 +153,10 @@ export const services: readonly HondenschoolServiceCard[] = [
     ],
   },
 ];
+
+const servicesBySlug = Object.fromEntries(
+  services.map((service) => [service.slug, service]),
+);
 
 export const page = {
   seo: {
@@ -221,6 +234,7 @@ export const page = {
     ],
   },
   services,
+  servicesBySlug,
   cards: {
     title: l10n("Kies jouw traject", "Choose your program"),
     actionLink: {

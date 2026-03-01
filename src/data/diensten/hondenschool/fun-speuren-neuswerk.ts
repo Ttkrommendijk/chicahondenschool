@@ -36,7 +36,7 @@ export const dienst = {
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
     body: l10n(
-      "Neuswerk sluit aan bij natuurlijk gedrag. Dat maakt het laagdrempelig, motiverend en tegelijk heel waardevol voor focus en balans in het dagelijks leven.",
+      "Speuren sluit aan bij het natuurlijke gedrag van je hond. Tijdens deze training leert je hond een geurspoor te volgen en gericht op zoek te gaan naar een persoon. Dat maakt het laagdrempelig, motiverend en tegelijk heel waardevol voor focus, samenwerking en balans in het dagelijks leven. Door stap voor stap op te bouwen, groeit het zelfvertrouwen van je hond én jullie onderlinge communicatie.",
       "Nose work aligns with natural behavior. That makes it approachable, motivating, and highly valuable for focus and balance in daily life.",
     ),
     highlight: l10n(
@@ -165,5 +165,3 @@ export const dienst = {
   },
   related: ["detectie", "sport-en-spel", "priveles-aan-huis"],
 } as const;
-
-

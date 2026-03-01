@@ -36,6 +36,7 @@ export const services = [
       "Flexibele urenbundels voor oppas en uitlaatservice, afgestemd op jouw planning.",
       "Flexible hour bundles for pet sitting and walking, tailored to your planning.",
     ),
+    priceLabel: l10n("v.a. EUR 150,00", "From EUR 150.00"),
     variants: [
       {
         label: l10n("1 uur", "1 hour"),

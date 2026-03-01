@@ -59,6 +59,7 @@ interface Props {
         ctaLabelKey?: string;
         badgeKey?: string;
         priceLabel?: string;
+        priceLabelKey?: string;
         headerTone?: "secondary" | "main";
         cta?: CardCta;
         groupedOptions?: Array<{
@@ -275,7 +276,14 @@ function resolveHeaderTitle(item: Props["items"][number]): {
                             href={href}
                             class="inline-flex items-center rounded-full bg-secondary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-secondary-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
                         >
-                            {item.ctaLabel ?? localize(ui.common.viewService, lang)}
+                            {item.ctaLabelKey ? (
+                                <span data-i18n={item.ctaLabelKey}>
+                                    {item.ctaLabel ??
+                                        localize(ui.common.viewService, lang)}
+                                </span>
+                            ) : (
+                                item.ctaLabel ?? localize(ui.common.viewService, lang)
+                            )}
                         </a>
                     );
 
@@ -322,7 +330,15 @@ function resolveHeaderTitle(item: Props["items"][number]): {
                                     {
                                         item.priceLabel && (
                                             <p class="text-sm font-semibold text-secondary">
-                                                {item.priceLabel}
+                                                {item.priceLabelKey ? (
+                                                    <span
+                                                        data-i18n={item.priceLabelKey}
+                                                    >
+                                                        {item.priceLabel}
+                                                    </span>
+                                                ) : (
+                                                    item.priceLabel
+                                                )}
                                             </p>
                                         )
                                     }

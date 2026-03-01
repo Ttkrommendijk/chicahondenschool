@@ -160,21 +160,32 @@ const showTimeline =
                 <ServiceWhatWeDo
                     title={localize(
                         dienst.whatWeDo?.title ?? {
-                            nl: "Wat gaan we doen",
-                            en: "What are we going to do",
+                            nl: ui.common.whatWeDo.nl,
+                            en: ui.common.whatWeDo.en,
                         },
                         lang,
                     )}
                     body={(
                         dienst.whatWeDo?.body ?? [dienst.persuasion.body]
                     ).map((part) => localize(part, lang))}
+                    bodyKeys={dienst.whatWeDo?.body
+                        ? dienst.whatWeDo.body.map(
+                              (_, index) => `${keyBase}.whatWeDo.body.${index}`,
+                          )
+                        : [`${keyBase}.persuasion.body`]}
                     ctaLabel={localize(
                         dienst.whatWeDo?.ctaLabel ?? {
-                            nl: "Stuur een bericht met je vragen",
-                            en: "Send a message with your questions",
+                            nl: ui.common.questionsCta.nl,
+                            en: ui.common.questionsCta.en,
                         },
                         lang,
                     )}
+                    titleKey={dienst.whatWeDo?.title
+                        ? `${keyBase}.whatWeDo.title`
+                        : "ui.common.whatWeDo"}
+                    ctaLabelKey={dienst.whatWeDo?.ctaLabel
+                        ? `${keyBase}.whatWeDo.ctaLabel`
+                        : "ui.common.questionsCta"}
                     ctaHref={dienst.whatWeDo?.ctaHref ?? ui.links.whatsappUrl}
                 />
 
