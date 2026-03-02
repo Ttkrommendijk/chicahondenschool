@@ -15,7 +15,12 @@ type GroupedServiceOption = {
   href: string;
   image: string;
   imageAlt: L10n;
-  badge: L10n;
+  priceFrom?: {
+    amount: number;
+    currency: "EUR";
+    unit: L10n;
+    label: L10n;
+  };
 };
 
 type HondenschoolServiceCard = {
@@ -49,7 +54,12 @@ export const services: readonly HondenschoolServiceCard[] = [
         href: `/diensten/hondenschool/${dienstPrivelesAanHuis.slug}/`,
         image: dienstPrivelesAanHuis.hero.image.src,
         imageAlt: dienstPrivelesAanHuis.hero.image.alt,
-        badge: l10n("Training", "Training"),
+        priceFrom: {
+          amount: 60,
+          currency: "EUR",
+          unit: l10n("uur", "hour"),
+          label: l10n("v.a. 60 EUR/uur", "from 60 EUR / hour"),
+        },
       },
       {
         label: l10n("Locatiebegeleiding", "Guidence on location"),
@@ -60,7 +70,12 @@ export const services: readonly HondenschoolServiceCard[] = [
         href: `/diensten/hondenschool/${dienstPrivelesOpLocatie.slug}/`,
         image: dienstPrivelesOpLocatie.hero.image.src,
         imageAlt: dienstPrivelesOpLocatie.hero.image.alt,
-        badge: l10n("Training", "Training"),
+        priceFrom: {
+          amount: 60,
+          currency: "EUR",
+          unit: l10n("uur", "hour"),
+          label: l10n("v.a. 60 EUR/uur", "from 60 EUR / hour"),
+        },
       },
     ],
   },
@@ -85,7 +100,12 @@ export const services: readonly HondenschoolServiceCard[] = [
         href: `/diensten/hondenschool/${dienstFunSpeuren.slug}/`,
         image: dienstFunSpeuren.hero.image.src,
         imageAlt: dienstFunSpeuren.hero.image.alt,
-        badge: l10n("Training", "Training"),
+        priceFrom: {
+          amount: 45,
+          currency: "EUR",
+          unit: l10n("uur", "hour"),
+          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+        },
       },
       {
         label: dienstDetectie.hero.title,
@@ -96,7 +116,12 @@ export const services: readonly HondenschoolServiceCard[] = [
         href: `/diensten/hondenschool/${dienstDetectie.slug}/`,
         image: dienstDetectie.hero.image.src,
         imageAlt: dienstDetectie.hero.image.alt,
-        badge: l10n("Training", "Training"),
+        priceFrom: {
+          amount: 45,
+          currency: "EUR",
+          unit: l10n("uur", "hour"),
+          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+        },
       },
     ],
   },
@@ -118,7 +143,12 @@ export const services: readonly HondenschoolServiceCard[] = [
         href: "/diensten/hondenschool/puppycursus/",
         image: dienstPuppycursus.hero.image.src,
         imageAlt: dienstPuppycursus.hero.image.alt,
-        badge: l10n("Training", "Training"),
+        priceFrom: {
+          amount: 45,
+          currency: "EUR",
+          unit: l10n("uur", "hour"),
+          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+        },
       },
       {
         label: l10n("Basiscursus (privé)", "Basic course (private)"),
@@ -129,7 +159,12 @@ export const services: readonly HondenschoolServiceCard[] = [
         href: "/diensten/hondenschool/basiscursus/",
         image: dienstBasiscursus.hero.image.src,
         imageAlt: dienstBasiscursus.hero.image.alt,
-        badge: l10n("Training", "Training"),
+        priceFrom: {
+          amount: 45,
+          currency: "EUR",
+          unit: l10n("uur", "hour"),
+          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+        },
       },
     ],
   },
@@ -148,7 +183,12 @@ export const services: readonly HondenschoolServiceCard[] = [
         href: `/diensten/hondenschool/${dienstSportEnSpel.slug}/`,
         image: dienstSportEnSpel.hero.image.src,
         imageAlt: dienstSportEnSpel.hero.image.alt,
-        badge: l10n("Training", "Training"),
+        priceFrom: {
+          amount: 45,
+          currency: "EUR",
+          unit: l10n("uur", "hour"),
+          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+        },
       },
     ],
   },

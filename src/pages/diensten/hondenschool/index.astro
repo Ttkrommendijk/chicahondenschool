@@ -143,15 +143,20 @@ const orderedServices = [...services].sort((a, b) => {
                                                     option.imageAlt,
                                                     lang,
                                                 ),
-                                                badge: localize(
-                                                    option.badge,
-                                                    lang,
-                                                ),
+                                                badge: option.priceFrom
+                                                    ? localize(
+                                                          option.priceFrom
+                                                              .label,
+                                                          lang,
+                                                      )
+                                                    : undefined,
                                                 titleKey: `hondenschool.page.servicesBySlug.${service.slug}.groupedOptions.${optionIndex}.label`,
                                                 descriptionKey: `hondenschool.page.servicesBySlug.${service.slug}.groupedOptions.${optionIndex}.description`,
                                                 ctaLabelKey:
                                                     "hondenschool.page.cards.cardCtaLabel",
-                                                badgeKey: `hondenschool.page.servicesBySlug.${service.slug}.groupedOptions.${optionIndex}.badge`,
+                                                badgeKey: option.priceFrom
+                                                    ? `hondenschool.page.servicesBySlug.${service.slug}.groupedOptions.${optionIndex}.priceFrom.label`
+                                                    : undefined,
                                             }),
                                         )}
                                     />
