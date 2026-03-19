@@ -1,5 +1,6 @@
 import { l10n } from "../../l10n";
 import { ui } from "../../ui";
+import { formatPrice } from "../../price";
 
 export const dienst = {
   slug: "kennismaking",
@@ -22,8 +23,8 @@ export const dienst = {
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
-      "Beschikbaar in Den Haag, Voorschoten en omstreken.",
-      "Available in Den Haag, Voorschoten and surrounding areas.",
+      "Beschikbaar in Den Haag, Rijswijk, Voorschoten en omstreken.",
+      "Available in Den Haag, Rijswijk, Voorschoten and surrounding areas.",
     ),
     image: {
       src: "/images/services/kennismaking.webp",
@@ -45,26 +46,18 @@ export const dienst = {
     ),
     quote: {
       text: l10n(
-        "De kennismaking gaf meteen rust en richting.",
-        "The introduction immediately gave calmness and direction.",
+        "Dankzij de kennismaking wist ik dat mijn hond in goede handen was. Rust, kennis en liefde voor honden maken het fijn om te weten dat Victor goed verzorgd wordt als ik even niet kan wandelen.",
+        "The introduction gave me confidence that my dog was in good hands. Knowledge, calmness, and love for dogs make it reassuring to know Victor is well cared for when I can’t walk him.",
       ),
-      byline: l10n("Hondeneigenaar", "Dog owner"),
+      byline: l10n("Annemiek", "Dog owner"),
     },
   },
   whatWeDo: {
     title: l10n("Wat gaan we doen", "What are we going to do"),
     body: [
       l10n(
-        "We stemmen de begeleiding af op jouw hond, jouw situatie en jouw doel.",
-        "We tailor the guidance to your dog, your situation, and your goal.",
-      ),
-      l10n(
-        "Je krijgt duidelijke oefeningen die je direct in de praktijk kunt toepassen.",
-        "You get clear exercises you can apply directly in practice.",
-      ),
-      l10n(
-        "Na iedere les weet je precies welke volgende stap je thuis kunt zetten.",
-        "After each lesson, you know exactly which next step to take at home.",
+        "Tijdens de kennismaking bespreken we wat jij en je hond nodig hebben: belangrijke verzoeken, eventuele allergieën, riem of tuigje, en beantwoorden we je vragen terwijl ik je hond leer kennen. Is er een klik, dan kun je een strippenkaart aanschaffen en een datum en tijd plannen voor oppas of uitlaatservice.",
+        "During the introduction, we go over your and your dog’s needs: important cues, any allergies, leash or harness, and answer your questions while I get to know your dog. If there’s a good match, you can purchase a package and schedule a date and time for pet sitting or dog walking.",
       ),
     ],
     ctaLabel: l10n(
@@ -152,7 +145,7 @@ export const dienst = {
   },
   pricing: {
     title: ui.common.price,
-    priceText: l10n("EUR 40,00", "EUR 40.00"),
+    priceText: formatPrice(50),
     metaLines: [
       l10n("ca. 45 minuten", "about 45 minutes"),
       l10n("Aan huis of in overleg", "At home or by agreement"),
@@ -167,5 +160,3 @@ export const dienst = {
   },
   related: ["priveles-aan-huis", "priveles-op-locatie", "strippenkaart"],
 } as const;
-
-

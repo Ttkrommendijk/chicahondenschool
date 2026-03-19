@@ -1,5 +1,6 @@
 import { l10n } from "../../l10n";
 import { ui } from "../../ui";
+import { formatPrice } from "../../price";
 
 export const dienst = {
   slug: "priveles-aan-huis",
@@ -163,7 +164,7 @@ export const dienst = {
       {
         id: "extra-les",
         label: l10n("extra les", "extra lesson"),
-        price: l10n("EUR 75,-", "EUR 75"),
+        price: formatPrice(75),
         href: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
         external: true,
       },
@@ -171,7 +172,7 @@ export const dienst = {
   },
   pricing: {
     title: ui.common.price,
-    priceText: l10n("EUR 75,-", "EUR 75"),
+    priceText: formatPrice(75),
     metaLines: [l10n("75 minuten", "75 minutes"), l10n("Aan huis", "At home")],
     options: [
       {

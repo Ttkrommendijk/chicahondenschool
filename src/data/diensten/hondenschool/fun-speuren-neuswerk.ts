@@ -1,5 +1,6 @@
 import { l10n } from "../../l10n";
 import { ui } from "../../ui";
+import { formatPrice } from "../../price";
 
 export const dienst = {
   slug: "fun-speuren-neuswerk",
@@ -142,7 +143,7 @@ export const dienst = {
   },
   pricing: {
     title: ui.common.price,
-    priceText: l10n("EUR 250,-", "EUR 250"),
+    priceText: formatPrice(250),
     metaLines: [
       l10n("5 lessen", "5 lessons"),
       l10n("Praktijkgericht", "Practice-focused"),

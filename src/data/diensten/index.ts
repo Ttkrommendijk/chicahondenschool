@@ -9,6 +9,7 @@ import { dienst as dienstDetectie } from "./hondenschool/detectie";
 import { dienst as dienstSportEnSpel } from "./hondenschool/sport-en-spel";
 import { dienst as dienstKennismaking } from "./oppas-uitlaatservice/kennismaking";
 import { dienst as dienstStrippenkaart } from "./oppas-uitlaatservice/strippenkaart";
+import { formatFromPrice, formatPrice } from "../price";
 
 export type ServiceCta =
   | { kind: "direct"; label: L10n; href: string; external?: boolean }
@@ -220,7 +221,7 @@ export const services: readonly ServiceCard[] = [
     href: `/diensten/oppas-uitlaatservice/${dienstStrippenkaart.slug}/`,
     title: dienstStrippenkaart.hero.title,
     excerpt: dienstStrippenkaart.persuasion.body,
-    priceBadge: l10n("v.a. € 70,00", "from € 70.00"),
+    priceBadge: formatFromPrice(70),
     cta: {
       kind: "selector",
       label: l10n("Koop strippenkaart", "Buy a pass"),
@@ -230,33 +231,33 @@ export const services: readonly ServiceCard[] = [
         {
           id: "kennismaking",
           label: l10n("Kennismaking", "Introduction session"),
-          price: l10n("€ 40,00", "€ 40.00"),
+          price: formatPrice(40),
           href: "https://chica-hondenschool.trainin.app/checkout/PRZ7A4",
           external: true,
         },
         {
           id: "1h",
           label: l10n("Strippenkaart 1 uur", "1-hour pass"),
-          price: l10n("€ 70,00", "€ 70.00"),
+          price: formatPrice(70),
           href: "https://chica-hondenschool.trainin.app/checkout/P2A2Y9",
           external: true,
         },
         {
           id: "3h",
           label: l10n("Strippenkaart 3 uur", "3-hour pass"),
-          price: l10n("€ 150,00", "€ 150.00"),
+          price: formatPrice(150),
         },
         {
           id: "5h",
           label: l10n("Strippenkaart 5 uur", "5-hour pass"),
-          price: l10n("€ 225,00", "€ 225.00"),
+          price: formatPrice(225),
           href: "https://chica-hondenschool.trainin.app/checkout/PGNYQN",
           external: true,
         },
         {
           id: "10h",
           label: l10n("Strippenkaart 10 uur", "10-hour pass"),
-          price: l10n("€ 450,00", "€ 450.00"),
+          price: formatPrice(450),
         },
       ],
     },

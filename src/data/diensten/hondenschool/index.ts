@@ -8,6 +8,7 @@ import { dienst as dienstFunSpeuren } from "./fun-speuren-neuswerk";
 import { dienst as dienstDetectie } from "./detectie";
 import { dienst as dienstSportEnSpel } from "./sport-en-spel";
 import type { L10n } from "../../l10n";
+import { formatFromPricePerUnit } from "../../price";
 
 type GroupedServiceOption = {
   label: L10n;
@@ -58,7 +59,7 @@ export const services: readonly HondenschoolServiceCard[] = [
           amount: 75,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 75 EUR / les", "from 75 EUR / les"),
+          label: formatFromPricePerUnit(75, l10n("les", "lesson")),
         },
       },
       {
@@ -74,7 +75,7 @@ export const services: readonly HondenschoolServiceCard[] = [
           amount: 65,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 65 EUR / les", "from 65 EUR / les"),
+          label: formatFromPricePerUnit(65, l10n("les", "lesson")),
         },
       },
     ],
@@ -104,7 +105,7 @@ export const services: readonly HondenschoolServiceCard[] = [
           amount: 65,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 65 EUR/les", "from 65 EUR / les"),
+          label: formatFromPricePerUnit(65, l10n("les", "lesson")),
         },
       },
       {
@@ -120,7 +121,7 @@ export const services: readonly HondenschoolServiceCard[] = [
           amount: 65,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 65 EUR/ les", "from 65 EUR / les"),
+          label: formatFromPricePerUnit(65, l10n("les", "lesson")),
         },
       },
     ],
@@ -147,7 +148,7 @@ export const services: readonly HondenschoolServiceCard[] = [
           amount: 50,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 50 EUR / les", "from 50 EUR / class"),
+          label: formatFromPricePerUnit(50, l10n("les", "lesson")),
         },
       },
       {
@@ -163,7 +164,7 @@ export const services: readonly HondenschoolServiceCard[] = [
           amount: 50,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 50 EUR / les", "from 50 EUR / class"),
+          label: formatFromPricePerUnit(50, l10n("les", "lesson")),
         },
       },
     ],
@@ -187,7 +188,7 @@ export const services: readonly HondenschoolServiceCard[] = [
           amount: 45,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+          label: formatFromPricePerUnit(45, l10n("uur", "hour")),
         },
       },
     ],

@@ -1,6 +1,7 @@
 import { l10n } from "../../l10n";
 import { ui, whatsappLink } from "../../ui";
 import type { L10n } from "../../l10n";
+import { formatFromPrice, formatPrice } from "../../price";
 
 export type LinkItem = {
   label: L10n;
@@ -26,7 +27,7 @@ export const services = [
       "Een eerste gesprek om jouw situatie, planning en hulpvraag helder te krijgen.",
       "A first conversation to clarify your situation, schedule, and support request.",
     ),
-    priceLabel: l10n("EUR 40,00", "EUR 40.00"),
+    priceLabel: formatPrice(50),
   },
   {
     slug: "strippenkaart",
@@ -36,23 +37,19 @@ export const services = [
       "Flexibele urenbundels voor oppas en uitlaatservice, afgestemd op jouw planning.",
       "Flexible hour bundles for pet sitting and walking, tailored to your planning.",
     ),
-    priceLabel: l10n("v.a. EUR 150,00", "From EUR 150.00"),
+    priceLabel: formatFromPrice(150),
     variants: [
       {
-        label: l10n("1 uur", "1 hour"),
-        priceLabel: l10n("EUR 150.00", "EUR 150.00"),
-      },
-      {
         label: l10n("3 uur", "3 hours"),
-        priceLabel: l10n("EUR 150,00", "EUR 150.00"),
+        priceLabel: formatPrice(150),
       },
       {
         label: l10n("5 uur", "5 hours"),
-        priceLabel: l10n("EUR 225,00", "EUR 225.00"),
+        priceLabel: formatPrice(225),
       },
       {
         label: l10n("10 uur", "10 hours"),
-        priceLabel: l10n("EUR 450,00", "EUR 450.00"),
+        priceLabel: formatPrice(450),
       },
     ],
   },
@@ -114,7 +111,7 @@ export const page = {
         "This ensures your dog is well cared for and you come home to a relaxed dog.",
       ),
       l10n(
-        "Samen bepalen we wat praktisch en prettig werkt. Je krijgt een duidelijke aanpak, heldere afspraken en vaste betrouwbare .",
+        "Samen bepalen we wat praktisch en prettig werkt. Je krijgt een duidelijke aanpak, heldere afspraken en vaste betrouwbare begeleiding.",
         "Together we determine what works practically and comfortably. You receive a clear approach, clear agreements, and a consistent, reliable guidance.",
       ),
     ],
@@ -154,15 +151,15 @@ export const page = {
       {
         title: l10n("Planning", "Planning"),
         description: l10n(
-          "We plannen vaste of flexibele momenten die aansluiten bij jouw agenda en de routine van je hond.",
-          "We schedule fixed or flexible moments that match your agenda and your dog's routine.",
+          "Je koopt een strippenkaart en plant oppas en/ of uitlaatservice op de jouw gewenste dag en tijd.",
+          "You purchase a punch card and schedule oppas and/or walking service at your chosen date and time.",
         ),
       },
       {
         title: l10n("Oppas of uitlaatmoment", "Pet sitting or walking moment"),
         description: l10n(
-          "Je hond krijgt 1-op-1 begeleiding aan huis of tijdens een individuele wandeling in de vertrouwde omgeving.",
-          "Your dog receives 1-on-1 guidance at home or during an individual walk in a familiar environment.",
+          "Jouw hond krijgt 1 op 1 aandacht tijdens wandelingen en 1 op 1 gezelschap aan huis in zijn vertrouwde omgeving. Natuurlijk ook mogelijk wanneer er meerdere honden in het huishouden",
+          "Your dog receives one-on-one attention during walks and one-on-one companionship at home in their familiar environment. This is of course also possible if there are multiple dogs in the household.",
         ),
       },
       {

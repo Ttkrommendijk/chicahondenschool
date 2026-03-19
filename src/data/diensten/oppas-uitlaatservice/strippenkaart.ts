@@ -1,5 +1,6 @@
 import { l10n } from "../../l10n";
 import { ui } from "../../ui";
+import { formatPrice } from "../../price";
 
 export const dienst = {
   slug: "strippenkaart",
@@ -151,28 +152,28 @@ export const dienst = {
       {
         id: "kennismaking",
         label: l10n("Kennismaking", "Introduction session"),
-        price: l10n("€ 40,00", "€ 40.00"),
+        price: formatPrice(40),
         href: "https://chica-hondenschool.trainin.app/checkout/PRZ7A4",
         external: true,
       },
       {
         id: "3h",
         label: l10n("Strippenkaart 3 uur", "3-hour pass"),
-        price: l10n("€ 150,00", "€ 150.00"),
+        price: formatPrice(150),
         href: "https://chica-hondenschool.trainin.app/checkout/P2A2Y9",
         external: true,
       },
       {
         id: "6h",
         label: l10n("Strippenkaart 6 uur", "6-hour pass"),
-        price: l10n("€ 270,00", "€ 270.00"),
+        price: formatPrice(270),
         href: "https://chica-hondenschool.trainin.app/checkout/PGNYQN",
         external: true,
       },
       {
         id: "12h",
         label: l10n("Strippenkaart 12 uur", "12-hour pass"),
-        price: l10n("€ 525,00", "€ 525.00"),
+        price: formatPrice(525),
         href: "https://chica-hondenschool.trainin.app/checkout/P8PJ9J",
         external: true,
       },
@@ -183,5 +184,3 @@ export const dienst = {
   },
   related: ["kennismaking", "priveles-aan-huis", "priveles-op-locatie"],
 } as const;
-
-
