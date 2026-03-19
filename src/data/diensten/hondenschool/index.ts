@@ -46,7 +46,7 @@ export const services: readonly HondenschoolServiceCard[] = [
     ),
     groupedOptions: [
       {
-        label: l10n("Thuisbegeleiding", "Guidance at home"),
+        label: l10n("Priveles aan huis", "Private class at home"),
         description: l10n(
           "Als je hond specifieke uitdagingen kent in je woning heeft, zoals blaffen als de bel gaat, niet alleen thuis kunnen zijn of niet op de plaats blijven liggen.",
           "If your dog faces specific challenges at home, such as barking when the doorbell rings, being unable to stay home alone, or struggling to remain calmly in place.",

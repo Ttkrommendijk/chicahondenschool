@@ -55,16 +55,8 @@ export const dienst = {
     title: l10n("Wat gaan we doen", "What are we going to do"),
     body: [
       l10n(
-        "We stemmen de begeleiding af op jouw hond, jouw situatie en jouw doel.",
-        "We tailor the guidance to your dog, your situation, and your goal.",
-      ),
-      l10n(
-        "Je krijgt duidelijke oefeningen die je direct in de praktijk kunt toepassen.",
-        "You get clear exercises you can apply directly in practice.",
-      ),
-      l10n(
-        "Na iedere les weet je precies welke volgende stap je thuis kunt zetten.",
-        "After each lesson, you know exactly which next step to take at home.",
+        "Training in je eigen omgeving, precies daar waar je tegen gedrag aanloopt of waar je nieuw gedrag wilt aanleren of ombuigen. Denk aan situaties zoals blaffen naar voorbijgangers, opspringen bij bezoek, leren alleen te zijn, benchtraining, op de plaats blijven, omgaan met de stofzuiger, het voorkomen van voernijd en een goede omgang met kinderen.",
+        "Training in your own environment, exactly where you encounter unwanted behavior or want to teach or change behavior. Think of situations such as barking at passersby, jumping on visitors, learning to stay home alone, crate training, staying in place, getting used to the vacuum cleaner, preventing food aggression, and interacting calmly with children.",
       ),
     ],
     ctaLabel: l10n(
@@ -199,5 +191,3 @@ export const dienst = {
   },
   related: ["priveles-op-locatie", "sport-en-spel", "detectie"],
 } as const;
-
-
