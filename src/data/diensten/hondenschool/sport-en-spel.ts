@@ -36,7 +36,7 @@ export const dienst = {
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
     body: l10n(
-      "Door sport en spel doelgericht in te zetten, leert je hond schakelen tussen actie en rust. Jij leert hoe je energie ombuigt naar focus en samenwerking.",
+      "Door sport en spel leer je beter communiceren en samenwerken met je hond. Je bouwt samen een sterkere band en beleeft vooral veel plezier. Basisvaardigheden kunnen op een speelse manier worden aangeleerd en ingezet tijdens sport en spel.",
       "By using sport and play with purpose, your dog learns to switch between action and calmness. You learn how to channel energy into focus and cooperation.",
     ),
     highlight: l10n(
@@ -177,5 +177,3 @@ export const dienst = {
   },
   related: ["detectie", "fun-speuren-neuswerk", "priveles-op-locatie"],
 } as const;
-
-

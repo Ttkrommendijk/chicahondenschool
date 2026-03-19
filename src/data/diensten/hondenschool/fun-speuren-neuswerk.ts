@@ -45,8 +45,8 @@ export const dienst = {
     ),
     quote: {
       text: l10n(
-        '"Onze hond werd rustiger en wij leerden beter samenwerken."',
-        '"Our dog became calmer and we learned to cooperate better."',
+        '"Fascinerend hoe je hond de wereld beleeft! Ik begrijp zijn geurwereld veel beter en hij kan op een leuke, uitdagende manier zijn energie kwijt, zelfs zonder loslopen."',
+        '"Fascinating how your dog experiences the world! I understand his scent world much better and he can be a great energy saver, even without running away."',
       ),
       byline: l10n("Hondeneigenaar, Voorschoten", "Dog owner, Voorschoten"),
     },
@@ -142,7 +142,7 @@ export const dienst = {
   },
   pricing: {
     title: ui.common.price,
-    priceText: l10n("EUR 160,-", "EUR 160"),
+    priceText: l10n("EUR 250,-", "EUR 250"),
     metaLines: [
       l10n("5 lessen", "5 lessons"),
       l10n("Praktijkgericht", "Practice-focused"),

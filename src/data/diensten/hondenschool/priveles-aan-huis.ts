@@ -45,8 +45,8 @@ export const dienst = {
     ),
     quote: {
       text: l10n(
-        '"Door de les aan huis snapten wij eindelijk waar het gedrag vandaan kwam."',
-        '"Because of the in-home lesson, we finally understood where the behavior came from."',
+        '"Op de hondenschool leerden we de basis, maar niet de dagelijkse uitdagingen thuis. Borstelen, rustig in de bench blijven of bezoekers netjes begroeten – dit gaf mij veel meer begrip voor mijn hond."',
+        '"On the dog school, we learned the basics, but not the daily challenges at home. Barking, staying calm in the bench, or greeting visitors gently – this gave me much more insight into my dog."',
       ),
       byline: l10n("Hondeneigenaar uit Den Haag", "Dog owner from The Hague"),
     },
