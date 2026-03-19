@@ -17,8 +17,8 @@ export const dienst = {
   hero: {
     title: l10n("Detectie", "Detection"),
     subtitle: l10n(
-      "Gerichte zoektraining waarin jij en je hond leren werken met focus en precisie. Werk met je hond op een leuke manier aan een positive relatie gebaseerd op vertrouwen.",
-      "Focused search training where you and your dog learn to work with concentration and precision. Work with your dog in a fun way to build a positive relationship based on trust.",
+      "Gerichte zoektraining waarbij je hond leert een aangeleerde geur te vinden en de bron aan te wijzen. Jij en je hond leren samenwerken met focus en precisie, terwijl jullie op een leuke manier werken aan een positieve relatie gebaseerd op vertrouwen.",
+      "Focused search training where your dog learns to find an alerted scent and identify the source. You and your dog work together with concentration and precision, while enjoying a positive relationship based on trust.",
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
@@ -45,8 +45,8 @@ export const dienst = {
     ),
     quote: {
       text: l10n(
-        '"Detectie gaf ons structuur en mijn hond werkt met veel meer focus."',
-        '"Detection gave us structure and my dog now works with much more focus."',
+        '"Doordat mijn pup van 4 maanden fysiek rust moest houden, was dit een perfecte manier om hem toch uit te dagen en zijn energie kwijt te raken. Het is geweldig om te zien hoe hij zich ontwikkelt en het spel steeds beter zelfstandig begrijpt."',
+        '"Since my 4-month-old puppy needed physical rest, this was a perfect way to challenge him and let him burn off energy. It’s amazing to see him develop and gradually understand the game on his own."',
       ),
       byline: l10n("Hondeneigenaar, Leiden", "Dog owner, Leiden"),
     },
@@ -55,16 +55,8 @@ export const dienst = {
     title: l10n("Wat gaan we doen", "What are we going to do"),
     body: [
       l10n(
-        "We stemmen de begeleiding af op jouw hond, jouw situatie en jouw doel.",
-        "We tailor the guidance to your dog, your situation, and your goal.",
-      ),
-      l10n(
-        "Je krijgt duidelijke oefeningen die je direct in de praktijk kunt toepassen.",
-        "You get clear exercises you can apply directly in practice.",
-      ),
-      l10n(
-        "Na iedere les weet je precies welke volgende stap je thuis kunt zetten.",
-        "After each lesson, you know exactly which next step to take at home.",
+        "We leren je hond een geur aan te leren, te zoeken, te herkennen en aan te wijzen. Jij leert je hond lezen en zijn zoekgedrag herkennen. Met gerichte oefeningen kun je thuis samen blijven trainen en je hond blijvend uitdaging bieden.",
+        "We teach your dog to associate with a scent, search for it, recognize it, and indicate it. You will learn to read your dog and understand their search behavior. With targeted exercises, you can continue training together at home and provide your dog with ongoing mental stimulation.",
       ),
     ],
     ctaLabel: l10n(
@@ -98,16 +90,16 @@ export const dienst = {
     fitTitle: l10n("Dit past bij jou als", "This fits you if"),
     fitItems: [
       l10n(
-        "je gericht met neuswerk wilt trainen",
-        "you want focused nose work training",
-      ),
-      l10n(
-        "je hond houdt van mentale uitdaging",
+        "je hond van mentale uitdaging houdt",
         "your dog enjoys mental challenge",
       ),
       l10n(
-        "je stap voor stap wilt leren begeleiden",
-        "you want to learn step-by-step handling",
+        "je hond onzeker is, het geeft zelfvertrouwen een boost.",
+        "your dog is insecure, it gives you confidence.",
+      ),
+      l10n(
+        "je hond een fysieke beperking heeft en geen lange wandelingen kan maken.",
+        "your dog has a physical limitation and can't walk long distances.",
       ),
     ],
   },
@@ -154,7 +146,7 @@ export const dienst = {
   },
   pricing: {
     title: ui.common.price,
-    priceText: l10n("EUR 160,-", "EUR 160"),
+    priceText: l10n("EUR 250,-", "EUR 250"),
     metaLines: [
       l10n("5 lessen", "5 lessons"),
       l10n("Op locatie in overleg", "On location by agreement"),
