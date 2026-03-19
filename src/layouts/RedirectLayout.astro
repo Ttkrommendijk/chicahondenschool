@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, localize } from "../i18n";
+import { site } from "../data/site";
 import { ui } from "../data/ui";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 const lang = getLangFromUrl(Astro.url);
 const { to, title = localize(ui.redirect.forwarding, lang) } =
     Astro.props as Props;
+const canonicalUrl = new URL(to, site.url).toString();
 ---
 
 <!doctype html>
@@ -18,8 +20,9 @@ const { to, title = localize(ui.redirect.forwarding, lang) } =
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title}</title>
+        <meta name="robots" content="noindex,follow" />
         <meta http-equiv="refresh" content={`0;url=${to}`} />
-        <link rel="canonical" href={to} />
+        <link rel="canonical" href={canonicalUrl} />
         <script is:inline>
             {
                 `window.location.replace(${JSON.stringify(to)});`;

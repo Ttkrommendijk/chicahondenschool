@@ -13,55 +13,38 @@ const { lang, pathname, search } = Astro.props as Props;
 const initialFromUrl = new URLSearchParams(search).get("lang");
 const active =
     initialFromUrl === "en" || initialFromUrl === "nl" ? initialFromUrl : lang;
+const buildLangHref = (nextLang: Lang) => {
+    const params = new URLSearchParams(search);
+    params.set("lang", nextLang);
+    const query = params.toString();
+    return query ? `${pathname}?${query}` : pathname;
+};
+const nlHref = buildLangHref("nl");
+const enHref = buildLangHref("en");
 ---
 
 <div class="language-switch" data-language-switch>
-    <button
-        type="button"
+    <a
+        href={nlHref}
         class:list={["language-switch__option", active === "nl" && "is-active"]}
         data-lang-option="nl"
         aria-current={active === "nl" ? "true" : "false"}
-        data-pathname={pathname}
-        data-search={search}
     >
         <span data-i18n="ui.navigation.languageSwitch.nl"
             >{localize(ui.navigation.languageSwitch.nl, lang)}</span
         >
-    </button>
-    <button
-        type="button"
+    </a>
+    <a
+        href={enHref}
         class:list={["language-switch__option", active === "en" && "is-active"]}
         data-lang-option="en"
         aria-current={active === "en" ? "true" : "false"}
-        data-pathname={pathname}
-        data-search={search}
     >
         <span data-i18n="ui.navigation.languageSwitch.en"
             >{localize(ui.navigation.languageSwitch.en, lang)}</span
         >
-    </button>
+    </a>
 </div>
-
-<script is:inline>
-    (() => {
-        const root = document.querySelector("[data-language-switch]");
-        if (!root) return;
-        const options = Array.from(root.querySelectorAll("[data-lang-option]"));
-        root.querySelectorAll("[data-lang-option]").forEach((link) => {
-            link.addEventListener("click", (event) => {
-                event.preventDefault();
-                const lang = link.getAttribute("data-lang-option");
-                const setLang = window.__setLang;
-                if (
-                    (lang === "nl" || lang === "en") &&
-                    typeof setLang === "function"
-                ) {
-                    setLang(lang);
-                }
-            });
-        });
-    })();
-</script>
 
 <style>
     .language-switch {

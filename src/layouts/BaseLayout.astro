@@ -4,6 +4,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import FloatingWhatsAppButton from "../components/FloatingWhatsAppButton.astro";
 import { resolveLangFromUrl, localize, type Lang } from "../i18n";
+import { site } from "../data/site";
 import { ui } from "../data/ui";
 
 interface Props {
@@ -15,6 +16,7 @@ const lang = resolveLangFromUrl(Astro.url) as Lang;
 const fallbackTitle = localize(ui.common.brandName, lang);
 const { title = fallbackTitle, description = fallbackTitle } =
     Astro.props as Props;
+const canonicalUrl = new URL(Astro.url.pathname, site.url).toString();
 ---
 
 <!doctype html>
@@ -24,11 +26,14 @@ const { title = fallbackTitle, description = fallbackTitle } =
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title}</title>
         <meta name="description" content={description} />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href={canonicalUrl} />
         <script is:inline>
             (() => {
                 const key = "lang";
-                const url = new URL(window.location.href);
-                const queryLang = url.searchParams.get("lang");
+                const queryLang = new URLSearchParams(
+                    window.location.search,
+                ).get("lang");
                 const stored = window.localStorage.getItem(key);
                 const valid = queryLang === "nl" || queryLang === "en";
                 const storageValid = stored === "nl" || stored === "en";
@@ -37,11 +42,6 @@ const { title = fallbackTitle, description = fallbackTitle } =
                     : storageValid
                       ? stored
                       : "nl";
-
-                if (!valid) {
-                    url.searchParams.set("lang", resolved);
-                    window.history.replaceState(null, "", url.toString());
-                }
 
                 window.localStorage.setItem(key, resolved);
                 document.documentElement.lang = resolved;

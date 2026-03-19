@@ -28,13 +28,11 @@ export function persistLang(lang: Lang): void {
 export function getInitialLang(): Lang {
   const urlLang = new URLSearchParams(window.location.search).get("lang");
   const stored = window.localStorage.getItem(LANG_KEY);
-  const resolved: Lang = isLang(urlLang) ? urlLang : isLang(stored) ? stored : "nl";
-
-  if (!isLang(urlLang)) {
-    const normalized = new URL(window.location.href);
-    normalized.searchParams.set("lang", resolved);
-    window.history.replaceState(null, "", normalized.toString());
-  }
+  const resolved: Lang = isLang(urlLang)
+    ? urlLang
+    : isLang(stored)
+      ? stored
+      : "nl";
 
   syncLangToHtml(resolved);
   persistLang(resolved);

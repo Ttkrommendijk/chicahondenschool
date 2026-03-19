@@ -27,11 +27,7 @@ export const getLang = (): Lang => resolveLang();
 
 export const ensureLangInUrl = (lang: Lang): void => {
   if (typeof window === "undefined") return;
-  const url = new URL(window.location.href);
-  const current = url.searchParams.get("lang");
-  if (isLang(current)) return;
-  url.searchParams.set("lang", lang);
-  window.history.replaceState(null, "", url.toString());
+  window.localStorage.setItem(LANG_KEY, lang);
 };
 
 export const setLang = (lang: Lang): void => {
