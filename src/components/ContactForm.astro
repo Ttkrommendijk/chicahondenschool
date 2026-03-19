@@ -34,9 +34,16 @@ const text = {
     success: localize(ui.contactForm.success, lang),
     errorGeneric: localize(ui.contactForm.errorGeneric, lang),
 };
+
+const minimumFillTimeMs = 3000;
 ---
 
-<form class="contact-form" data-contact-form novalidate>
+<form
+    class="contact-form"
+    data-contact-form
+    data-min-fill-ms={minimumFillTimeMs}
+    novalidate
+>
     <div class="contact-form-grid">
         <div>
             <label for="name">{text.name}</label>
@@ -125,6 +132,16 @@ const text = {
         <p class="field-error" data-error-for="message"></p>
     </div>
 
+    <div class="hidden-field" aria-hidden="true">
+        <input
+            type="text"
+            name="company"
+            tabindex="-1"
+            autocomplete="off"
+            value=""
+        />
+    </div>
+
     <div class="mt-5 flex flex-wrap items-center gap-3">
         <button
             class="btn btn-primary"
@@ -167,9 +184,13 @@ const text = {
     if (!form) {
         // Keep top-level valid for module script output.
     } else {
+        const formLoadedAt = Date.now();
         const status = form.querySelector<HTMLElement>("[data-form-status]");
         const submitButton = form.querySelector<HTMLButtonElement>(
             "[data-submit-button]",
+        );
+        const minimumFillTimeMs = Number(
+            form.getAttribute("data-min-fill-ms") ?? "3000",
         );
 
         const labels = {
@@ -249,6 +270,17 @@ const text = {
                 interest: String(formData.get("interest") ?? "").trim(),
                 message: String(formData.get("message") ?? "").trim(),
             };
+            const honeypotValue = String(formData.get("company") ?? "").trim();
+            const submittedTooFast =
+                Date.now() - formLoadedAt < minimumFillTimeMs;
+
+            if (honeypotValue || submittedTooFast) {
+                if (status) {
+                    status.textContent = labels.generic;
+                    status.classList.add("text-secondary");
+                }
+                return;
+            }
 
             let hasError = false;
             requiredFields.forEach((fieldName: FormFieldName) => {
@@ -358,6 +390,14 @@ const text = {
         margin: 0.3rem 0 0;
         color: #8f2d52;
         font-size: 0.83rem;
+    }
+
+    .hidden-field {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
     }
 
     .contact-form .has-error {
