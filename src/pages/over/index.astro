@@ -239,9 +239,14 @@ const lang = resolveLangFromUrl(Astro.url);
         }}
         primaryLabelKey="over.page.finalCta.contact.label"
         secondary={{
-            label: localize(page.finalCta.services.label, lang),
-            href: page.finalCta.services.href,
+            label: localize(page.finalCta.hondenschool.label, lang),
+            href: page.finalCta.hondenschool.href,
         }}
-        secondaryLabelKey="over.page.finalCta.services.label"
+        secondaryLabelKey="over.page.finalCta.hondenschool.label"
+        tertiary={{
+            label: localize(page.finalCta.oppasUitlaatservice.label, lang),
+            href: page.finalCta.oppasUitlaatservice.href,
+        }}
+        tertiaryLabelKey="over.page.finalCta.oppasUitlaatservice.label"
     />
 </BaseLayout>

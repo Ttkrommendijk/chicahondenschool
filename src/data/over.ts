@@ -94,8 +94,8 @@ export const page = {
   howIWork: {
     title: l10n("Onze methode", "Our method"),
     lead: l10n(
-      "Ik werk uitsluitend 1-op-1, in de eigen leefomgeving van hond en eigenaar.",
-      "I work exclusively 1-on-1, in the dog and owner's own living environment.",
+      "Ik werk uitsluitend één-op-één, bij u thuis of op een afgesproken locatie zoals in de wijk, een winkelcentrum of een losloopgebied, afhankelijk van wat u en uw hond nodig hebben.",
+      "I work exclusively 1-on-1 at home or on a scheduled place in a neighborhood, shop center, or park. Depending on what you and your dog need.",
     ),
     items: [
       {
@@ -159,13 +159,13 @@ export const page = {
         "In 2015 I completed my instructor training and in 2016 I started ChiCa Dog School. From the same practical vision, the pet sitting and walking service also grew: reliable, individual guidance for dogs and owners who need temporary support.",
       ),
       l10n(
-        "Die combinatie van training en oppas helpt om gedrag niet los te zien van het dagelijks leven: wat je thuis, op straat of tijdens opvang ervaart, neem ik mee in de begeleiding.",
-        "That combination of training and pet sitting helps to view behavior as part of daily life: what you experience at home, on the street, or during care is included in the guidance.",
+        "Door mijn jarenlange ervaring met groepslessen ontdekte ik dat veel mensen behoefte hebben aan gerichte, persoonlijke begeleiding—iets wat binnen een groepsles niet altijd mogelijk is. Daarom werk ik vanuit de praktijk, in het dagelijks leven.",
+        "Through years of experience teaching group classes, I’ve learned that many people benefit from focused, one-on-one guidance—something that isn’t always possible in a group setting. That’s why I work in real-life, everyday situations.",
       ),
     ],
     link: {
       href: "/contact/",
-      label: l10n("Plan een kennismaking", "Plan an introduction"),
+      label: l10n("Neem contact op", "Contact us"),
       textAfter: l10n(
         " als je wilt bespreken welke begeleiding past bij je hond en situatie.",
         " if you would like to discuss which guidance fits your dog and situation.",
@@ -178,8 +178,8 @@ export const page = {
       "Why this matters for you",
     ),
     text: l10n(
-      "Voor jou betekent dit een traject met duidelijke stappen, realistische verwachtingen en begeleiding die consequent blijft. Je weet waar je aan werkt, waarom je iets doet en hoe je dat thuis kunt volhouden.",
-      "For you, this means a trajectory with clear steps, realistic expectations, and guidance that stays consistent. You know what you are working on, why you do it, and how to maintain it at home.",
+      "Voor jou betekent dit duidelijke stappen, realistische verwachtingen en persoonlijke begeleiding. Je weet waar je aan werkt, waarom je iets doet en hoe je dat thuis kunt volhouden.",
+      "For you, this means clear steps, realistic expectations, and personalguidance that stays consistent. You know what you are working on, why you do it, and how to maintain it at home.",
     ),
   },
   finalCta: {
@@ -192,9 +192,13 @@ export const page = {
       "Feel free to get in touch. Together we will see which guidance best fits your dog and daily situation.",
     ),
     contact: { label: l10n("Neem contact op", "Contact"), href: "/contact/" },
-    services: {
-      label: l10n("Bekijk diensten", "View services"),
+    hondenschool: {
+      label: l10n("Bekijk hondenschool", "View dog training"),
       href: "/diensten/hondenschool/",
+    },
+    oppasUitlaatservice: {
+      label: l10n("Bekijk oppas/uitlaatservice", "View pet sitting / walking"),
+      href: "/diensten/oppas-uitlaatservice/",
     },
   },
 } as const;

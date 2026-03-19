@@ -14,20 +14,18 @@ interface LinkItem {
 interface Props {
     title: string;
     titleKey?: string;
-    description?: string;
+    description: string;
     quickLinks?: LinkItem[];
 }
 
-const {
-    title,
-    titleKey,
-    description = "Beschrijving volgt.",
-    quickLinks = [],
-} = Astro.props as Props;
+const { title, titleKey, description, quickLinks = [] } = Astro.props as Props;
 const lang = resolveLangFromUrl(Astro.url);
 ---
 
-<BaseLayout title={`${title} | ChiCa Hondenschool`} description={description}>
+<BaseLayout
+    title={`${title} | ${localize(ui.common.brandName, lang)}`}
+    description={description}
+>
     <Hero
         title={title}
         titleKey={titleKey}

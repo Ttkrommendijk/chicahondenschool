@@ -32,8 +32,6 @@ export const ui = {
     reviews: l10n("Reviews", "Reviews"),
     about: l10n("Over ChiCa", "About ChiCa"),
     contact: l10n("Contact", "Contact"),
-    dogTraining: l10n("Hondenschool", "Dog training"),
-    petSitting: l10n("Oppas & uitlaatservice", "Pet sitting & walking"),
     mainLabel: l10n("Hoofdnavigatie", "Main navigation"),
     openNavigation: l10n("Open navigatie", "Open navigation"),
     menu: l10n("Menu", "Menu"),
@@ -46,12 +44,11 @@ export const ui = {
     brandName: l10n("ChiCa Hondenschool", "ChiCa Dog School"),
     contact: l10n("Contact", "Contact"),
     viewService: l10n("Bekijk dienst", "View service"),
+    serviceFallback: l10n("Dienst", "Service"),
     price: l10n("Prijs", "Price"),
     options: l10n("Opties", "Options"),
     relatedServices: l10n("Gerelateerde diensten", "Related services"),
     bookYourTraining: l10n("Boek jouw priveles", "Book your personal lesson"),
-    discussFirst: l10n("Eerst overleggen?", "Discuss first?"),
-    bookNow: l10n("Boek direct", "Book now"),
     planIntro: l10n("Plan een kennismaking", "Plan an introduction"),
     chooseService: l10n("Kies een dienst", "Choose a service"),
     whatWeDo: l10n("Wat gaan we doen", "What are we going to do"),
@@ -60,15 +57,12 @@ export const ui = {
       "Send a message with your questions",
     ),
     skipToContent: l10n("Direct naar inhoud", "Skip to content"),
-    menu: l10n("Menu", "Menu"),
   },
   footer: {
     followChica: l10n("Volg ChiCa", "Follow ChiCa"),
     socialInstagram: l10n("Instagram", "Instagram"),
     socialFacebook: l10n("Facebook", "Facebook"),
     socialLinkedIn: l10n("LinkedIn", "LinkedIn"),
-    terms: l10n("Algemene voorwaarden", "Terms and conditions"),
-    privacy: l10n("Privacy", "Privacy"),
     links: [
       {
         href: "/algemene-voorwaarden/",
@@ -99,31 +93,6 @@ export const ui = {
     email: l10n("E-mailadres", "Email address"),
     interest: l10n("Mijn interesse", "My interest"),
     interestPlaceholder: l10n("Maak een keuze", "Make a choice"),
-    interestGroupTraining: l10n("Hondenschool", "Dog training"),
-    interestGroupOppas: l10n("Oppasservice", "Pet sitting service"),
-    interestOption1: l10n(
-      "5 privelessen op maat (30 min)",
-      "5 tailored private lessons (30 min)",
-    ),
-    interestOption2: l10n(
-      "Priveles aan huis (75 min)",
-      "Private lesson at home (75 min)",
-    ),
-    interestOption3: l10n("Priveles op locatie", "Private lesson on location"),
-    interestOption4: l10n(
-      "Fun speuren / neuswerk (5 lessen)",
-      "Fun tracking / nose work (5 lessons)",
-    ),
-    interestOption5: l10n("Detectie (5 lessen)", "Detection (5 lessons)"),
-    interestOption6: l10n(
-      "Sport & spel (5 lessen - Voorschoten)",
-      "Sport & play (5 lessons - Voorschoten)",
-    ),
-    interestOption7: l10n("Kennismaking", "Introduction"),
-    interestOption8: l10n(
-      "Strippenkaart (1/3/5/10 uur)",
-      "Punch card (1/3/5/10 hours)",
-    ),
     message: l10n("Bericht", "Message"),
     messagePlaceholder: l10n(
       "Waar kan ik je mee helpen?",
@@ -183,39 +152,6 @@ export const ui = {
     nextImage: l10n("Volgende afbeelding", "Next image"),
     chooseImage: l10n("Afbeelding kiezen", "Choose image"),
     goToImage: l10n("Ga naar afbeelding", "Go to image"),
-  },
-  processStrip: {
-    title: l10n(
-      "Hoe werkt onze hondentraining?",
-      "How does our dog training work?",
-    ),
-    intro: l10n(
-      "Praktische privetraining aan huis, stap voor stap opgebouwd.",
-      "Practical private in-home training, built step by step.",
-    ),
-    step1Title: l10n("1. Kennismaking", "1. Introduction"),
-    step1Text: l10n(
-      "We bespreken je situatie, doelen en eventuele gedragsuitdagingen van je hond.",
-      "We discuss your situation, goals, and any behavioral challenges of your dog.",
-    ),
-    step2Title: l10n(
-      "2. Training in je omgeving",
-      "2. Training in your environment",
-    ),
-    step2Text: l10n(
-      "We trainen aan huis of tijdens het wandelen, zodat gedrag verbetert waar het echt nodig is.",
-      "We train at home or during walks, so behavior improves where it is truly needed.",
-    ),
-    step3Title: l10n("3. Oefenen en begeleiden", "3. Practice and guidance"),
-    step3Text: l10n(
-      "Je krijgt duidelijke handvatten en praktische oefeningen om zelfstandig verder te werken.",
-      "You receive clear guidance and practical exercises to continue independently.",
-    ),
-    resultTitle: l10n("Resultaat", "Result"),
-    resultText: l10n(
-      "Meer rust, duidelijkheid en samenwerking tussen jou en je hond in het dagelijks leven.",
-      "More calm, clarity, and cooperation between you and your dog in daily life.",
-    ),
   },
 } as const;
 

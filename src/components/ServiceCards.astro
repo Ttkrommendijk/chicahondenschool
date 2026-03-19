@@ -132,7 +132,10 @@ function resolveHeaderTitle(item: Props["items"][number]): {
         );
     }
 
-    return { value: "Dienst", fromTitleKey: false };
+    return {
+        value: localize(ui.common.serviceFallback, lang),
+        fromTitleKey: false,
+    };
 }
 ---
 

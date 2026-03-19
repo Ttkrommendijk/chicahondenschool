@@ -1,12 +1,18 @@
 ---
-import { localize, type Lang } from "../i18n";
+import { localize, type Lang, type L10n } from "../i18n";
 import { ui } from "../data/ui";
+
+interface InterestGroup {
+    label: L10n;
+    options: readonly L10n[];
+}
 
 interface Props {
     lang: Lang;
+    interestGroups: readonly InterestGroup[];
 }
 
-const { lang } = Astro.props as Props;
+const { lang, interestGroups } = Astro.props as Props;
 
 const text = {
     name: localize(ui.contactForm.name, lang),
@@ -16,16 +22,6 @@ const text = {
     email: localize(ui.contactForm.email, lang),
     interest: localize(ui.contactForm.interest, lang),
     interestPlaceholder: localize(ui.contactForm.interestPlaceholder, lang),
-    interestGroupTraining: localize(ui.contactForm.interestGroupTraining, lang),
-    interestGroupOppas: localize(ui.contactForm.interestGroupOppas, lang),
-    interestOption1: localize(ui.contactForm.interestOption1, lang),
-    interestOption2: localize(ui.contactForm.interestOption2, lang),
-    interestOption3: localize(ui.contactForm.interestOption3, lang),
-    interestOption4: localize(ui.contactForm.interestOption4, lang),
-    interestOption5: localize(ui.contactForm.interestOption5, lang),
-    interestOption6: localize(ui.contactForm.interestOption6, lang),
-    interestOption7: localize(ui.contactForm.interestOption7, lang),
-    interestOption8: localize(ui.contactForm.interestOption8, lang),
     message: localize(ui.contactForm.message, lang),
     messagePlaceholder: localize(ui.contactForm.messagePlaceholder, lang),
     submit: localize(ui.contactForm.submit, lang),
@@ -98,18 +94,22 @@ const text = {
         <label for="interest">{text.interest}</label>
         <select id="interest" name="interest" required>
             <option value="">{text.interestPlaceholder}</option>
-            <optgroup label={text.interestGroupTraining}>
-                <option>{text.interestOption1}</option>
-                <option>{text.interestOption2}</option>
-                <option>{text.interestOption3}</option>
-                <option>{text.interestOption4}</option>
-                <option>{text.interestOption5}</option>
-                <option>{text.interestOption6}</option>
-            </optgroup>
-            <optgroup label={text.interestGroupOppas}>
-                <option>{text.interestOption7}</option>
-                <option>{text.interestOption8}</option>
-            </optgroup>
+            {
+                interestGroups.map((group, groupIndex) => (
+                    <optgroup
+                        label={localize(group.label, lang)}
+                        data-i18n-attr={`label:contact.page.contactForm.interestGroups.${groupIndex}.label`}
+                    >
+                        {group.options.map((option, optionIndex) => (
+                            <option
+                                data-i18n={`contact.page.contactForm.interestGroups.${groupIndex}.options.${optionIndex}`}
+                            >
+                                {localize(option, lang)}
+                            </option>
+                        ))}
+                    </optgroup>
+                ))
+            }
         </select>
         <p class="field-error" data-error-for="interest"></p>
     </div>

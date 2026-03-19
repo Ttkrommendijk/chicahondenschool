@@ -10,6 +10,8 @@ interface Props {
     primaryLabelKey?: string;
     secondary?: { label: string; href: string };
     secondaryLabelKey?: string;
+    tertiary?: { label: string; href: string };
+    tertiaryLabelKey?: string;
 }
 
 const {
@@ -21,6 +23,8 @@ const {
     primaryLabelKey,
     secondary,
     secondaryLabelKey,
+    tertiary,
+    tertiaryLabelKey,
 } = Astro.props as Props;
 ---
 
@@ -48,6 +52,16 @@ const {
                         variant="cta-secondary-dark"
                         label={secondary.label}
                         labelKey={secondaryLabelKey}
+                    />
+                )
+            }
+            {
+                tertiary && (
+                    <CTAButton
+                        href={tertiary.href}
+                        variant="cta-secondary-dark"
+                        label={tertiary.label}
+                        labelKey={tertiaryLabelKey}
                     />
                 )
             }

@@ -11,9 +11,10 @@ interface Props {
     description?: string;
 }
 
-const { title = "ChiCa Hondenschool", description = "Beschrijving volgt." } =
-    Astro.props as Props;
 const lang = resolveLangFromUrl(Astro.url) as Lang;
+const fallbackTitle = localize(ui.common.brandName, lang);
+const { title = fallbackTitle, description = fallbackTitle } =
+    Astro.props as Props;
 ---
 
 <!doctype html>

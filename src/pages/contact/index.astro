@@ -34,7 +34,10 @@ const lang = getLangFromUrl(Astro.url);
                         >{localize(page.formSectionTitle, lang)}</span
                     >
                 </h2>
-                <ContactForm lang={lang} />
+                <ContactForm
+                    lang={lang}
+                    interestGroups={page.contactForm.interestGroups}
+                />
             </article>
 
             <aside

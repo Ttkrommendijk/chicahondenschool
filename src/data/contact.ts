@@ -1,5 +1,10 @@
-import { l10n } from "./l10n";
+import { l10n, type L10n } from "./l10n";
 import { ui, whatsappLink } from "./ui";
+
+type InterestGroup = {
+  label: L10n;
+  options: readonly L10n[];
+};
 
 export const page = {
   seo: {
@@ -30,6 +35,37 @@ export const page = {
   bookingCta: {
     label: l10n("Boek direct", "Book now"),
     href: ui.links.bookingUrl,
+  },
+  contactForm: {
+    interestGroups: [
+      {
+        label: l10n("Hondenschool", "Dog training"),
+        options: [
+          l10n(
+            "5 privelessen op maat (30 min)",
+            "5 tailored private lessons (30 min)",
+          ),
+          l10n("Priveles aan huis (75 min)", "Private lesson at home (75 min)"),
+          l10n("Priveles op locatie", "Private lesson on location"),
+          l10n(
+            "Fun speuren / neuswerk (5 lessen)",
+            "Fun tracking / nose work (5 lessons)",
+          ),
+          l10n("Detectie (5 lessen)", "Detection (5 lessons)"),
+          l10n(
+            "Sport & spel (5 lessen - Voorschoten)",
+            "Sport & play (5 lessons - Voorschoten)",
+          ),
+        ],
+      },
+      {
+        label: l10n("Oppasservice", "Pet sitting service"),
+        options: [
+          l10n("Kennismaking", "Introduction"),
+          l10n("Strippenkaart (1/3/5/10 uur)", "Punch card (1/3/5/10 hours)"),
+        ],
+      },
+    ] satisfies readonly InterestGroup[],
   },
   contactDetails: {
     phoneLabel: l10n("Telefoon", "Phone"),
