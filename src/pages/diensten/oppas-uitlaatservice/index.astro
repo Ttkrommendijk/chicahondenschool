@@ -3,7 +3,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Hero from "../../../components/Hero.astro";
 import CTASection from "../../../components/CTASection.astro";
 import ServiceCards from "../../../components/ServiceCards.astro";
-import ProcessStrip from "../../../components/ProcessStrip.astro";
+import ProcessFlow from "../../../components/ProcessFlow.astro";
 import CTAButton from "../../../components/CTAButton.astro";
 import { services } from "../../../data/diensten/oppas-uitlaatservice/index";
 import { page } from "../../../data/diensten/oppas-uitlaatservice/index";
@@ -85,6 +85,20 @@ const lang = resolveLangFromUrl(Astro.url);
         </div>
     </section>
 
+    <ProcessFlow
+        title={localize(page.howItWorks.title, lang)}
+        subtitle={localize(page.howItWorks.subtitle, lang)}
+        titleKey="oppas.page.howItWorks.title"
+        subtitleKey="oppas.page.howItWorks.subtitle"
+        steps={page.howItWorks.steps.map((step, index) => ({
+            number: index + 1,
+            title: localize(step.title, lang),
+            description: localize(step.description, lang),
+            titleKey: `oppas.page.howItWorks.steps.${index}.title`,
+            descriptionKey: `oppas.page.howItWorks.steps.${index}.description`,
+        }))}
+    />
+
     <ServiceCards
         sectionId="diensten"
         title={localize(page.cards.title, lang)}
@@ -108,40 +122,6 @@ const lang = resolveLangFromUrl(Astro.url);
             priceLabelKey: `oppas.page.services.${index}.priceLabel`,
         }))}
     />
-
-    <section class="py-6 md:py-8">
-        <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
-            <div
-                class="rounded-3xl border border-main/40 bg-main-soft p-8 shadow-sm md:p-10"
-            >
-                <h2
-                    class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
-                >
-                    <span data-i18n="oppas.page.process.title"
-                        >{localize(page.process.title, lang)}</span
-                    >
-                </h2>
-                <p
-                    class="mt-4 text-lg md:text-xl font-medium text-main-dark/90 max-w-3xl"
-                >
-                    <span data-i18n="oppas.page.process.lead"
-                        >{localize(page.process.lead, lang)}</span
-                    >
-                </p>
-
-                <ProcessStrip
-                    cardsOnly={true}
-                    items={page.process.items.map((item, index) => ({
-                        ...item,
-                        title: localize(item.title, lang),
-                        text: localize(item.text, lang),
-                        titleKey: `oppas.page.process.items.${index}.title`,
-                        textKey: `oppas.page.process.items.${index}.text`,
-                    }))}
-                />
-            </div>
-        </div>
-    </section>
 
     <section class="py-6 md:py-8">
         <div class="mx-auto w-full max-w-6xl px-4 md:px-6">

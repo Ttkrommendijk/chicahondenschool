@@ -134,43 +134,40 @@ export const page = {
     },
     cardCtaLabel: l10n("Bekijk dienst", "View service"),
   },
-  process: {
+  howItWorks: {
     title: l10n(
       "Hoe werkt onze oppas- en uitlaatservice?",
       "How does our pet sitting and walking service work?",
     ),
-    lead: l10n(
+    subtitle: l10n(
       "Actief in Zuid-Holland, met persoonlijke oppas en uitlaatservice aan huis.",
       "Active in South Holland, with personal in-home pet sitting and walking service.",
     ),
-    items: [
+    steps: [
       {
-        title: l10n("1. Kennismaking", "1. Introduction"),
-        text: l10n(
+        title: l10n("Kennismaking", "Introduction"),
+        description: l10n(
           "We bespreken jouw wensen, de behoeften van je hond en praktische afspraken.",
           "We discuss your wishes, your dog's needs, and practical arrangements.",
         ),
       },
       {
-        title: l10n("2. Planning", "2. Planning"),
-        text: l10n(
+        title: l10n("Planning", "Planning"),
+        description: l10n(
           "We plannen vaste of flexibele momenten die aansluiten bij jouw agenda en de routine van je hond.",
           "We schedule fixed or flexible moments that match your agenda and your dog's routine.",
         ),
       },
       {
-        title: l10n(
-          "3. Oppas of uitlaatmoment",
-          "3. Pet sitting or walking moment",
-        ),
-        text: l10n(
+        title: l10n("Oppas of uitlaatmoment", "Pet sitting or walking moment"),
+        description: l10n(
           "Je hond krijgt 1-op-1 begeleiding aan huis of tijdens een individuele wandeling in de vertrouwde omgeving.",
           "Your dog receives 1-on-1 guidance at home or during an individual walk in a familiar environment.",
         ),
       },
       {
-        title: l10n("4. Terugkoppeling", "4. Feedback"),
-        text: l10n(
+        title: l10n("Terugkoppeling", "Feedback"),
+        description: l10n(
           "Na afloop ontvang je een korte terugkoppeling, zodat je weet hoe het is verlopen.",
           "Afterward you receive short feedback, so you know how it went.",
         ),

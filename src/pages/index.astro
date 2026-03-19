@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import ProcessFlow from "../components/ProcessFlow.astro";
 import ServiceCards from "../components/ServiceCards.astro";
 import USPSection from "../components/USPSection.astro";
 import TestimonialHighlight from "../components/TestimonialHighlight.astro";
@@ -94,20 +93,6 @@ const lang = resolveLangFromUrl(Astro.url);
             descriptionKey: `homePage.page.services.items.${index}.description`,
             ctaLabelKey: `homePage.page.services.items.${index}.ctaLabel`,
             badgeKey: `homePage.page.services.items.${index}.badge`,
-        }))}
-    />
-
-    <ProcessFlow
-        title={localize(page.processFlow.title, lang)}
-        subtitle={localize(page.processFlow.subtitle, lang)}
-        titleKey="homePage.page.processFlow.title"
-        subtitleKey="homePage.page.processFlow.subtitle"
-        steps={page.processFlow.steps.map((step, index) => ({
-            number: step.number,
-            title: localize(step.title, lang),
-            description: localize(step.description, lang),
-            titleKey: `homePage.page.processFlow.steps.${index}.title`,
-            descriptionKey: `homePage.page.processFlow.steps.${index}.description`,
         }))}
     />
 

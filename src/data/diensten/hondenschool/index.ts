@@ -229,47 +229,43 @@ export const page = {
       href: "/contact/",
     },
   },
-  process: {
+  howItWorks: {
     title: l10n(
       "Hoe werkt onze hondentraining?",
       "How does our dog training work?",
     ),
-    intro: l10n(
+    subtitle: l10n(
       "Praktische privetraining aan huis, stap voor stap opgebouwd.",
       "Practical private in-home training, built step by step.",
     ),
-    items: [
+    steps: [
       {
-        title: l10n("1. Kennismaking", "1. Introduction"),
-        text: l10n(
+        title: l10n("Kennismaking", "Introduction"),
+        description: l10n(
           "We bespreken je situatie, doelen en eventuele gedragsuitdagingen van je hond.",
           "We discuss your situation, goals, and any behavioral challenges of your dog.",
         ),
       },
       {
-        title: l10n(
-          "2. Training in je omgeving",
-          "2. Training in your environment",
-        ),
-        text: l10n(
+        title: l10n("Training in je omgeving", "Training in your environment"),
+        description: l10n(
           "We trainen aan huis of tijdens het wandelen, zodat gedrag verbetert waar het echt nodig is.",
           "We train at home or during walks, so behavior improves where it is truly needed.",
         ),
       },
       {
-        title: l10n("3. Oefenen en begeleiden", "3. Practice and guidance"),
-        text: l10n(
+        title: l10n("Oefenen en begeleiden", "Practice and guidance"),
+        description: l10n(
           "Je krijgt duidelijke handvatten en praktische oefeningen om zelfstandig verder te werken.",
           "You receive clear guidance and practical exercises to continue independently.",
         ),
       },
       {
-        title: l10n("Resultaat", "Result"),
-        text: l10n(
-          "Meer rust, duidelijkheid en samenwerking tussen jou en je hond in het dagelijks leven.",
-          "More calm, clarity, and cooperation between you and your dog in daily life.",
+        title: l10n("Flexibel verder plannen", "Plan follow-up flexibly"),
+        description: l10n(
+          "Je plant vervolgsessies wanneer nodig, zodat je gericht blijft werken aan rust, duidelijkheid en samenwerking in het dagelijks leven.",
+          "You schedule follow-up sessions when needed, so you can keep working purposefully on calm, clarity, and cooperation in daily life.",
         ),
-        emphasized: true,
       },
     ],
   },
