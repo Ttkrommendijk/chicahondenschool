@@ -17,8 +17,8 @@ export const dienst = {
   hero: {
     title: l10n("Sport en spel", "Sport and play"),
     subtitle: l10n(
-      "Actief trainen met duidelijke structuur, zodat energie en samenwerking in balans komen. Ideaal voor honden die graag bezig zijn.",
-      "Active training with clear structure so energy and cooperation become balanced. Perfect for dogs that like to stay active.",
+      "Actief trainen met duidelijke stappen, zodat je hond jouw signalen beter begrijpt vanuit plezier, ontspanning en samenwerking. Ideaal voor honden en eigenaren die samen variatie en leuke oefeningen willen, van trucjes en parcours tot apporteren en hulphondvaardigheden.",
+      "Active training in clear steps, helping your dog understand your signals through fun, relaxation, and teamwork. Perfect for dogs and owners who enjoy varied exercises, from tricks and obstacle courses to retrieving and helper-dog skills.",
     ),
     primaryCtaLabel: ui.common.bookYourTraining,
     trustLine: l10n(
@@ -36,8 +36,8 @@ export const dienst = {
   persuasion: {
     title: l10n("Waarom dit werkt", "Why this works"),
     body: l10n(
-      "Door sport en spel leer je beter communiceren en samenwerken met je hond. Je bouwt samen een sterkere band en beleeft vooral veel plezier. Basisvaardigheden kunnen op een speelse manier worden aangeleerd en ingezet tijdens sport en spel.",
-      "By using sport and play with purpose, your dog learns to switch between action and calmness. You learn how to channel energy into focus and cooperation.",
+      "Door sport en spel bouw je een sterke band op door beter te communiceren met je hond, hem te sturen op basis van samenwerking en vertrouwen, en samen vooral veel plezier te hebben.",
+      "Through sport and play, you build a strong bond by communicating better with your dog, guiding him through teamwork and trust, and most of all, having fun together.",
     ),
     highlight: l10n(
       "Plezier met richting: actief trainen zonder chaos.",
@@ -55,16 +55,21 @@ export const dienst = {
     title: l10n("Wat gaan we doen", "What are we going to do"),
     body: [
       l10n(
-        "We stemmen de begeleiding af op jouw hond, jouw situatie en jouw doel.",
-        "We tailor the guidance to your dog, your situation, and your goal.",
+        "- Leren zoeken van een speeltje en apporteren.",
+        "- Learn to find a toy and retrieve it.",
       ),
       l10n(
-        "Je krijgt duidelijke oefeningen die je direct in de praktijk kunt toepassen.",
-        "You get clear exercises you can apply directly in practice.",
+        "- Trucjes als rollen, mooi zitten, onder je benen lopen",
+        "- Tricks like rolling, sitting, and walking under your feet",
+      ),
+      l10n("- Een grote bal leren duwen (treibbal)", "- Push a big ball"),
+      l10n(
+        "- Parcourtje lopen met allerlei hindernissen (hoopers).",
+        "- Run a track with various obstacles",
       ),
       l10n(
-        "Na iedere les weet je precies welke volgende stap je thuis kunt zetten.",
-        "After each lesson, you know exactly which next step to take at home.",
+        "- Hulphond vaardigheden, bijvoorbeeld sok leren uittrekken, jas leren uittrekken, apporteren van sleutels.",
+        "- Practice dog skills like pulling a toy, sitting, and carrying keys",
       ),
     ],
     ctaLabel: l10n(
@@ -97,14 +102,17 @@ export const dienst = {
     title: l10n("Voor wie dit is", "Who this is for"),
     fitTitle: l10n("Dit past bij jou als", "This fits you if"),
     fitItems: [
-      l10n("je hond veel energie heeft", "your dog has high energy"),
       l10n(
-        "je focus en samenwerking wilt verbeteren",
-        "you want to improve focus and cooperation",
+        "je vanuit rust en plezier met je hond wilt samenwerken",
+        "you want to work with your dog in a relaxed and happy manner",
+      ),
+      l10n(
+        "Je hond fysieke en geestelijke uitdaging wilt bieden. ",
+        "You want to provide your dog with physical and mental challenges.",
       ),
       l10n(
         "je training leuk en doelgericht wilt houden",
-        "you want training to stay fun and goal-focused",
+        "You want to keep training fun and goal-oriented",
       ),
     ],
   },
@@ -151,7 +159,7 @@ export const dienst = {
   },
   pricing: {
     title: ui.common.price,
-    priceText: l10n("EUR 160,-", "EUR 160"),
+    priceText: l10n("EUR 250,-", "EUR 250"),
     metaLines: [
       l10n("5 lessen", "5 lessons"),
       l10n(
