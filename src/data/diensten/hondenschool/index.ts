@@ -41,7 +41,7 @@ export const services: readonly HondenschoolServiceCard[] = [
       "Individual behavior training",
     ),
     shortDescription: l10n(
-      "Wanneer je hond thuis of op straat specifiek gedrag vertoont waar jij of je omgeving niet blij van wordt, bieden wij probleemgerichte trainingen aan.We kijken zorgvuldig naar het gedrag van zowel de hond als de eigenaar en passen dit gericht aan, zodat we in zo kort mogelijke tijd het gewenste resultaat bereiken.",
+      "Wanneer je hond thuis of op straat specifiek gedrag vertoont waar jij of je omgeving niet blij van wordt, bieden wij probleemgerichte trainingen aan. We kijken zorgvuldig naar het gedrag van zowel de hond als de eigenaar en passen dit gericht aan, zodat we in zo kort mogelijke tijd het gewenste resultaat bereiken.",
       "If your dog shows specific behaviour at home or outdoors that you or your surroundings are not happy with, we offer targeted behaviour-focused training. We carefully assess both the dog’s behaviour and the owner’s role, and adjust them accordingly, so we can achieve the desired results in the shortest possible time.",
     ),
     groupedOptions: [
@@ -55,10 +55,10 @@ export const services: readonly HondenschoolServiceCard[] = [
         image: dienstPrivelesAanHuis.hero.image.src,
         imageAlt: dienstPrivelesAanHuis.hero.image.alt,
         priceFrom: {
-          amount: 60,
+          amount: 75,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 60 EUR/uur", "from 60 EUR / hour"),
+          label: l10n("v.a. 75 EUR / les", "from 75 EUR / les"),
         },
       },
       {
@@ -71,10 +71,10 @@ export const services: readonly HondenschoolServiceCard[] = [
         image: dienstPrivelesOpLocatie.hero.image.src,
         imageAlt: dienstPrivelesOpLocatie.hero.image.alt,
         priceFrom: {
-          amount: 60,
+          amount: 65,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 60 EUR/uur", "from 60 EUR / hour"),
+          label: l10n("v.a. 65 EUR / les", "from 65 EUR / les"),
         },
       },
     ],
@@ -101,10 +101,10 @@ export const services: readonly HondenschoolServiceCard[] = [
         image: dienstFunSpeuren.hero.image.src,
         imageAlt: dienstFunSpeuren.hero.image.alt,
         priceFrom: {
-          amount: 45,
+          amount: 65,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+          label: l10n("v.a. 65 EUR/les", "from 65 EUR / les"),
         },
       },
       {
@@ -117,10 +117,10 @@ export const services: readonly HondenschoolServiceCard[] = [
         image: dienstDetectie.hero.image.src,
         imageAlt: dienstDetectie.hero.image.alt,
         priceFrom: {
-          amount: 45,
+          amount: 65,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+          label: l10n("v.a. 65 EUR/ les", "from 65 EUR / les"),
         },
       },
     ],
@@ -130,8 +130,8 @@ export const services: readonly HondenschoolServiceCard[] = [
     href: "/diensten/hondenschool/puppycursus/",
     shortTitle: l10n("Privé cursussen", "Private courses"),
     shortDescription: l10n(
-      "Onze privé cursussen bieden de inhoud van onze standaard trainingen, maar in een persoonlijke 1-op-1 setting. Je krijgt alle aandacht, zonder wachttijden of afleiding van andere honden. We trainen bij jou thuis of op een locatie die past bij jouw hond en jouw doelen.",
-      "Our private courses offer the content of our standard training programs in a personal 1-on-1 setting. You get full attention, without waiting times or distractions from other dogs. We train in an environment that fits your dog and your goals.",
+      "Onze privélessen bieden persoonlijke één-op-één begeleiding met alle aandacht voor jou en je hond. Geen afleiding, geen wachttijden, je start wanneer het jou uitkomt. We trainen thuis of op locatie, met echte situaties uit het dagelijks leven voor directe, effectieve resultaten en een goede socialisatie.",
+      "Our private lessons offer personal one on one guidance with full attention for you and your dog. No distractions, no waiting times, you start whenever it suits you. We train at home or on location, using real life situations for direct, effective results and proper socialization.",
     ),
     groupedOptions: [
       {
@@ -144,10 +144,10 @@ export const services: readonly HondenschoolServiceCard[] = [
         image: dienstPuppycursus.hero.image.src,
         imageAlt: dienstPuppycursus.hero.image.alt,
         priceFrom: {
-          amount: 45,
+          amount: 50,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+          label: l10n("v.a. 50 EUR / les", "from 50 EUR / class"),
         },
       },
       {
@@ -160,10 +160,10 @@ export const services: readonly HondenschoolServiceCard[] = [
         image: dienstBasiscursus.hero.image.src,
         imageAlt: dienstBasiscursus.hero.image.alt,
         priceFrom: {
-          amount: 45,
+          amount: 50,
           currency: "EUR",
           unit: l10n("uur", "hour"),
-          label: l10n("v.a. 45 EUR/uur", "from 45 EUR / hour"),
+          label: l10n("v.a. 50 EUR / les", "from 50 EUR / class"),
         },
       },
     ],
@@ -210,7 +210,10 @@ export const page = {
     ),
   },
   hero: {
-    title: l10n("Hondentraining aan huis", "In-home dog training"),
+    title: l10n(
+      "Hondentraining in uw eigen omgeving",
+      "Dog training in your own environment",
+    ),
     subtitle: l10n(
       "Privé hondentraining in de praktijk, gericht op gedrag en samenwerking in Den Haag, Rijswijk, Voorschoten (en omstreken).",
       "Private dog training in practice, focused on behavior and cooperation.",
@@ -242,8 +245,8 @@ export const page = {
       {
         title: l10n("Kennismaking", "Introduction"),
         description: l10n(
-          "We bespreken je situatie, doelen en eventuele gedragsuitdagingen van je hond.",
-          "We discuss your situation, goals, and any behavioral challenges of your dog.",
+          "Tijdens de eerste les bespreken we je situatie, doelen en eventuele gedragsuitdagingen van je hond.",
+          "During the first lesson, we discuss your situation, goals, and any behavioral challenges of your dog.",
         ),
       },
       {
@@ -261,10 +264,10 @@ export const page = {
         ),
       },
       {
-        title: l10n("Flexibel verder plannen", "Plan follow-up flexibly"),
+        title: l10n("Resultaat", "Result"),
         description: l10n(
-          "Je plant vervolgsessies wanneer nodig, zodat je gericht blijft werken aan rust, duidelijkheid en samenwerking in het dagelijks leven.",
-          "You schedule follow-up sessions when needed, so you can keep working purposefully on calm, clarity, and cooperation in daily life.",
+          "Meer rust, duidelijkheid en samenwerking tussen jou en je hond in het dagelijks leven.",
+          "More calm, clarity, and cooperation between you and your dog in every day life.",
         ),
       },
     ],
@@ -272,7 +275,7 @@ export const page = {
   services,
   servicesBySlug,
   cards: {
-    title: l10n("Kies jouw traject", "Choose your program"),
+    title: l10n("Kies jouw cursus", "Choose your program"),
     actionLink: {
       label: l10n("Neem contact op", "Contact"),
       href: "/contact/",

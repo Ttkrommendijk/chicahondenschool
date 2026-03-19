@@ -55,16 +55,8 @@ export const dienst = {
     title: l10n("Wat gaan we doen", "What are we going to do"),
     body: [
       l10n(
-        "We stemmen de begeleiding af op jouw hond, jouw situatie en jouw doel.",
-        "We tailor the guidance to your dog, your situation, and your goal.",
-      ),
-      l10n(
-        "Je krijgt duidelijke oefeningen die je direct in de praktijk kunt toepassen.",
-        "You get clear exercises you can apply directly in practice.",
-      ),
-      l10n(
-        "Na iedere les weet je precies welke volgende stap je thuis kunt zetten.",
-        "After each lesson, you know exactly which next step to take at home.",
+        "In de basiscursus werken we verder met jouw oudere pup of (pre)puber. Waar puppylessen nog vooral draaiden om opvoeding en eerste basisvaardigheden, maken we deze nu tot gewoontes. Je hond leert beter omgaan met de buitenwereld, geuren en prikkels, terwijl we basisvaardigheden uitbreiden en herhalen. Ideaal voor pups vanaf 4 maanden die beginnen te wisselen van tandjes of een beginnende puber.",
+        "In the basic course, we continue with your older puppy or (pre)teen dog. Puppy lessons focused on early training and basic skills; here we turn them into habits. Your dog learns to handle the outside world, scents, and stimuli, while we expand and repeat foundational skills. Perfect for puppies from four months starting to teethe or early adolescents.",
       ),
     ],
     ctaLabel: l10n(
@@ -76,8 +68,8 @@ export const dienst = {
   benefits: {
     items: [
       l10n(
-        "1 les van 75 minuten bij jou thuis",
-        "1 lesson of 75 minutes at home",
+        "1 les van 45 minuten bij jou thuis",
+        "1 lesson of 45 minutes at home",
       ),
       l10n(
         "Kennismaking met jou en je hond",
@@ -161,17 +153,14 @@ export const dienst = {
     unavailableLabel: l10n("Binnenkort beschikbaar", "Available soon"),
     options: [
       {
-        id: "3-lessen",
-        label: l10n("3 lessen", "3 lessons"),
-      },
-      {
         id: "5-lessen",
         label: l10n("5 lessen", "5 lessons"),
+        price: l10n("EUR 250,-", "EUR 250"),
       },
       {
         id: "extra-les",
         label: l10n("extra les", "extra lesson"),
-        price: l10n("EUR 75,-", "EUR 75"),
+        price: l10n("EUR 50,-", "EUR 50"),
         href: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
         external: true,
       },
@@ -179,8 +168,8 @@ export const dienst = {
   },
   pricing: {
     title: ui.common.price,
-    priceText: l10n("EUR 75,-", "EUR 75"),
-    metaLines: [l10n("75 minuten", "75 minutes"), l10n("Aan huis", "At home")],
+    priceText: l10n("EUR 50,-", "EUR 50"),
+    metaLines: [l10n("45 minuten", "45 minutes"), l10n("Aan huis", "At home")],
     options: [
       {
         label: l10n(
@@ -199,5 +188,3 @@ export const dienst = {
   },
   related: ["priveles-op-locatie", "sport-en-spel", "detectie"],
 } as const;
-
-

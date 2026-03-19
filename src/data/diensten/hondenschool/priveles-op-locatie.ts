@@ -178,7 +178,7 @@ export const dienst = {
     title: ui.common.price,
     priceText: l10n("EUR 65,-", "EUR 65"),
     metaLines: [
-      l10n("60 minuten", "60 minutes"),
+      l10n("45 minuten", "45 minutes"),
       l10n("Op locatie", "On location"),
     ],
     options: [
@@ -199,5 +199,3 @@ export const dienst = {
   },
   related: ["priveles-aan-huis", "detectie", "fun-speuren-neuswerk"],
 } as const;
-
-

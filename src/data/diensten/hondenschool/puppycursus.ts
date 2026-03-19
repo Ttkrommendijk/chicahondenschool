@@ -128,19 +128,14 @@ export const dienst = {
     unavailableLabel: l10n("Binnenkort beschikbaar", "Available soon"),
     options: [
       {
-        id: "3-lessen",
-        label: l10n("3 lessen", "3 lessons"),
-        price: l10n("EUR 225,-", "EUR 225"),
-      },
-      {
         id: "5-lessen",
         label: l10n("5 lessen", "5 lessons"),
-        price: l10n("EUR 375,-", "EUR 375"),
+        price: l10n("EUR 250,-", "EUR 250"),
       },
       {
         id: "extra-les",
         label: l10n("extra les", "extra lesson"),
-        price: l10n("EUR 75,-", "EUR 75"),
+        price: l10n("EUR 50,-", "EUR 50"),
         href: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
         external: true,
       },
@@ -148,9 +143,9 @@ export const dienst = {
   },
   pricing: {
     title: ui.common.price,
-    priceText: l10n("EUR 75,-", "EUR 75"),
+    priceText: l10n("EUR 50,-", "EUR 50"),
     metaLines: [
-      l10n("75 minuten", "75 minutes"),
+      l10n("45 minuten", "45 minutes"),
       l10n("Op af te spreken locatie", "At an agreed location"),
     ],
     options: [
