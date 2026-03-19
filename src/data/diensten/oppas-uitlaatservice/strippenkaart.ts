@@ -1,6 +1,6 @@
 import { l10n } from "../../l10n";
 import { ui } from "../../ui";
-import { formatPrice } from "../../price";
+import { formatFromPrice, formatPrice } from "../../price";
 
 export const dienst = {
   slug: "strippenkaart",
@@ -181,6 +181,9 @@ export const dienst = {
   },
   pricing: {
     title: l10n("Prijzen", "Pricing"),
+  },
+  overview: {
+    priceLabel: formatFromPrice(150),
   },
   related: ["kennismaking", "priveles-aan-huis", "priveles-op-locatie"],
 } as const;

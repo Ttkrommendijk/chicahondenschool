@@ -1,7 +1,8 @@
 import { l10n } from "../../l10n";
 import { ui, whatsappLink } from "../../ui";
 import type { L10n } from "../../l10n";
-import { formatFromPrice, formatPrice } from "../../price";
+import { dienst as dienstKennismaking } from "./kennismaking";
+import { dienst as dienstStrippenkaart } from "./strippenkaart";
 
 export type LinkItem = {
   label: L10n;
@@ -20,42 +21,24 @@ type ScenarioItem = {
 
 export const services = [
   {
-    slug: "kennismaking",
-    href: "/diensten/oppas-uitlaatservice/kennismaking/",
-    shortTitle: l10n("Kennismaking", "Introduction"),
-    shortDescription: l10n(
-      "Een eerste gesprek om jouw situatie, planning en hulpvraag helder te krijgen.",
-      "A first conversation to clarify your situation, schedule, and support request.",
-    ),
-    priceLabel: formatPrice(50),
+    slug: dienstKennismaking.slug,
+    href: `/diensten/oppas-uitlaatservice/${dienstKennismaking.slug}/`,
+    shortTitle: dienstKennismaking.hero.title,
+    shortDescription: dienstKennismaking.persuasion.body,
+    image: dienstKennismaking.hero.image.src,
+    imageAlt: dienstKennismaking.hero.image.alt,
+    priceLabel: dienstKennismaking.overview.priceLabel,
   },
   {
-    slug: "strippenkaart",
-    href: "/diensten/oppas-uitlaatservice/strippenkaart/",
-    shortTitle: l10n("Strippenkaart", "Punch card"),
-    shortDescription: l10n(
-      "Flexibele urenbundels voor oppas en uitlaatservice, afgestemd op jouw planning.",
-      "Flexible hour bundles for pet sitting and walking, tailored to your planning.",
-    ),
-    priceLabel: formatFromPrice(150),
-    variants: [
-      {
-        label: l10n("3 uur", "3 hours"),
-        priceLabel: formatPrice(150),
-      },
-      {
-        label: l10n("5 uur", "5 hours"),
-        priceLabel: formatPrice(225),
-      },
-      {
-        label: l10n("10 uur", "10 hours"),
-        priceLabel: formatPrice(450),
-      },
-    ],
+    slug: dienstStrippenkaart.slug,
+    href: `/diensten/oppas-uitlaatservice/${dienstStrippenkaart.slug}/`,
+    shortTitle: dienstStrippenkaart.hero.title,
+    shortDescription: dienstStrippenkaart.persuasion.body,
+    image: dienstStrippenkaart.hero.image.src,
+    imageAlt: dienstStrippenkaart.hero.image.alt,
+    priceLabel: dienstStrippenkaart.overview.priceLabel,
   },
 ] as const;
-
-export const strippenkaartLowestVariant = services[1].variants[0];
 
 export const page = {
   seo: {

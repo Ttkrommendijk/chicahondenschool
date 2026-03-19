@@ -99,29 +99,46 @@ const lang = resolveLangFromUrl(Astro.url);
         }))}
     />
 
-    <ServiceCards
-        sectionId="diensten"
-        title={localize(page.cards.title, lang)}
-        titleKey="oppas.page.cards.title"
-        variant="priced"
-        actionLink={{
-            label: localize(page.cards.actionLink.label, lang),
-            href: page.cards.actionLink.href,
-        }}
-        actionLinkLabelKey="oppas.page.cards.actionLink.label"
-        items={services.map((service, index) => ({
-            title: localize(service.shortTitle, lang),
-            description: localize(service.shortDescription, lang),
-            href: service.href,
-            ctaLabel: localize(page.cards.cardCtaLabel, lang),
-            priceLabel: localize(service.priceLabel, lang),
-            headerTone: index % 2 === 0 ? "secondary" : "main",
-            titleKey: `oppas.page.services.${index}.shortTitle`,
-            descriptionKey: `oppas.page.services.${index}.shortDescription`,
-            ctaLabelKey: "oppas.page.cards.cardCtaLabel",
-            priceLabelKey: `oppas.page.services.${index}.priceLabel`,
-        }))}
-    />
+    <section id="diensten" class="pt-8 pb-14 md:pt-10 md:pb-20">
+        <div class="mx-auto w-full max-w-6xl px-4 md:px-6">
+            <div class="flex flex-wrap items-end justify-between gap-3">
+                <h2
+                    class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+                >
+                    <span data-i18n="oppas.page.cards.title">
+                        {localize(page.cards.title, lang)}
+                    </span>
+                </h2>
+                <a
+                    href={page.cards.actionLink.href}
+                    class="inline-flex items-center rounded-full border border-secondary bg-white px-5 py-2.5 text-sm font-semibold text-secondary transition hover:bg-secondary-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-main"
+                >
+                    <span data-i18n="oppas.page.cards.actionLink.label">
+                        {localize(page.cards.actionLink.label, lang)}
+                    </span>
+                </a>
+            </div>
+
+            <div class="mt-6">
+                <ServiceCards
+                    embedded={true}
+                    items={services.map((service, index) => ({
+                        title: localize(service.shortTitle, lang),
+                        description: localize(service.shortDescription, lang),
+                        href: service.href,
+                        ctaLabel: localize(page.cards.cardCtaLabel, lang),
+                        image: service.image,
+                        imageAlt: localize(service.imageAlt, lang),
+                        badge: localize(service.priceLabel, lang),
+                        titleKey: `oppas.page.services.${index}.shortTitle`,
+                        descriptionKey: `oppas.page.services.${index}.shortDescription`,
+                        ctaLabelKey: "oppas.page.cards.cardCtaLabel",
+                        badgeKey: `oppas.page.services.${index}.priceLabel`,
+                    }))}
+                />
+            </div>
+        </div>
+    </section>
 
     <section class="py-6 md:py-8">
         <div class="mx-auto w-full max-w-6xl px-4 md:px-6">

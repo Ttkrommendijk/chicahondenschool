@@ -158,5 +158,8 @@ export const dienst = {
       },
     ],
   },
+  overview: {
+    priceLabel: formatPrice(50),
+  },
   related: ["priveles-aan-huis", "priveles-op-locatie", "strippenkaart"],
 } as const;
