@@ -95,8 +95,8 @@ export const page = {
   pain: {
     title: l10n("Herken je dit?", "Do you recognize this?"),
     text: l10n(
-      "Op de hondencursus luistert je hond uitstekend, maar thuis of tijdens het wandelen lijkt je hond alles 'vergeten'? Je bent niet de enige. Bij ChiCa Hondenschool weten we dat een hond plaatsgebonden leert, daarom brengen we de lessen naar de plek waar jij ze het hardst nodig hebt.",
-      "At dog class your dog listens very well, but at home or during walks your dog seems to have forgotten everything? You are not the only one. At ChiCa Dog School we know dogs learn contextually, so we bring the lessons to the place where you need them most.",
+      "Op de hondenschool luistert je hond uitstekend, maar thuis of tijdens het wandelen lijkt alles ineens vergeten? Dat is heel normaal. Honden leren namelijk plaatsgebonden. Dat betekent dat je oefeningen op verschillende plekken opnieuw moet trainen, zodat je hond ze echt begrijpt en overal kan toepassen. Daarom trainen we bij ChiCa Hondenschool niet op één vaste, afgebakende locatie, maar wisselen we bewust van omgeving en situatie. Zo leert je hond om altijd en overal goed te luisteren.",
+      "At the dog training school, your dog listens perfectly, but at home or during walks it suddenly seems to have forgotten everything? That's completely normal. Dogs learn in a context-specific way. This means you need to practice exercises in different environments so your dog truly understands them and can apply them anywhere. That's why at ChiCa Dog Training School we don't train in just one fixed, enclosed location. Instead, we deliberately vary the environment and situations. This helps your dog learn to listen well anytime and anywhere.",
     ),
     supporting: l10n(
       "Geen drukte van een grote groep: je krijgt 1-op-1 begeleiding die past bij jouw hond en jouw situatie. Ideaal als je gericht wilt werken aan gedrag in het dagelijks leven.",
@@ -114,13 +114,10 @@ export const page = {
     ),
     items: [
       {
-        title: l10n(
-          "Praktijkgerichte hondentraining aan huis",
-          "Practical in-home dog training",
-        ),
+        title: l10n("Direct starten", "Start start immediately"),
         description: l10n(
-          "Wij trainen in jouw eigen omgeving, zodat gedrag ook thuis en tijdens het wandelen verbetert.",
-          "We train in your own environment, so behavior improves at home and during walks.",
+          "Bij ChiCa hoef je niet te wachten tot een cursus start, maar kun je direct beginnen wanneer jij dat nodig hebt. Plan eenvoudig een afspraak in onze agenda op het moment dat het jou het beste uitkomt.",
+          "At ChiCa, you don’t have to wait for a course to start. You can begin immediately whenever it suits you. Simply schedule an appointment in our calendar at a time that works best for you.",
         ),
         icon: "01",
       },
@@ -165,8 +162,8 @@ export const page = {
           "In-home dog training (private training)",
         ),
         description: l10n(
-          "Privelessen op maat voor pups, pubers en volwassen honden, met focus op gedrag, vertrouwen en samenwerking in het dagelijks leven.",
-          "Tailored private lessons for puppies, adolescents, and adult dogs, focused on behavior, trust, and cooperation in daily life.",
+          "Privelessen op maat voor pups, pubers en volwassen honden, met focus op gedrag, vertrouwen en samenwerking in het dagelijks leven. Heeft u een hond uit het buitenland geadopteerd? Ook daarbij helpt ChiCa u graag, met gerichte begeleiding en ruime ervaring.",
+          "Private lessons tailored to puppies, adolescent and adult dogs, with a focus on behavior, trust, and cooperation in everyday life. Have you adopted a rescue dog from abroad? We are happy to help you with that as well, offering targeted guidance and extensive experience.",
         ),
         href: "/diensten/hondenschool/",
         ctaLabel: l10n("Bekijk hondenschool", "View dog training"),
