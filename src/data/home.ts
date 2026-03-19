@@ -136,8 +136,8 @@ export const page = {
           "In-home pet sitting and walking service",
         ),
         description: l10n(
-          "Oppas en uitlaatservice aan huis, met dezelfde rust en persoonlijke benadering als in onze hondentraining.",
-          "In-home pet sitting and walking service, with the same calm and personal approach as in our dog training.",
+          "Professionele 1-op-1 begeleiding aan huis, afgestemd op de behoeften van jouw hond en jouw dagelijkse situatie. Ideaal wanneer je tijdelijk extra ondersteuning nodig hebt, zonder in te leveren op aandacht en rust.",
+          "Professional 1-on-1 pet sitting and walking service, tailored to your dog's needs and your daily situation. Ideal when you need temporary support without compromising attention and calm.",
         ),
         href: "/diensten/oppas-uitlaatservice/",
         ctaLabel: l10n(
