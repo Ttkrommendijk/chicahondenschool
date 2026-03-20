@@ -189,9 +189,6 @@ const minimumFillTimeMs = 3000;
         const submitButton = form.querySelector<HTMLButtonElement>(
             "[data-submit-button]",
         );
-        const minimumFillTimeMs = Number(
-            form.getAttribute("data-min-fill-ms") ?? "3000",
-        );
 
         const labels = {
             default: submitButton?.getAttribute("data-label-default") ?? "",
@@ -390,14 +387,6 @@ const minimumFillTimeMs = 3000;
         margin: 0.3rem 0 0;
         color: #8f2d52;
         font-size: 0.83rem;
-    }
-
-    .hidden-field {
-        position: absolute;
-        left: -9999px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
     }
 
     .contact-form .has-error {
