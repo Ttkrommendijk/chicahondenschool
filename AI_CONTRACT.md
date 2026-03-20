@@ -251,6 +251,7 @@ Both layers are required parts of the current structure.
 - The contact page uses `src/pages/contact/index.astro`.
 - Form UI and client-side validation live in `src/components/ContactForm.astro`.
 - Form option groups come from `src/data/contact.ts`.
+- The form also fetches a session-backed token from `public/contact-form-session.php` before submission is enabled.
 
 ### Current submission path
 - The rendered form posts to `/contact-submit.php`.
@@ -263,15 +264,41 @@ Both layers are required parts of the current structure.
 - Honeypot field: `company`
 - minimum fill time lock
 - consent checkbox gating submit button
+- hidden `form_started_at` timestamp
+- hidden `form_token` value issued by the PHP session helper
 
 ### Server-side handling
 - `public/contact-submit.php` is the active server endpoint for production-style form submission.
+- `public/contact-form-session.php` is the token bootstrap endpoint for the active form flow.
 - It expects PHPMailer via `../vendor/autoload.php` and SMTP secrets via `../secrets.php`, both outside the public web root contract of this repo.
 - `src/pages/api/contact.ts` also exists as an Astro API route using Nodemailer and env vars, but it is not the endpoint used by `ContactForm.astro` today.
+
+### Current server-side anti-spam rules
+- `public/contact-submit.php` must be safe on its own and may not rely on frontend-only checks.
+- The PHP handler currently enforces:
+  - POST-only requests
+  - normal form content types only
+  - empty honeypot field
+  - valid `form_started_at` timing window
+  - valid session-backed `form_token` checked with `hash_equals`
+  - explicit consent
+  - required-field validation for `name`, `city`, `phone`, `email`, `interest`, `message`, and consent
+  - field-quality validation for name, email, and message length
+  - basic sanitization:
+    - null-byte stripping
+    - CRLF stripping from email
+    - line-break flattening in name
+  - IP-based throttling:
+    - max 5 submissions per 10 minutes per IP
+    - max 25 submissions per day per IP
+  - `error_log()` logging for blocked abuse attempts
+- Non-AJAX failures redirect back to `/contact/` with `sent=0&reason=...` and preserve submitted values for refill.
+- AJAX submissions still receive JSON responses and keep the current in-page success/failure UX.
 
 ### Structural rule
 - Document and preserve the PHP path as the live form route unless the implementation is explicitly migrated.
 - Do not rewrite the contract to pretend the Astro API route is the primary flow.
+- Keep the token helper and the mail endpoint aligned. If token validation exists server-side, the form must actually submit the token and the environment must execute PHP correctly.
 
 ## 8) SEO And Metadata Conventions
 
@@ -343,12 +370,14 @@ Both layers are required parts of the current structure.
 
 ### What matters in the repo today
 - PHP contact handling is shipped from `public/contact-submit.php`.
+- PHP token bootstrap for the contact form is shipped from `public/contact-form-session.php`.
 - The validator script explicitly guards against nested `public_html/public_html`.
 - README deployment notes still refer to FTP upload into `/public_html/`.
 
 ### Structural rule
 - Do not create repo folders that mirror deployed `public_html/public_html`.
 - Keep deployment-facing PHP/public assets in `public/` unless the deployment setup is intentionally redesigned.
+- The hosting environment must execute the PHP files in `public/`; if they are served as plain text, the contact form security flow is broken.
 
 ## 11) Rules To Preserve In Future Work
 
