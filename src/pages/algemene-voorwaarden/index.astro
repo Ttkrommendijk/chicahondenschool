@@ -9,7 +9,26 @@ const lang = resolveLangFromUrl(Astro.url);
 <ContentPageLayout
     title={localize(page.title, lang)}
     description={localize(page.seo.description, lang)}
-  titleKey="terms.page.title"
+    titleKey="terms.page.title"
 >
     <p class="lead" data-i18n="terms.page.lead">{localize(page.lead, lang)}</p>
+
+    {
+        page.sections.map((section, sectionIndex) => (
+            <section class="section-card">
+                <h2 data-i18n={`terms.page.sections.${sectionIndex}.title`}>
+                    {localize(section.title, lang)}
+                </h2>
+                <ul>
+                    {section.items.map((item, itemIndex) => (
+                        <li
+                            data-i18n={`terms.page.sections.${sectionIndex}.items.${itemIndex}`}
+                        >
+                            {localize(item, lang)}
+                        </li>
+                    ))}
+                </ul>
+            </section>
+        ))
+    }
 </ContentPageLayout>

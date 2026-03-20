@@ -9,9 +9,60 @@ const lang = resolveLangFromUrl(Astro.url);
 <ContentPageLayout
     title={localize(page.title, lang)}
     description={localize(page.seo.description, lang)}
-  titleKey="privacy.page.title"
+    titleKey="privacy.page.title"
 >
     <p class="lead" data-i18n="privacy.page.lead">
         {localize(page.lead, lang)}
     </p>
+
+    {
+        page.intro.map((paragraph, index) => (
+            <p data-i18n={`privacy.page.intro.${index}`}>
+                {localize(paragraph, lang)}
+            </p>
+        ))
+    }
+
+    <div class="section-card">
+        {
+            page.contactDetails.map((line, index) => (
+                <p
+                    class="m-0"
+                    data-i18n={`privacy.page.contactDetails.${index}`}
+                >
+                    {localize(line, lang)}
+                </p>
+            ))
+        }
+    </div>
+
+    {
+        page.sections.map((section, sectionIndex) => (
+            <section class="section-card">
+                <h2 data-i18n={`privacy.page.sections.${sectionIndex}.title`}>
+                    {localize(section.title, lang)}
+                </h2>
+
+                {section.paragraphs.map((paragraph, paragraphIndex) => (
+                    <p
+                        data-i18n={`privacy.page.sections.${sectionIndex}.paragraphs.${paragraphIndex}`}
+                    >
+                        {localize(paragraph, lang)}
+                    </p>
+                ))}
+
+                {section.items && (
+                    <ul>
+                        {section.items.map((item, itemIndex) => (
+                            <li
+                                data-i18n={`privacy.page.sections.${sectionIndex}.items.${itemIndex}`}
+                            >
+                                {localize(item, lang)}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </section>
+        ))
+    }
 </ContentPageLayout>
