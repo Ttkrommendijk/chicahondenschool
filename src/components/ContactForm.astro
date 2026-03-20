@@ -44,12 +44,14 @@ const minimumFillTimeMs = 3000;
     action="/contact-submit.php"
     method="post"
     data-contact-form
+    data-form-locked="true"
     data-min-fill-ms={minimumFillTimeMs}
     novalidate
 >
     <div class="contact-form-grid">
         <div>
-            <label for="name">{text.name}</label>
+            <label for="name" data-i18n="ui.contactForm.name">{text.name}</label
+            >
             <input
                 id="name"
                 name="name"
@@ -61,7 +63,8 @@ const minimumFillTimeMs = 3000;
         </div>
 
         <div>
-            <label for="city">{text.city}</label>
+            <label for="city" data-i18n="ui.contactForm.city">{text.city}</label
+            >
             <input
                 id="city"
                 name="city"
@@ -73,7 +76,9 @@ const minimumFillTimeMs = 3000;
         </div>
 
         <div>
-            <label for="phone">{text.phone}</label>
+            <label for="phone" data-i18n="ui.contactForm.phone"
+                >{text.phone}</label
+            >
             <input
                 id="phone"
                 name="phone"
@@ -81,14 +86,16 @@ const minimumFillTimeMs = 3000;
                 autocomplete="tel"
                 required
             />
-            <p class="field-help">
+            <p class="field-help" data-i18n="ui.contactForm.phoneHelp">
                 {text.phoneHelp}
             </p>
             <p class="field-error" data-error-for="phone"></p>
         </div>
 
         <div>
-            <label for="email">{text.email}</label>
+            <label for="email" data-i18n="ui.contactForm.email"
+                >{text.email}</label
+            >
             <input
                 id="email"
                 name="email"
@@ -101,9 +108,13 @@ const minimumFillTimeMs = 3000;
     </div>
 
     <div class="mt-4">
-        <label for="interest">{text.interest}</label>
+        <label for="interest" data-i18n="ui.contactForm.interest"
+            >{text.interest}</label
+        >
         <select id="interest" name="interest" required>
-            <option value="">{text.interestPlaceholder}</option>
+            <option value="" data-i18n="ui.contactForm.interestPlaceholder"
+                >{text.interestPlaceholder}</option
+            >
             {
                 interestGroups.map((group, groupIndex) => (
                     <optgroup
@@ -125,11 +136,14 @@ const minimumFillTimeMs = 3000;
     </div>
 
     <div class="mt-4">
-        <label for="message">{text.message}</label>
+        <label for="message" data-i18n="ui.contactForm.message"
+            >{text.message}</label
+        >
         <textarea
             id="message"
             name="message"
             rows="5"
+            data-i18n-attr="placeholder:ui.contactForm.messagePlaceholder"
             placeholder={text.messagePlaceholder}
             required></textarea>
         <p class="field-error" data-error-for="message"></p>
@@ -143,7 +157,11 @@ const minimumFillTimeMs = 3000;
                 type="checkbox"
                 value="yes"
             />
-            <label for="information-consent">{text.consentLabel}</label>
+            <label
+                for="information-consent"
+                data-i18n="ui.contactForm.consentLabel"
+                >{text.consentLabel}</label
+            >
         </div>
     </div>
 
@@ -162,6 +180,7 @@ const minimumFillTimeMs = 3000;
             class="btn btn-primary"
             type="submit"
             data-submit-button
+            data-i18n="ui.contactForm.submit"
             data-label-default={text.submit}
             data-label-loading={text.submitting}>{text.submit}</button
         >
@@ -204,6 +223,9 @@ const minimumFillTimeMs = 3000;
         const submitButton = form.querySelector<HTMLButtonElement>(
             "[data-submit-button]",
         );
+        const consentCheckbox = form.querySelector<HTMLInputElement>(
+            "#information-consent",
+        );
         const minimumFillTimeMs = Number(
             form.getAttribute("data-min-fill-ms") ?? "3000",
         );
@@ -244,7 +266,6 @@ const minimumFillTimeMs = 3000;
             }
             return null;
         };
-
         const setError = (fieldName: FormFieldName, message: string): void => {
             const field = getField(form, fieldName);
             const errorNode = form.querySelector<HTMLElement>(
@@ -258,6 +279,18 @@ const minimumFillTimeMs = 3000;
                 errorNode.textContent = message;
             }
         };
+
+        const setFormLocked = (locked: boolean): void => {
+            form.dataset.formLocked = locked ? "true" : "false";
+            if (submitButton) {
+                submitButton.disabled = locked;
+            }
+        };
+
+        setFormLocked(!(consentCheckbox?.checked ?? false));
+        consentCheckbox?.addEventListener("change", () => {
+            setFormLocked(!consentCheckbox.checked);
+        });
 
         const clearState = (): void => {
             requiredFields.forEach((fieldName: FormFieldName) => {
@@ -275,6 +308,14 @@ const minimumFillTimeMs = 3000;
         form.addEventListener("submit", async (event: SubmitEvent) => {
             event.preventDefault();
             clearState();
+
+            if (!consentCheckbox?.checked) {
+                if (status) {
+                    status.textContent = labels.generic;
+                    status.classList.add("text-secondary");
+                }
+                return;
+            }
 
             const formData = new FormData(form);
             const payload: FormFields = {
@@ -444,6 +485,26 @@ const minimumFillTimeMs = 3000;
     .contact-form .has-error {
         border-color: #8f2d52;
         background: #fff7fa;
+    }
+
+    .contact-form[data-form-locked="true"] .mt-5 {
+        opacity: 0.48;
+    }
+
+    .contact-form[data-form-locked="true"] button[type="submit"] {
+        cursor: not-allowed;
+        background: #f5f2f8;
+        color: #7e7990;
+        box-shadow: none;
+        pointer-events: none;
+    }
+
+    .contact-form[data-form-locked="true"] button[type="submit"]:hover {
+        border-color: #d8d3e5;
+        background: #f5f2f8;
+        color: #7e7990;
+        transform: none;
+        box-shadow: none;
     }
 
     @media (min-width: 900px) {
