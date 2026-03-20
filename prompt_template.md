@@ -1,4 +1,4 @@
-# ZED — CONTINUATION PATCH (STANDARD TEMPLATE)
+# ZED — 
 
 Execute development_rules.md.
 Execute AI_CONTRACT.md.

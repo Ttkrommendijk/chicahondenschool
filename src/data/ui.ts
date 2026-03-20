@@ -98,6 +98,10 @@ export const ui = {
       "Waar kan ik je mee helpen?",
       "How can I help you?",
     ),
+    consentLabel: l10n(
+      "Ik ga ermee akkoord dat ik informatie mag ontvangen naar aanleiding van mijn bericht.",
+      "I agree that I may receive information in response to my message.",
+    ),
     submit: l10n("Verstuur bericht", "Send message"),
     submitting: l10n("Versturen...", "Sending..."),
     errorRequired: l10n("Dit veld is verplicht.", "This field is required."),
