@@ -220,12 +220,61 @@ The active mail endpoint is:
 
 - `public/contact-submit.php`
 
+The token bootstrap endpoint is:
+
+- `public/contact-form-session.php`
+
 That endpoint expects:
 
 - `../vendor/autoload.php`
 - `../secrets.php`
 
 There is also an Astro API route at `src/pages/api/contact.ts`, but the current form component does not submit to it.
+
+### Anti-spam rules
+
+The contact form is protected by a mix of client-side and server-side rules, but the important enforcement lives in PHP so direct POST requests cannot bypass it.
+
+Current anti-spam and validation rules:
+
+- only `POST` requests are accepted by `public/contact-submit.php`
+- only normal form content types are accepted
+- a hidden honeypot field (`company`) must stay empty
+- a hidden `form_started_at` timestamp is required
+- submissions are rejected if they are:
+  - faster than 3 seconds
+  - older than 7200 seconds
+  - obviously tampered or in the future
+- a hidden `form_token` is required
+- the token is issued by `public/contact-form-session.php`
+- the token is stored in session and validated server-side with `hash_equals`
+- consent (`information_consent`) must be explicitly checked
+- required fields are enforced server-side:
+  - `name`
+  - `city`
+  - `phone`
+  - `email`
+  - `interest`
+  - `message`
+  - `information_consent`
+- field quality rules are enforced server-side:
+  - name length bounds
+  - email format validation
+  - message min/max length
+  - null-byte stripping
+  - CRLF stripping from email
+  - line-break flattening in name
+- IP-based throttling is enforced in `public/contact-submit.php`
+  - max 5 submissions per 10 minutes per IP
+  - max 25 submissions per day per IP
+- blocked abuse attempts are logged with `error_log()`
+- non-AJAX failures redirect back to `/contact/` with `sent=0&reason=...`
+- redirected failures preserve submitted values so the form can refill
+
+Important hosting requirement:
+
+- `public/contact-form-session.php` and `public/contact-submit.php` must be executed by PHP on the live server
+- if those files are served as plain text instead of executed, the token flow and server-side anti-spam protection will not work correctly
 
 ## SEO And Metadata
 
