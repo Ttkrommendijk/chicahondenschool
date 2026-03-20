@@ -131,14 +131,10 @@ const defaultSelectedOption = selectorOptions[0];
                 <div
                     class="space-y-3"
                     data-pricing-selector-root
-                    data-label-available={localize(
-                        dienst.selector!.ctaLabel,
-                        lang,
-                    )}
-                    data-label-unavailable={localize(
-                        dienst.selector!.unavailableLabel,
-                        lang,
-                    )}
+                    data-label-available-nl={dienst.selector!.ctaLabel.nl}
+                    data-label-available-en={dienst.selector!.ctaLabel.en}
+                    data-label-unavailable-nl={dienst.selector!.unavailableLabel.nl}
+                    data-label-unavailable-en={dienst.selector!.unavailableLabel.en}
                 >
                     <ul class="space-y-2">
                         {selectorOptions.map((option, index) => (
@@ -179,6 +175,10 @@ const defaultSelectedOption = selectorOptions[0];
                                 data-external={option.external === true
                                     ? "true"
                                     : "false"}
+                                data-label-nl={option.label.nl}
+                                data-label-en={option.label.en}
+                                data-price-nl={option.price?.nl ?? ""}
+                                data-price-en={option.price?.en ?? ""}
                                 selected={index === 0}
                             >
                                 {localize(option.label, lang)}{option.price
@@ -311,6 +311,13 @@ const defaultSelectedOption = selectorOptions[0];
     hasPricingSelector && (
         <script is:inline>
             (() => {
+                const getCurrentLang = () => {
+                    const fromUrl = new URLSearchParams(window.location.search).get(
+                        "lang",
+                    );
+                    return fromUrl === "en" ? "en" : "nl";
+                };
+
                 const roots = document.querySelectorAll(
                     "[data-pricing-selector-root]",
                 );
@@ -326,12 +333,32 @@ const defaultSelectedOption = selectorOptions[0];
                     if (!(select instanceof HTMLSelectElement)) return;
                     if (!(cta instanceof HTMLAnchorElement)) return;
 
-                    const availableLabel =
-                        root.getAttribute("data-label-available") ?? "";
-                    const unavailableLabel =
-                        root.getAttribute("data-label-unavailable") ?? "";
+                    const updateOptionLabels = (lang) => {
+                        Array.from(select.options).forEach((option) => {
+                            const label = option.dataset[`label${lang === "en"
+                                ? "En"
+                                : "Nl"}`] ?? "";
+                            const price = option.dataset[`price${lang === "en"
+                                ? "En"
+                                : "Nl"}`] ?? "";
+                            option.textContent = price ? `${label} - ${price}` : label;
+                        });
+                    };
 
                     const applyState = () => {
+                        const lang = getCurrentLang();
+                        const availableLabel =
+                            root.getAttribute(
+                                lang === "en"
+                                    ? "data-label-available-en"
+                                    : "data-label-available-nl",
+                            ) ?? "";
+                        const unavailableLabel =
+                            root.getAttribute(
+                                lang === "en"
+                                    ? "data-label-unavailable-en"
+                                    : "data-label-unavailable-nl",
+                            ) ?? "";
                         const option = select.options[select.selectedIndex];
                         const href = option?.dataset.href ?? "";
                         const isExternal = option?.dataset.external === "true";
@@ -364,6 +391,9 @@ const defaultSelectedOption = selectorOptions[0];
                     };
 
                     select.addEventListener("change", applyState);
+                    window.addEventListener("popstate", applyState);
+                    window.addEventListener("app:langchange", applyState);
+                    updateOptionLabels(getCurrentLang());
                     applyState();
                 });
             })();

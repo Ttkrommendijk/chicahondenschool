@@ -69,8 +69,8 @@ export const dienst = {
   benefits: {
     items: [
       l10n(
-        "1 les van 45 minuten bij jou thuis",
-        "1 lesson of 45 minutes at home",
+        "Lessen van 45 minuten bij jou thuis",
+        "Classes of 45 minutes at home",
       ),
       l10n(
         "Kennismaking met jou en je hond",

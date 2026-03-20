@@ -117,11 +117,13 @@ const setLang = (lang: Lang): void => {
   persistLang(lang);
   syncLangToHtml(lang);
   applyI18n(lang);
+  window.dispatchEvent(new CustomEvent("app:langchange", { detail: { lang } }));
 };
 
 export const initI18nClient = (): void => {
   const lang = getInitialLang();
   applyI18n(lang);
+  window.dispatchEvent(new CustomEvent("app:langchange", { detail: { lang } }));
 
   (window as Window & { __setLang?: (next: Lang) => void }).__setLang = setLang;
 
@@ -131,5 +133,8 @@ export const initI18nClient = (): void => {
     persistLang(langFromUrl);
     syncLangToHtml(langFromUrl);
     applyI18n(langFromUrl);
+    window.dispatchEvent(
+      new CustomEvent("app:langchange", { detail: { lang: langFromUrl } }),
+    );
   });
 };

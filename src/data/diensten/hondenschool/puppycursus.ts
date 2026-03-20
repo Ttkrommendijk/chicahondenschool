@@ -77,8 +77,8 @@ export const dienst = {
   benefits: {
     items: [
       l10n(
-        "1 les van 75 minuten op een af te spreken locatie",
-        "1 lesson of 75 minutes at an agreed location",
+        "Lessen van 45 minuten op een af te spreken locatie",
+        "Classes of 45 minutes at an agreed location",
       ),
       l10n(
         "Kennismaking met jou en je hond",

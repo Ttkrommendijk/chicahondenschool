@@ -42,8 +42,8 @@ export const page = {
         label: l10n("Hondenschool", "Dog training"),
         options: [
           l10n(
-            "5 privelessen op maat (30 min)",
-            "5 tailored private lessons (30 min)",
+            "5 privelessen op maat (45 min)",
+            "5 tailored private lessons (45 min)",
           ),
           l10n("Priveles aan huis (75 min)", "Private lesson at home (75 min)"),
           l10n("Priveles op locatie", "Private lesson on location"),
@@ -52,17 +52,14 @@ export const page = {
             "Fun tracking / nose work (5 lessons)",
           ),
           l10n("Detectie (5 lessen)", "Detection (5 lessons)"),
-          l10n(
-            "Sport & spel (5 lessen - Voorschoten)",
-            "Sport & play (5 lessons - Voorschoten)",
-          ),
+          l10n("Sport & spel (5 lessen)", "Sport & play (5 lessons)"),
         ],
       },
       {
         label: l10n("Oppasservice", "Pet sitting service"),
         options: [
           l10n("Kennismaking", "Introduction"),
-          l10n("Strippenkaart (1/3/5/10 uur)", "Punch card (1/3/5/10 hours)"),
+          l10n("Strippenkaart (3/5/10 uur)", "Punch card (3/6/12 hours)"),
         ],
       },
     ] satisfies readonly InterestGroup[],
