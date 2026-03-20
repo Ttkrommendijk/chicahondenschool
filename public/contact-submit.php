@@ -102,6 +102,22 @@ function sanitize_message_field(string $value): string
 }
 
 /**
+ * @param array<string, mixed> $source
+ * @param list<string> $keys
+ */
+function first_secret_value(array $source, array $keys): string
+{
+    foreach ($keys as $key) {
+        $value = secret_value($source, $key);
+        if ($value !== "") {
+            return $value;
+        }
+    }
+
+    return "";
+}
+
+/**
  * @param array<string, string> $values
  */
 function redirect_url(
@@ -261,6 +277,85 @@ function check_and_store_rate_limit(string $ip): array
     }
 }
 
+/**
+ * @return array{success: bool, reason: string}
+ */
+function verify_turnstile(
+    string $secret,
+    string $responseToken,
+    string $ip,
+): array {
+    if ($responseToken === "") {
+        return ["success" => false, "reason" => "turnstile_missing"];
+    }
+
+    $payload = http_build_query([
+        "secret" => $secret,
+        "response" => $responseToken,
+        "remoteip" => $ip,
+    ]);
+
+    $rawResponse = false;
+
+    if (function_exists("curl_init")) {
+        $handle = curl_init(
+            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        );
+
+        if ($handle !== false) {
+            curl_setopt_array($handle, [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $payload,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 10,
+                CURLOPT_CONNECTTIMEOUT => 5,
+                CURLOPT_HTTPHEADER => [
+                    "Content-Type: application/x-www-form-urlencoded",
+                ],
+            ]);
+
+            $rawResponse = curl_exec($handle);
+            curl_close($handle);
+        }
+    }
+
+    if ($rawResponse === false) {
+        $context = stream_context_create([
+            "http" => [
+                "method" => "POST",
+                "header" => implode("\r\n", [
+                    "Content-Type: application/x-www-form-urlencoded",
+                    "Content-Length: " . strlen($payload),
+                ]),
+                "content" => $payload,
+                "timeout" => 10,
+                "ignore_errors" => true,
+            ],
+        ]);
+
+        $rawResponse = @file_get_contents(
+            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+            false,
+            $context,
+        );
+    }
+
+    if (!is_string($rawResponse) || $rawResponse === "") {
+        return ["success" => false, "reason" => "turnstile_unavailable"];
+    }
+
+    $decoded = json_decode($rawResponse, true);
+    if (!is_array($decoded)) {
+        return ["success" => false, "reason" => "turnstile_unavailable"];
+    }
+
+    return [
+        "success" => ($decoded["success"] ?? false) === true,
+        "reason" =>
+            ($decoded["success"] ?? false) === true ? "" : "turnstile_invalid",
+    ];
+}
+
 if (($_SERVER["REQUEST_METHOD"] ?? "GET") !== "POST") {
     http_response_code(405);
     header("Allow: POST");
@@ -296,6 +391,7 @@ $message = sanitize_message_field((string) ($_POST["message"] ?? ""));
 $informationConsent =
     trim((string) ($_POST["information_consent"] ?? "")) === "yes" ? "yes" : "";
 $honeypot = sanitize_inline_field((string) ($_POST["company"] ?? ""));
+$turnstileResponse = trim((string) ($_POST["cf-turnstile-response"] ?? ""));
 $formToken = trim((string) ($_POST["form_token"] ?? ""));
 $formStartedAtRaw = trim((string) ($_POST["form_started_at"] ?? ""));
 
@@ -487,6 +583,14 @@ $smtpUsername = secret_value($secrets, "smtp_username");
 $smtpPassword = secret_value($secrets, "smtp_password");
 $smtpSecure = secret_value($secrets, "smtp_secure");
 $mailTo = secret_value($secrets, "mail_to");
+$turnstileSiteKey = first_secret_value($secrets, [
+    "CLOUDFLARE_TURNSTILE_SITE_KEY",
+    "cloudflare_turnstile_site_key",
+]);
+$turnstileSecretKey = first_secret_value($secrets, [
+    "CLOUDFLARE_TURNSTILE_SECRET_KEY",
+    "cloudflare_turnstile_secret_key",
+]);
 
 if (
     $smtpHost === "" ||
@@ -503,6 +607,39 @@ if (
         $returnTo,
         $redirectValues,
     );
+}
+
+if ($turnstileSiteKey === "" || $turnstileSecretKey === "") {
+    log_blocked_attempt("turnstile_unavailable", $ip);
+    respond_failure(
+        500,
+        "turnstile_unavailable",
+        "Security verification unavailable.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+$turnstileCheck = verify_turnstile(
+    $turnstileSecretKey,
+    $turnstileResponse,
+    $ip,
+);
+if (!$turnstileCheck["success"]) {
+    log_blocked_attempt($turnstileCheck["reason"], $ip);
+    $reason =
+        $turnstileCheck["reason"] === "turnstile_unavailable"
+            ? "turnstile_unavailable"
+            : ($turnstileResponse === ""
+                ? "turnstile_missing"
+                : "turnstile_invalid");
+    $message =
+        $reason === "turnstile_unavailable"
+            ? "Security verification unavailable."
+            : "Please confirm that you are not a robot.";
+    $status = $reason === "turnstile_unavailable" ? 500 : 400;
+
+    respond_failure($status, $reason, $message, $returnTo, $redirectValues);
 }
 
 $escape = static fn(string $value): string => htmlspecialchars(

@@ -138,6 +138,14 @@ export const ui = {
       "Je hebt te vaak een bericht geprobeerd te versturen. Probeer het later opnieuw.",
       "You have tried to send too many messages. Please try again later.",
     ),
+    errorVerificationRequired: l10n(
+      "Bevestig eerst dat je geen robot bent.",
+      "Please confirm that you are not a robot first.",
+    ),
+    errorVerificationUnavailable: l10n(
+      "De beveiligingscontrole is tijdelijk niet beschikbaar. Probeer het later opnieuw.",
+      "The security check is temporarily unavailable. Please try again later.",
+    ),
   },
   serviceDetail: {
     whyWorks: l10n("Waarom dit traject werkt", "Why this track works"),

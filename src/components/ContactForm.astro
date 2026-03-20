@@ -57,6 +57,14 @@ const text = {
     errorConsentRequired: localize(ui.contactForm.errorConsentRequired, lang),
     errorSessionExpired: localize(ui.contactForm.errorSessionExpired, lang),
     errorRateLimited: localize(ui.contactForm.errorRateLimited, lang),
+    errorVerificationRequired: localize(
+        ui.contactForm.errorVerificationRequired,
+        lang,
+    ),
+    errorVerificationUnavailable: localize(
+        ui.contactForm.errorVerificationUnavailable,
+        lang,
+    ),
 };
 
 const minimumFillTimeMs = 3000;
@@ -239,6 +247,7 @@ const values = {
     </div>
 
     <div class="mt-5 flex flex-wrap items-center gap-3">
+        <div class="turnstile-slot" data-turnstile-slot></div>
         <button
             class="btn btn-primary"
             type="submit"
@@ -260,11 +269,18 @@ const values = {
             data-error-consent-required={text.errorConsentRequired}
             data-error-session-expired={text.errorSessionExpired}
             data-error-rate-limited={text.errorRateLimited}
+            data-error-verification-required={text.errorVerificationRequired}
+            data-error-verification-unavailable={text.errorVerificationUnavailable}
             aria-live="polite"
         >
         </p>
     </div>
 </form>
+
+<script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+    async
+    defer></script>
 
 <script>
     type FormFields = Record<FormFieldName, string>;
@@ -272,8 +288,28 @@ const values = {
         | HTMLInputElement
         | HTMLTextAreaElement
         | HTMLSelectElement;
-    type SecurityResponse = { token?: string; message?: string };
+    type SecurityResponse = {
+        token?: string;
+        message?: string;
+        turnstileSiteKey?: string;
+    };
     type SubmitResponse = { message?: string };
+    type TurnstileRenderOptions = {
+        sitekey: string;
+        callback?: (token: string) => void;
+        "expired-callback"?: () => void;
+        "error-callback"?: () => void;
+    };
+    type TurnstileApi = {
+        render: (
+            container: HTMLElement | string,
+            options: TurnstileRenderOptions,
+        ) => string;
+        reset: (widgetId?: string) => void;
+    };
+    type WindowWithTurnstile = Window & {
+        turnstile?: TurnstileApi;
+    };
 
     const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
     if (!form) {
@@ -297,7 +333,12 @@ const values = {
         );
         const tokenInput =
             form.querySelector<HTMLInputElement>("[data-form-token]");
+        const turnstileSlot = form.querySelector<HTMLElement>(
+            "[data-turnstile-slot]",
+        );
         let securityReady = false;
+        let turnstileReady = false;
+        let turnstileWidgetId: string | null = null;
 
         const labels = {
             default: submitButton?.getAttribute("data-label-default") ?? "",
@@ -315,6 +356,11 @@ const values = {
             sessionExpired:
                 status?.getAttribute("data-error-session-expired") ?? "",
             rateLimited: status?.getAttribute("data-error-rate-limited") ?? "",
+            verificationRequired:
+                status?.getAttribute("data-error-verification-required") ?? "",
+            verificationUnavailable:
+                status?.getAttribute("data-error-verification-unavailable") ??
+                "",
         };
 
         const requiredFields: FormFieldName[] = [
@@ -356,7 +402,9 @@ const values = {
 
         const syncFormLocked = (): void => {
             const locked =
-                !securityReady || !(consentCheckbox?.checked ?? false);
+                !securityReady ||
+                !turnstileReady ||
+                !(consentCheckbox?.checked ?? false);
             form.dataset.formLocked = locked ? "true" : "false";
             if (submitButton) {
                 submitButton.disabled = locked;
@@ -390,8 +438,72 @@ const values = {
             }
         };
 
+        const waitForTurnstileApi = async (): Promise<TurnstileApi> => {
+            const deadline = Date.now() + 10000;
+
+            while (Date.now() < deadline) {
+                const api = (window as WindowWithTurnstile).turnstile;
+                if (api) {
+                    return api;
+                }
+
+                await new Promise((resolve) => window.setTimeout(resolve, 100));
+            }
+
+            throw new Error(labels.verificationUnavailable);
+        };
+
+        const mountTurnstile = async (siteKey: string): Promise<void> => {
+            if (!turnstileSlot) {
+                throw new Error(labels.verificationUnavailable);
+            }
+
+            const api = await waitForTurnstileApi();
+
+            if (turnstileWidgetId) {
+                turnstileReady = false;
+                api.reset(turnstileWidgetId);
+                syncFormLocked();
+                return;
+            }
+
+            turnstileWidgetId = api.render(turnstileSlot, {
+                sitekey: siteKey,
+                callback: (token: string) => {
+                    turnstileReady = token.trim().length > 0;
+                    syncFormLocked();
+                },
+                "expired-callback": () => {
+                    turnstileReady = false;
+                    syncFormLocked();
+                    setStatusMessage(
+                        labels.verificationRequired,
+                        "text-secondary",
+                    );
+                },
+                "error-callback": () => {
+                    turnstileReady = false;
+                    syncFormLocked();
+                    setStatusMessage(
+                        labels.verificationUnavailable,
+                        "text-secondary",
+                    );
+                },
+            });
+        };
+
+        const resetTurnstile = (): void => {
+            turnstileReady = false;
+            const api = (window as WindowWithTurnstile).turnstile;
+            if (api && turnstileWidgetId) {
+                api.reset(turnstileWidgetId);
+            }
+            syncFormLocked();
+        };
+
         const refreshSecurityFields = async (): Promise<void> => {
             securityReady = false;
+            turnstileReady = false;
             syncFormLocked();
 
             try {
@@ -411,21 +523,26 @@ const values = {
                 if (
                     !response.ok ||
                     !data.token ||
+                    !data.turnstileSiteKey ||
                     !tokenInput ||
                     !startedAtInput
                 ) {
-                    throw new Error(data.message ?? labels.sessionExpired);
+                    throw new Error(
+                        data.message ?? labels.verificationUnavailable,
+                    );
                 }
 
                 tokenInput.value = data.token;
                 startedAtInput.value = Math.floor(Date.now() / 1000).toString();
                 securityReady = true;
+                await mountTurnstile(data.turnstileSiteKey);
             } catch (error: unknown) {
                 securityReady = false;
+                turnstileReady = false;
                 setStatusMessage(
                     error instanceof Error && error.message
                         ? error.message
-                        : labels.sessionExpired,
+                        : labels.verificationUnavailable,
                     "text-secondary",
                 );
             } finally {
@@ -478,10 +595,16 @@ const values = {
 
             if (
                 !securityReady ||
+                !turnstileReady ||
                 !String(formData.get("form_token") ?? "").trim() ||
                 !startedAtSeconds
             ) {
-                setStatusMessage(labels.sessionExpired, "text-secondary");
+                setStatusMessage(
+                    !turnstileReady
+                        ? labels.verificationRequired
+                        : labels.sessionExpired,
+                    "text-secondary",
+                );
                 return;
             }
 
@@ -543,13 +666,14 @@ const values = {
 
                 form.reset();
                 setStatusMessage(labels.success, "text-detail");
-                securityReady = false;
+                resetTurnstile();
                 await refreshSecurityFields();
             } catch (error: unknown) {
                 setStatusMessage(
                     error instanceof Error ? error.message : labels.generic,
                     "text-secondary",
                 );
+                resetTurnstile();
                 await refreshSecurityFields();
             } finally {
                 if (submitButton) {
@@ -638,6 +762,10 @@ const values = {
         margin: 0.3rem 0 0;
         color: #8f2d52;
         font-size: 0.83rem;
+    }
+
+    .turnstile-slot {
+        min-height: 65px;
     }
 
     .contact-form .has-error {
