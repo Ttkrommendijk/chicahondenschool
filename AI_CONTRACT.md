@@ -1,328 +1,384 @@
-# AI_CONTRACT.md — ChiCa Hondenschool Website
+# AI_CONTRACT.md - ChiCa Hondenschool Website
 
-This AI_CONTRACT defines the **product, content, SEO, CTA, tone/voice, and governance rules** for the ChiCa Hondenschool website.
+This contract describes the website as it exists today. Use it as the working reference for future changes.
 
-It is the source of truth for **what the website must communicate** and **how pages should be structured** from a visitor + SEO perspective.
+It covers:
+- current route and page structure
+- where content lives
+- how reusable components are expected to be used
+- how service overview and detail pages are assembled
+- how localization currently works
+- how the contact flow is wired
+- current layout, navigation, SEO, and deployment-related structure
 
-> Implementation constraints (folder structure, “no hardcoded text”, data sourcing, layouts, etc.) live in `development_rules.md` and must be executed for every change.  
-> If there is a conflict between content goals and engineering constraints, propose alternatives and ask for confirmation.
+`development_rules.md` still applies. This file does not replace it.
 
-## Enforcement Rule
+## Enforcement
 
-This AI_CONTRACT and `development_rules.md` must always be executed together.
+Execute this contract together with `development_rules.md`.
 
-- AI_CONTRACT governs content, structure, SEO, CTA logic, and tone.
-- development_rules.md governs implementation, structure safety, and engineering constraints.
+If a requested change conflicts with the current documented structure:
+- flag the conflict
+- explain the implementation or SEO impact
+- ask for confirmation before changing the established pattern
 
-If a requested change conflicts with either document:
-- Stop immediately.
-- Clearly explain the conflict.
-- Ask for explicit confirmation before proceeding.
+When the implementation changes materially, update this contract in the same task.
 
-Neither document overrides the other.
-Both are mandatory.
+## 1) Current Site Structure
 
+### Main routes
+- `/` - home
+- `/contact/`
+- `/over/`
+- `/reviews/`
+- `/privacy/`
+- `/algemene-voorwaarden/`
+- `/diensten/hondenschool/`
+- `/diensten/oppas-uitlaatservice/`
 
----
+### Current service detail routes
+- `/diensten/hondenschool/puppycursus/`
+- `/diensten/hondenschool/basiscursus/`
+- `/diensten/hondenschool/priveles-aan-huis/`
+- `/diensten/hondenschool/priveles-op-locatie/`
+- `/diensten/hondenschool/fun-speuren-neuswerk/`
+- `/diensten/hondenschool/detectie/`
+- `/diensten/hondenschool/sport-en-spel/`
+- `/diensten/oppas-uitlaatservice/kennismaking/`
+- `/diensten/oppas-uitlaatservice/strippenkaart/`
 
-## 1) Website Goals
+### Structural rule
+- Service detail pages are first-class routes and part of the current information architecture.
+- Do not describe the site as only having two service overview pages.
+- Legal pages are present and should stay part of the documented structure.
 
-### Primary goals
-- Convert visitors into **bookings** (Trainin booking link) and **contact leads**
-- Explain the difference: **training in real-life situations** (at home / on the street) vs “training field only”
-- Build trust using:
-  - Instructor credibility (since 2015, background, method)
-  - Reviews / testimonials
-  - Clear service offerings + pricing anchors
+## 2) File Layout And Ownership
 
-### Secondary goals
-- Support common visitor journeys:
-  - “My dog behaves at training, but not at home” → hondentraining
-  - “I need reliable 1-op-1 care/walks” → oppas & uitlaatservice
-  - “Is this trustworthy?” → over + reviews
-  - “How do I start?” → contact + booking
+### `src/pages`
+- Contains route files only.
+- Each service detail route has a minimal page file that imports one `dienst` data object and renders `ServiceLayout`.
+- Overview pages and editorial pages can contain more page-specific composition, but still pull copy from data modules.
 
----
+### `src/data`
+- This is the content source of truth.
+- Page copy lives in page-level data files such as `src/data/home.ts`, `src/data/contact.ts`, `src/data/over.ts`, `src/data/reviews.ts`, `src/data/privacy.ts`, and `src/data/algemene-voorwaarden.ts`.
+- Global UI strings, navigation labels, footer text, and shared contact/link values live in `src/data/ui.ts`.
+- Service content lives under `src/data/diensten/`.
 
-## 2) Site Map (Current Pages)
+### `src/data/diensten`
+- `src/data/diensten/index.ts` is the central service registry for cross-site use.
+- It defines:
+  - the flattened service list used for navigation, sitemap, and related services
+  - service cards and CTA behavior shared across categories
+  - top-level diensten category data
+- Category overview data lives in:
+  - `src/data/diensten/hondenschool/index.ts`
+  - `src/data/diensten/oppas-uitlaatservice/index.ts`
+- Each individual service has its own file in the relevant category folder.
 
-- `/` — Home
-- `/diensten/hondenschool/` — Hondentraining aan huis (service overview + trajecten)
-- `/diensten/oppas-uitlaatservice/` — Oppas & uitlaatservice (service overview + use cases)
-- `/reviews/` — Reviews en recensies
-- `/over/` — Over ChiCa Hondenschool (Carine Krommendijk)
-- `/contact/` — Contact form + direct details
-- External booking: `https://chica-hondenschool.trainin.app` (CTA destination)
+### `src/components`
+- Holds reusable rendering primitives and page sections.
+- Reuse existing components before introducing new page-specific markup patterns.
+- Important shared components already define current conventions:
+  - `Hero.astro`
+  - `CTASection.astro`
+  - `ServiceCards.astro`
+  - `ProcessFlow.astro`
+  - `FaqAccordion.astro`
+  - `ServiceLayout.astro`
+  - `PricingSidebar.astro`
+  - `RelatedServices.astro`
+  - `ContactForm.astro`
 
-The site includes a language toggle (NL/EN shown in menu on several pages). Language handling must be consistent across content and CTAs.
+### `src/layouts`
+- `BaseLayout.astro` is the standard wrapper for public pages.
+- `ContentPageLayout.astro` is used for simple legal/content pages.
+- Shared header, footer, canonical tag, global CSS, floating WhatsApp button, and i18n bootstrapping belong in layouts, not individual pages.
 
----
+### `public`
+- Static assets and server-served files live here.
+- Images are served from `public/images/...`.
+- `public/contact-submit.php` is part of the live contact flow and must be treated as active infrastructure, not dead legacy.
 
-## 3) Narrative Flow Per Page
+## 3) Content Flow Rules
 
-### 3.1 Home (`/`)
-**Purpose:** explain the positioning + route visitors to the right service and a CTA.
+### General rule
+- Visible copy should come from `src/data`, usually as bilingual `l10n(...)` values.
+- Astro pages and shared components should render data, not own editorial copy.
 
-**Required structure:**
-1. **Hero**
-   - H1: clear positioning (training in practice / real life)
-   - 1–2 line value proposition
-   - Primary CTAs: “Hondenschool” and “Oppas / Uitlaatservice”
-2. **Problem recognition**
-   - “Herken je dit?” section (problem framing)
-3. **Why ChiCa**
-   - 4 key benefits (practical training, maatwerk, plezier, gezin)
-4. **Services overview**
-   - Two service cards with short descriptions + “Bekijk …” CTA
-5. **About teaser**
-   - Short intro of Carine + “Lees meer” CTA to `/over/`
-6. **Social proof**
-   - Review snippets + CTA to `/reviews/`
-7. **Conversion block**
-   - “Contact” section with:
-     - CTA to `/contact/`
-     - CTA to booking (external)
+### Current content split
+- Home page content: `src/data/home.ts`
+- Contact page content and form interest groups: `src/data/contact.ts`
+- About page content: `src/data/over.ts`
+- Reviews page content and review entries: `src/data/reviews.ts`
+- Legal page content: `src/data/privacy.ts`, `src/data/algemene-voorwaarden.ts`
+- Shared UI labels and reusable business constants: `src/data/ui.ts`
+- Service definitions: `src/data/diensten/**`
 
-**Key message:** training and support happen where it matters: at home and in daily routines.
+### Important exception to the old rule
+- The project is not using one flat `src/data/*.ts` pattern anymore.
+- Service data is intentionally nested by category under `src/data/diensten/`.
+- Future work should follow that structure instead of creating ad hoc top-level service data files.
 
----
+## 4) Localization And Translation Rules
 
-### 3.2 Hondenschool (`/diensten/hondenschool/`)
-**Purpose:** convert people searching for training help into booking/contact.
+### Current approach
+- Localization is already implemented, not hypothetical.
+- The site supports Dutch and English via `lang=nl` and `lang=en` query parameters.
+- Language state is resolved from the URL first, then local storage, with Dutch as default.
 
-**Required structure:**
-1. **Hero**
-   - H1: “Hondentraining aan huis” (or equivalent)
-   - Short summary
-   - Primary CTAs: “Kies een dienst” + “Stel een vraag”
-2. **Process**
-   - “Hoe werkt onze hondentraining?” with steps:
-     - Kennismaking
-     - Training in je omgeving
-     - Oefenen en begeleiden
-   - Close with a “Resultaat” statement
-3. **Offer selection**
-   - “Kies jouw traject” with clearly separated options
-   - Each option must have:
-     - Name
-     - Price anchor (if shown)
-     - 2–4 lines explaining best-fit use case
-     - CTA to detail (or booking/selection)
-4. **FAQ**
-   - Expandable FAQ targeting objections (lessons needed, group vs 1-1, location, problem behavior, age, method)
-5. **Final conversion**
-   - “Klaar om gericht te trainen?” section
-   - CTAs: Contact + “Boek direct” (external)
+### Translation structure
+- Bilingual strings use the `L10n` shape from `src/data/l10n.ts`.
+- New copy should usually be added via `l10n(nl, en)`.
+- Shared localization helpers live in `src/i18n/`.
 
----
+### Rendering pattern
+- Server-rendered pages resolve the language with `resolveLangFromUrl(Astro.url)`.
+- Components render localized values with `localize(...)`.
+- Client-side language switching updates text and selected attributes through `data-i18n` and `data-i18n-attr`.
 
-### 3.3 Oppas & uitlaatservice (`/diensten/oppas-uitlaatservice/`)
-**Purpose:** convert visitors needing help now into booking/contact.
+### Structural rule
+- New public-facing strings should be added to the same data tree used by the page/component so the client i18n updater can address them predictably.
+- Do not document or build a separate locale-file system unless the repo is actually changed to use one.
 
-**Required structure:**
-1. **Hero**
-   - H1: “Oppas & Uitlaatservice”
-   - Trust-focused tagline
-   - CTAs: “Boek direct” (external) + Contact
-2. **Reassurance block**
-   - “Met een gerust hart de deur uit” explanation
-   - Bullet benefits (1-op-1, flexibel, rustig, vertrouwd)
-3. **Offer selection**
-   - Options like “Kennismaking”, “Strippenkaart”
-   - Each option includes:
-     - Price anchor
-     - Use-case summary
-     - CTA to detail/booking
-4. **Real-life scenarios**
-   - “Voorbeelden uit de praktijk” with 3–6 scenarios
-5. **Final conversion**
-   - “Snel ondersteuning nodig?” section
-   - CTAs: Contact + “Boek direct” (external)
+## 5) Layout, Navigation, And Shared UX Rules
 
----
+### Base layout
+- Public pages should usually use `BaseLayout.astro`.
+- `BaseLayout` currently owns:
+  - document title and meta description
+  - canonical URL generation from `site.url`
+  - header and footer
+  - skip link
+  - floating WhatsApp button
+  - client i18n initialization
 
-### 3.4 Reviews (`/reviews/`)
-**Purpose:** increase trust and remove doubt.
+### Header and navigation
+- Main navigation is data-driven from `src/data/ui.ts` and `src/data/diensten/index.ts`.
+- The services menu is hierarchical:
+  - top-level category links
+  - nested links to every service detail route
+- When adding or renaming services, the service registry must remain consistent so navigation, sitemap, and related services stay in sync.
 
-**Required structure:**
-1. **Hero**
-   - H1: “Reviews en recensies”
-   - Short trust statement
-   - CTAs: “Boek direct” (external) + Contact
-2. **Selection of reviews**
-   - Quotes + name + category tag (e.g., Puppy/Detectie/Priveles)
-3. **Photo impression**
-   - Gallery with alt text for each image
-4. **Conversion**
-   - Short CTA block (book/contact)
+### Footer
+- Footer contact details come from `ui.contact`.
+- Footer legal links come from `ui.footer.links`.
 
----
+## 6) Service Architecture
 
-### 3.5 Over (`/over/`)
-**Purpose:** credibility + method clarity + personal story.
+### Two layers exist
+- Category overview pages
+- Individual service detail pages
 
-**Required structure:**
-1. **Hero**
-   - H1: “Over ChiCa Hondenschool”
-   - Short summary of services and approach
-   - CTA to hondentraining page
-2. **Experience & background**
-   - Bullet highlights + timeline highlights
-3. **Method**
-   - Clear method pillars (observeren, karakter, positief/duidelijk, praktijkgericht)
-4. **Personal story**
-   - Background + why this matters
-5. **Conversion**
-   - CTA to contact + CTA to services
+Both layers are required parts of the current structure.
 
----
+### 6.1 Category overview pages
 
-### 3.6 Contact (`/contact/`)
-**Purpose:** capture leads and route to booking.
+#### Hondenschool overview
+- Route: `/diensten/hondenschool/`
+- Page file: `src/pages/diensten/hondenschool/index.astro`
+- Data file: `src/data/diensten/hondenschool/index.ts`
+- Structure currently includes:
+  - hero
+  - process flow
+  - grouped service sections
+  - FAQ
+  - final CTA
 
-**Required structure:**
-1. **Hero**
-   - H1: “Contact”
-   - Short instruction
-2. **Form**
-   - Basic fields + service interest dropdown
-   - Clear expectation setting (response time if desired)
-3. **Direct contact**
-   - Phone/WhatsApp
-   - Email
-   - Work area
-   - KvK
-4. **Booking alternative**
-   - “Boek direct” CTA (external)
+#### Oppas-uitlaatservice overview
+- Route: `/diensten/oppas-uitlaatservice/`
+- Page file: `src/pages/diensten/oppas-uitlaatservice/index.astro`
+- Data file: `src/data/diensten/oppas-uitlaatservice/index.ts`
+- Structure currently includes:
+  - hero
+  - trust/intro block
+  - process flow
+  - service cards
+  - scenario/use-case section
+  - final CTA
 
----
+### 6.2 How overview pages pull service content
 
-## 4) SEO Requirements
+#### Hondenschool
+- The overview page does not hardcode every card independently.
+- It assembles grouped cards from `services` defined in `src/data/diensten/hondenschool/index.ts`.
+- Those grouped entries reference current service detail definitions and reuse their hero images, alt text, and pricing anchors where useful.
 
-### 4.1 Headings (H1/H2/H3)
-- Exactly **one H1 per page**.
-- Use H2 for major sections (problem, method, offers, FAQ, reviews, contact).
-- Use H3 for subsection titles (steps, benefit cards, offer titles).
-- Headings must be descriptive and keyword-aware (natural Dutch).
+#### Oppas-uitlaatservice
+- The overview page pulls its cards from the `services` array in `src/data/diensten/oppas-uitlaatservice/index.ts`.
+- These cards are derived from the underlying service definitions for `kennismaking` and `strippenkaart`.
 
-### 4.2 Metadata (per page)
-Each page must define:
-- `title` (unique, keyword-aligned, 50–60 chars target)
-- `meta description` (unique, 140–160 chars target, includes location when relevant)
-- `canonical` (if applicable)
-- Open Graph:
-  - `og:title`
-  - `og:description`
-  - `og:image` (site-appropriate default or page-specific)
+### 6.3 Individual service detail pages
+- Each detail route is a thin wrapper around a `dienst` object and `ServiceLayout`.
+- Current page pattern:
+  - import `dienst`
+  - resolve `lang`
+  - render `<ServiceLayout dienst={dienst} lang={lang} />`
 
-### 4.3 Internal linking strategy
-- Home must link prominently to:
-  - both service pages
-  - reviews
-  - about
-  - contact
-- Service pages must link to:
-  - contact
-  - booking (external)
-  - at least one trust page (reviews or about)
-- About page must link to:
-  - both service pages
-  - contact
-- Reviews page must link to:
-  - service pages and booking/contact
+### 6.4 Service definition contract
+- Individual service files currently define a rich `dienst` object with fields such as:
+  - `slug`
+  - `checkoutUrl`
+  - `seo`
+  - `hero`
+  - `persuasion`
+  - optional `whatWeDo`
+  - `benefits`
+  - `audience`
+  - optional `timeline`
+  - `testimonial`
+  - `pricing`
+  - `related`
+- Some services also include additional structures like `selector` or overview-specific pricing labels.
+- New service pages should match the existing service-data pattern instead of inventing bespoke page-only fields.
 
-Anchor text should be meaningful (avoid “klik hier”).
+### 6.5 Service detail rendering responsibilities
+- `ServiceLayout.astro` currently standardizes:
+  - SEO title and description
+  - hero block
+  - main persuasion block
+  - "what we do" section
+  - audience/fit section
+  - optional process timeline
+  - testimonial handling
+  - sticky pricing sidebar on desktop
+  - related services
+- `PricingSidebar.astro` owns booking options, price lines, selector states, and benefit list rendering.
 
-### 4.4 Image alt text
-- Every image must have an **alt** text:
-  - descriptive, human-readable
-  - context-specific (training, practice moment, service scenario)
-- Decorative images may use empty alt (`alt=""`) only if truly decorative.
-- Gallery images on reviews page must have distinct alt texts.
+## 7) Contact Form And Email Flow
 
-### 4.5 Local SEO (where appropriate)
-- Mention service area naturally where relevant (e.g., Den Haag / Voorschoten en omgeving).
-- Do not spam locations; prefer “werkgebied” block and 1–2 mentions in service pages.
+### Current front-end architecture
+- The contact page uses `src/pages/contact/index.astro`.
+- Form UI and client-side validation live in `src/components/ContactForm.astro`.
+- Form option groups come from `src/data/contact.ts`.
 
----
+### Current submission path
+- The rendered form posts to `/contact-submit.php`.
+- Client-side JS intercepts submit, validates fields, and sends `FormData` to that PHP endpoint.
 
-## 5) CTA Philosophy & Placement Rules
+### Current protection and validation
+- Required fields: name, city, phone, email, interest, message
+- Client-side email validation
+- Minimum message length check
+- Honeypot field: `company`
+- minimum fill time lock
+- consent checkbox gating submit button
 
-### CTA types
-- **Primary CTA:** book now / book directly (external) or choose a service
-- **Secondary CTA:** contact / ask a question / read more
-- **Support CTAs:** whatsapp, view reviews, view services
+### Server-side handling
+- `public/contact-submit.php` is the active server endpoint for production-style form submission.
+- It expects PHPMailer via `../vendor/autoload.php` and SMTP secrets via `../secrets.php`, both outside the public web root contract of this repo.
+- `src/pages/api/contact.ts` also exists as an Astro API route using Nodemailer and env vars, but it is not the endpoint used by `ContactForm.astro` today.
 
-### Placement rules
-- Every page must have:
-  - A primary CTA **above the fold** (hero)
-  - At least one CTA **mid-page** (after benefits/offers)
-  - A final CTA **at the end** (conversion section)
+### Structural rule
+- Document and preserve the PHP path as the live form route unless the implementation is explicitly migrated.
+- Do not rewrite the contract to pretend the Astro API route is the primary flow.
 
-### CTA text rules
-- CTA labels must be action-oriented and specific:
-  - “Boek direct”
-  - “Neem contact op”
-  - “Bekijk hondenschool”
-  - “Bekijk oppas / uitlaatservice”
-  - “Lees meer over ChiCa”
-  - “Bekijk alle recensies”
+## 8) SEO And Metadata Conventions
 
-### External link behavior
-- Booking and social links may open in a new tab when appropriate.
-- If opening new tab: use `target="_blank"` and `rel="noopener noreferrer"`.
+### Current metadata rule
+- Public pages define SEO title and description in their page or service data files.
+- `BaseLayout.astro` receives `title` and `description` props and outputs:
+  - `<title>`
+  - meta description
+  - robots index/follow
+  - canonical URL
 
----
+### Current canonical rule
+- Canonicals are built from `site.url` in `src/data/site.ts` and the current pathname.
+- Keep `site.url` as the source of truth for absolute URL generation.
 
-## 6) Tone / Voice Rules
+### Sitemap rule
+- `src/pages/sitemap.xml.ts` builds the sitemap from:
+  - static routes
+  - diensten categories
+  - the flattened `serviceList`
+- If service routes change, update the data registry so sitemap output stays correct.
 
-- Calm, professional, reassuring, practical.
-- Always address the reader directly using the informal Dutch form: **jij / je / jouw**.
-- Never use the formal form: **u / uw**.
-- - Write one-on-one, as if speaking directly to the dog owner.
-- Focus on:
-  - clarity
-  - empathy (recognize frustration)
-  - confidence without exaggeration
-- Avoid:
-  - aggressive claims (“garantie”, “altijd”, “100%”)
-  - shaming language (“je doet het fout”)
-  - overly technical training jargon
-- Use short paragraphs and scannable structure:
-  - bullets
-  - short headings
-  - compact benefit blocks
+### Current practical SEO rules
+- One H1 per page remains the standard.
+- Images should have real alt text, especially service and review imagery.
+- Internal linking is intentionally distributed through:
+  - service cards
+  - related services
+  - nav/footer
+  - CTA sections
+  - in-copy contextual links on editorial pages
 
----
+### Important correction to the old contract
+- There is no implemented Open Graph layer in `BaseLayout.astro` today.
+- Do not claim OG fields are standard unless they are actually added to the project.
 
-## 7) Governance Rules
+## 9) Current Page Composition Patterns
 
-### Source of truth
-- This AI_CONTRACT governs **content structure, messaging, SEO, CTA strategy, and tone**.
-- Engineering/implementation constraints are governed by `development_rules.md`.
+### Home
+- Uses `BaseLayout` plus shared sections.
+- Current composition:
+  - hero
+  - problem recognition block
+  - USP section
+  - service overview cards
+  - about teaser
+  - testimonial highlight
+  - FAQ
+  - final CTA
 
-### Updating the contract
-Whenever you change:
-- page structure (add/remove sections),
-- CTA strategy (new CTAs, changed destinations),
-- SEO meta rules,
-- tone/positioning,
+### About
+- Uses custom section composition rather than `Hero.astro`.
+- Includes:
+  - hero/profile section
+  - experience block with badges and timeline
+  - method/how-I-work block
+  - personal story block
+  - callout band
+  - final CTA with multiple service links
 
-…you must update this AI_CONTRACT to reflect the new reality.
+### Reviews
+- Uses hero, highlighted reviews, image carousel, full review list, and final CTA.
 
-### Change discipline
-- If a requested change could impact SEO, routing, or conversions, call it out explicitly.
-- If content is being removed, propose safer alternatives first (e.g., rewrite, compress, move, redirect), and ask for confirmation.
+### Legal pages
+- `privacy` and `algemene-voorwaarden` currently use `ContentPageLayout.astro`.
+- They are intentionally simple and should not be forced into the full marketing-page section pattern.
 
----
+## 10) PHP / Public HTML / Deployment Notes
 
-## 8) Definition of Done (Content / SEO)
+### What matters in the repo today
+- PHP contact handling is shipped from `public/contact-submit.php`.
+- The validator script explicitly guards against nested `public_html/public_html`.
+- README deployment notes still refer to FTP upload into `/public_html/`.
 
-A change is complete when:
-- Page narrative flow matches this contract (or contract updated accordingly)
-- H1/H2/H3 are correct and scannable
-- Unique meta title + description exist
-- Internal links match the linking strategy
-- Images have correct alt text
-- CTAs are present (hero + mid + end) and destinations are correct
-- Tone/voice matches the rules above
+### Structural rule
+- Do not create repo folders that mirror deployed `public_html/public_html`.
+- Keep deployment-facing PHP/public assets in `public/` unless the deployment setup is intentionally redesigned.
+
+## 11) Rules To Preserve In Future Work
+
+- Keep page copy in `src/data` and service copy in `src/data/diensten/**`.
+- Keep overview pages data-driven from service/category definitions.
+- Keep service detail routes thin and powered by `ServiceLayout`.
+- Keep navigation, related services, and sitemap tied to the shared service registry.
+- Keep the bilingual `l10n` pattern consistent.
+- Keep `BaseLayout` as the standard wrapper for public marketing pages.
+- Keep the live contact form contract aligned with `/contact-submit.php` until the code is migrated.
+
+## 12) Outdated Assumptions Removed
+
+The following older assumptions are no longer correct and should not be reintroduced:
+- The site only consists of home, two overview service pages, reviews, over, and contact.
+- Multilingual support is only a future possibility.
+- Service pages are only overview pages without dedicated detail routes.
+- All service content should live in flat page-specific files outside `src/data/diensten/`.
+- Every page follows the same hero/process/offer/FAQ/final CTA template.
+- Open Graph metadata is already part of the standard layout.
+- Contact handling is defined only in abstract terms rather than by the actual PHP endpoint and current validation flow.
+
+## 13) Definition Of Done For Structural Changes
+
+A structure-aware content or page change is complete when:
+- the route structure still matches the current information architecture, or this contract is updated with the new one
+- page copy is stored in the correct data module
+- bilingual values are added in the current `l10n` format when user-facing text changes
+- service overview pages still derive their cards/content from the correct service definitions
+- service detail pages still conform to the `ServiceLayout` pattern unless an intentional new pattern is introduced
+- navigation, related services, and sitemap remain in sync
+- metadata still flows through `BaseLayout`
+- the contact form and its documented submission path still match reality
