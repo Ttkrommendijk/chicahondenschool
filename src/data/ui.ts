@@ -126,6 +126,18 @@ export const ui = {
       "Er ging iets mis. Probeer het later opnieuw.",
       "Something went wrong. Please try again later.",
     ),
+    errorConsentRequired: l10n(
+      "Vink de toestemming aan om je bericht te kunnen versturen.",
+      "Tick the consent checkbox before sending your message.",
+    ),
+    errorSessionExpired: l10n(
+      "Je formulier is verlopen. Ververs de pagina en probeer het opnieuw.",
+      "Your form session expired. Refresh the page and try again.",
+    ),
+    errorRateLimited: l10n(
+      "Je hebt te vaak een bericht geprobeerd te versturen. Probeer het later opnieuw.",
+      "You have tried to send too many messages. Please try again later.",
+    ),
   },
   serviceDetail: {
     whyWorks: l10n("Waarom dit traject werkt", "Why this track works"),

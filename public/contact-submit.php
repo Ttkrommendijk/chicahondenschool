@@ -5,29 +5,10 @@ declare(strict_types=1);
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-header("Content-Type: application/json; charset=UTF-8");
-
-if (($_SERVER["REQUEST_METHOD"] ?? "GET") !== "POST") {
-    http_response_code(405);
-    echo json_encode(["message" => "Method not allowed."]);
-    exit();
-}
-
-$autoloadPath = __DIR__ . "/../vendor/autoload.php";
-$secretsPath = __DIR__ . "/../secrets.php";
-
-if (!is_file($autoloadPath) || !is_file($secretsPath)) {
-    http_response_code(500);
-    echo json_encode(["message" => "Mail service is not configured."]);
-    exit();
-}
-
-require $autoloadPath;
-$secrets = require $secretsPath;
-
-if (!is_array($secrets)) {
-    $secrets = [];
-}
+const MINIMUM_FILL_SECONDS = 3;
+const MAXIMUM_FILL_SECONDS = 7200;
+const MAX_SUBMISSIONS_PER_TEN_MINUTES = 5;
+const MAX_SUBMISSIONS_PER_DAY = 25;
 
 /**
  * @param array<string, mixed> $source
@@ -37,6 +18,467 @@ function secret_value(array $source, string $key): string
     $value = $source[$key] ?? null;
 
     return is_scalar($value) ? trim((string) $value) : "";
+}
+
+function is_ajax_request(): bool
+{
+    return ($_SERVER["HTTP_X_REQUESTED_WITH"] ?? "") === "XMLHttpRequest";
+}
+
+function start_contact_session(): void
+{
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        return;
+    }
+
+    session_set_cookie_params([
+        "httponly" => true,
+        "samesite" => "Lax",
+        "secure" => !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off",
+    ]);
+    session_start();
+}
+
+function normalize_return_to(string $value): string
+{
+    $trimmed = trim($value);
+    if ($trimmed === "") {
+        return "/contact/";
+    }
+
+    $parts = parse_url($trimmed);
+    if ($parts === false) {
+        return "/contact/";
+    }
+
+    $path = $parts["path"] ?? "/contact/";
+    if (!is_string($path) || !str_starts_with($path, "/contact/")) {
+        $path = "/contact/";
+    }
+
+    $query =
+        isset($parts["query"]) && is_string($parts["query"])
+            ? "?" . $parts["query"]
+            : "";
+
+    return $path . $query;
+}
+
+function client_ip(): string
+{
+    return trim((string) ($_SERVER["REMOTE_ADDR"] ?? "unknown"));
+}
+
+function log_blocked_attempt(string $reason, string $ip): void
+{
+    error_log(sprintf("[contact-form] blocked reason=%s ip=%s", $reason, $ip));
+}
+
+function strip_null_bytes(string $value): string
+{
+    return str_replace("\0", "", $value);
+}
+
+function sanitize_inline_field(string $value): string
+{
+    $value = strip_null_bytes($value);
+    $value = str_replace(["\r", "\n"], " ", $value);
+    $value = preg_replace("/\s+/", " ", $value) ?? $value;
+    return trim($value);
+}
+
+function sanitize_email_field(string $value): string
+{
+    $value = strip_null_bytes($value);
+    $value = str_replace(["\r", "\n"], "", $value);
+    return trim($value);
+}
+
+function sanitize_message_field(string $value): string
+{
+    $value = strip_null_bytes($value);
+    $value = str_replace(["\r\n", "\r"], "\n", $value);
+    return trim($value);
+}
+
+/**
+ * @param array<string, string> $values
+ */
+function redirect_url(
+    string $returnTo,
+    bool $sent,
+    ?string $reason = null,
+    array $values = [],
+): string {
+    $parts = parse_url($returnTo);
+    $path =
+        is_array($parts) && isset($parts["path"]) && is_string($parts["path"])
+            ? $parts["path"]
+            : "/contact/";
+    $existingParams = [];
+
+    if (
+        is_array($parts) &&
+        isset($parts["query"]) &&
+        is_string($parts["query"])
+    ) {
+        parse_str($parts["query"], $existingParams);
+    }
+
+    unset($existingParams["sent"], $existingParams["reason"]);
+
+    $params = array_merge(
+        $existingParams,
+        ["sent" => $sent ? "1" : "0"],
+        $reason !== null ? ["reason" => $reason] : [],
+        $values,
+    );
+
+    return $path . "?" . http_build_query($params);
+}
+
+function respond_json(int $status, string $message): never
+{
+    http_response_code($status);
+    header("Content-Type: application/json; charset=UTF-8");
+    echo json_encode(["message" => $message]);
+    exit();
+}
+
+/**
+ * @param array<string, string> $values
+ */
+function respond_failure(
+    int $status,
+    string $reason,
+    string $message,
+    string $returnTo,
+    array $values = [],
+): never {
+    if (is_ajax_request()) {
+        respond_json($status, $message);
+    }
+
+    header(
+        "Location: " . redirect_url($returnTo, false, $reason, $values),
+        true,
+        303,
+    );
+    exit();
+}
+
+function respond_success(string $returnTo): never
+{
+    if (is_ajax_request()) {
+        respond_json(200, "OK");
+    }
+
+    header("Location: " . redirect_url($returnTo, true), true, 303);
+    exit();
+}
+
+/**
+ * @return array{0: bool, 1: int, 2: int}
+ */
+function check_and_store_rate_limit(string $ip): array
+{
+    $directory =
+        sys_get_temp_dir() . DIRECTORY_SEPARATOR . "chica_contact_rate_limits";
+    if (
+        !is_dir($directory) &&
+        !mkdir($directory, 0775, true) &&
+        !is_dir($directory)
+    ) {
+        return [false, 0, 0];
+    }
+
+    $filePath =
+        $directory . DIRECTORY_SEPARATOR . hash("sha256", $ip) . ".json";
+    $handle = fopen($filePath, "c+");
+    if ($handle === false) {
+        return [false, 0, 0];
+    }
+
+    try {
+        if (!flock($handle, LOCK_EX)) {
+            return [false, 0, 0];
+        }
+
+        $raw = stream_get_contents($handle);
+        $data = is_string($raw) && $raw !== "" ? json_decode($raw, true) : [];
+        $timestamps = [];
+
+        if (
+            is_array($data) &&
+            isset($data["timestamps"]) &&
+            is_array($data["timestamps"])
+        ) {
+            foreach ($data["timestamps"] as $timestamp) {
+                if (is_int($timestamp) || ctype_digit((string) $timestamp)) {
+                    $timestamps[] = (int) $timestamp;
+                }
+            }
+        }
+
+        $now = time();
+        $timestamps = array_values(
+            array_filter(
+                $timestamps,
+                static fn(int $timestamp): bool => $timestamp > $now - 86400,
+            ),
+        );
+
+        $lastTenMinutes = array_values(
+            array_filter(
+                $timestamps,
+                static fn(int $timestamp): bool => $timestamp > $now - 600,
+            ),
+        );
+
+        if (
+            count($lastTenMinutes) >= MAX_SUBMISSIONS_PER_TEN_MINUTES ||
+            count($timestamps) >= MAX_SUBMISSIONS_PER_DAY
+        ) {
+            return [false, count($lastTenMinutes), count($timestamps)];
+        }
+
+        $timestamps[] = $now;
+
+        rewind($handle);
+        ftruncate($handle, 0);
+        $encoded = json_encode(["timestamps" => $timestamps]);
+        if ($encoded === false) {
+            return [false, 0, 0];
+        }
+
+        fwrite($handle, $encoded);
+        fflush($handle);
+
+        return [true, count($lastTenMinutes) + 1, count($timestamps)];
+    } finally {
+        flock($handle, LOCK_UN);
+        fclose($handle);
+    }
+}
+
+if (($_SERVER["REQUEST_METHOD"] ?? "GET") !== "POST") {
+    http_response_code(405);
+    header("Allow: POST");
+    respond_json(405, "Method not allowed.");
+}
+
+$contentType = strtolower(trim((string) ($_SERVER["CONTENT_TYPE"] ?? "")));
+if (
+    $contentType === "" ||
+    (!str_starts_with($contentType, "application/x-www-form-urlencoded") &&
+        !str_starts_with($contentType, "multipart/form-data"))
+) {
+    log_blocked_attempt("content_type_invalid", client_ip());
+    respond_failure(
+        415,
+        "content_type_invalid",
+        "Invalid submission format.",
+        normalize_return_to((string) ($_POST["return_to"] ?? "/contact/")),
+    );
+}
+
+start_contact_session();
+
+$returnTo = normalize_return_to((string) ($_POST["return_to"] ?? "/contact/"));
+$ip = client_ip();
+
+$name = sanitize_inline_field((string) ($_POST["name"] ?? ""));
+$city = sanitize_inline_field((string) ($_POST["city"] ?? ""));
+$phone = sanitize_inline_field((string) ($_POST["phone"] ?? ""));
+$email = sanitize_email_field((string) ($_POST["email"] ?? ""));
+$interest = sanitize_inline_field((string) ($_POST["interest"] ?? ""));
+$message = sanitize_message_field((string) ($_POST["message"] ?? ""));
+$informationConsent =
+    trim((string) ($_POST["information_consent"] ?? "")) === "yes" ? "yes" : "";
+$honeypot = sanitize_inline_field((string) ($_POST["company"] ?? ""));
+$formToken = trim((string) ($_POST["form_token"] ?? ""));
+$formStartedAtRaw = trim((string) ($_POST["form_started_at"] ?? ""));
+
+$redirectValues = [
+    "name" => $name,
+    "city" => $city,
+    "phone" => $phone,
+    "email" => $email,
+    "interest" => $interest,
+    "message" => $message,
+];
+if ($informationConsent === "yes") {
+    $redirectValues["information_consent"] = "yes";
+}
+
+if ($honeypot !== "") {
+    log_blocked_attempt("honeypot_hit", $ip);
+    respond_failure(
+        400,
+        "spam_detected",
+        "Invalid submission.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+if ($formStartedAtRaw === "" || !ctype_digit($formStartedAtRaw)) {
+    log_blocked_attempt("timing_invalid", $ip);
+    respond_failure(
+        400,
+        "timing_invalid",
+        "Form session expired.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+$formStartedAt = (int) $formStartedAtRaw;
+$now = time();
+if (
+    $formStartedAt > $now + 60 ||
+    $now - $formStartedAt < MINIMUM_FILL_SECONDS ||
+    $now - $formStartedAt > MAXIMUM_FILL_SECONDS
+) {
+    log_blocked_attempt("timing_invalid", $ip);
+    respond_failure(
+        400,
+        "timing_invalid",
+        "Form session expired.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+$sessionToken = trim((string) ($_SESSION["contact_form_token"] ?? ""));
+unset(
+    $_SESSION["contact_form_token"],
+    $_SESSION["contact_form_token_issued_at"],
+);
+
+if ($formToken === "" || $sessionToken === "") {
+    log_blocked_attempt("token_missing", $ip);
+    respond_failure(
+        400,
+        "token_missing",
+        "Form session expired.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+if (!hash_equals($sessionToken, $formToken)) {
+    log_blocked_attempt("token_invalid", $ip);
+    respond_failure(
+        400,
+        "token_invalid",
+        "Form session expired.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+if (
+    $name === "" ||
+    $city === "" ||
+    $phone === "" ||
+    $email === "" ||
+    $interest === "" ||
+    $message === ""
+) {
+    respond_failure(
+        400,
+        "required_invalid",
+        "Please fill in all required fields.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+if ($informationConsent !== "yes") {
+    respond_failure(
+        400,
+        "consent_missing",
+        "Consent is required.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+if (mb_strlen($name) < 2 || mb_strlen($name) > 100) {
+    respond_failure(
+        400,
+        "name_invalid",
+        "Please enter a valid name.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+if (strlen($email) > 254 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    respond_failure(
+        400,
+        "email_invalid",
+        "Please enter a valid email address.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+if (
+    mb_strlen($city) > 120 ||
+    mb_strlen($phone) > 50 ||
+    mb_strlen($interest) > 200
+) {
+    respond_failure(
+        400,
+        "field_quality_invalid",
+        "Please check the entered details.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+if (mb_strlen($message) < 10 || mb_strlen($message) > 5000) {
+    respond_failure(
+        400,
+        "message_invalid",
+        "Please enter a message between 10 and 5000 characters.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+[$rateLimitAllowed] = check_and_store_rate_limit($ip);
+if (!$rateLimitAllowed) {
+    log_blocked_attempt("rate_limit_hit", $ip);
+    respond_failure(
+        429,
+        "rate_limited",
+        "Too many submissions. Please try again later.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+$autoloadPath = __DIR__ . "/../vendor/autoload.php";
+$secretsPath = __DIR__ . "/../secrets.php";
+
+if (!is_file($autoloadPath) || !is_file($secretsPath)) {
+    respond_failure(
+        500,
+        "mail_unavailable",
+        "Mail service is not configured.",
+        $returnTo,
+        $redirectValues,
+    );
+}
+
+require $autoloadPath;
+$secrets = require $secretsPath;
+
+if (!is_array($secrets)) {
+    $secrets = [];
 }
 
 $smtpHost = secret_value($secrets, "smtp_host");
@@ -54,33 +496,13 @@ if (
     $smtpSecure === "" ||
     $mailTo === ""
 ) {
-    http_response_code(500);
-    echo json_encode(["message" => "Mail service is incomplete."]);
-    exit();
-}
-
-$name = trim((string) ($_POST["name"] ?? ""));
-$email = trim((string) ($_POST["email"] ?? ""));
-$message = trim((string) ($_POST["message"] ?? ""));
-$city = trim((string) ($_POST["city"] ?? ""));
-$phone = trim((string) ($_POST["phone"] ?? ""));
-$interest = trim((string) ($_POST["interest"] ?? ""));
-$informationConsent =
-    isset($_POST["information_consent"]) &&
-    trim((string) $_POST["information_consent"]) !== ""
-        ? "Yes"
-        : "No";
-
-if ($name === "" || $email === "" || $message === "") {
-    http_response_code(400);
-    echo json_encode(["message" => "Please fill in the required fields."]);
-    exit();
-}
-
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    http_response_code(400);
-    echo json_encode(["message" => "Please enter a valid email address."]);
-    exit();
+    respond_failure(
+        500,
+        "mail_unavailable",
+        "Mail service is incomplete.",
+        $returnTo,
+        $redirectValues,
+    );
 }
 
 $escape = static fn(string $value): string => htmlspecialchars(
@@ -104,7 +526,7 @@ $body = sprintf(
     $escape($city),
     $escape($phone),
     $escape($interest),
-    $escape($informationConsent),
+    $escape("Yes"),
     nl2br($escape($message)),
 );
 
@@ -134,16 +556,20 @@ try {
         "City: " . $city,
         "Phone: " . $phone,
         "Interest: " . $interest,
-        "Agree to receive information: " . $informationConsent,
+        "Agree to receive information: Yes",
         "",
         "Message:",
         $message,
     ]);
 
     $mail->send();
-
-    echo json_encode(["message" => "OK"]);
+    respond_success($returnTo);
 } catch (Exception $exception) {
-    http_response_code(500);
-    echo json_encode(["message" => "Sending failed."]);
+    respond_failure(
+        500,
+        "mail_send_failed",
+        "Sending failed.",
+        $returnTo,
+        $redirectValues,
+    );
 }

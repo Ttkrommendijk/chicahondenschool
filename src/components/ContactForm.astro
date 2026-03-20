@@ -10,9 +10,29 @@ interface InterestGroup {
 interface Props {
     lang: Lang;
     interestGroups: readonly InterestGroup[];
+    initialValues?: Partial<
+        Record<FormFieldName | "information_consent", string>
+    >;
+    initialStatus?: {
+        type: "success" | "error";
+        message: string;
+    };
 }
 
-const { lang, interestGroups } = Astro.props as Props;
+type FormFieldName =
+    | "name"
+    | "city"
+    | "phone"
+    | "email"
+    | "interest"
+    | "message";
+
+const {
+    lang,
+    interestGroups,
+    initialValues = {},
+    initialStatus,
+} = Astro.props as Props;
 
 const text = {
     name: localize(ui.contactForm.name, lang),
@@ -34,9 +54,21 @@ const text = {
     errorSubmit: localize(ui.contactForm.errorSubmit, lang),
     success: localize(ui.contactForm.success, lang),
     errorGeneric: localize(ui.contactForm.errorGeneric, lang),
+    errorConsentRequired: localize(ui.contactForm.errorConsentRequired, lang),
+    errorSessionExpired: localize(ui.contactForm.errorSessionExpired, lang),
+    errorRateLimited: localize(ui.contactForm.errorRateLimited, lang),
 };
 
 const minimumFillTimeMs = 3000;
+const formSecurityEndpoint = "/contact-form-session.php";
+const values = {
+    name: initialValues.name ?? "",
+    city: initialValues.city ?? "",
+    phone: initialValues.phone ?? "",
+    email: initialValues.email ?? "",
+    interest: initialValues.interest ?? "",
+    message: initialValues.message ?? "",
+};
 ---
 
 <form
@@ -46,8 +78,29 @@ const minimumFillTimeMs = 3000;
     data-contact-form
     data-form-locked="true"
     data-min-fill-ms={minimumFillTimeMs}
+    data-security-endpoint={formSecurityEndpoint}
     novalidate
 >
+    {
+        initialStatus && (
+            <p
+                class:list={[
+                    "m-0 mb-4 text-sm",
+                    initialStatus.type === "success"
+                        ? "text-detail"
+                        : "text-secondary",
+                ]}
+                data-server-status
+            >
+                {initialStatus.message}
+            </p>
+        )
+    }
+
+    <input type="hidden" name="form_started_at" value="" data-form-started-at />
+    <input type="hidden" name="form_token" value="" data-form-token />
+    <input type="hidden" name="return_to" value={`/contact/?lang=${lang}`} />
+
     <div class="contact-form-grid">
         <div>
             <label for="name" data-i18n="ui.contactForm.name">{text.name}</label
@@ -57,6 +110,7 @@ const minimumFillTimeMs = 3000;
                 name="name"
                 type="text"
                 autocomplete="name"
+                value={values.name}
                 required
             />
             <p class="field-error" data-error-for="name"></p>
@@ -70,6 +124,7 @@ const minimumFillTimeMs = 3000;
                 name="city"
                 type="text"
                 autocomplete="address-level2"
+                value={values.city}
                 required
             />
             <p class="field-error" data-error-for="city"></p>
@@ -84,6 +139,7 @@ const minimumFillTimeMs = 3000;
                 name="phone"
                 type="tel"
                 autocomplete="tel"
+                value={values.phone}
                 required
             />
             <p class="field-help" data-i18n="ui.contactForm.phoneHelp">
@@ -101,6 +157,7 @@ const minimumFillTimeMs = 3000;
                 name="email"
                 type="email"
                 autocomplete="email"
+                value={values.email}
                 required
             />
             <p class="field-error" data-error-for="email"></p>
@@ -123,6 +180,10 @@ const minimumFillTimeMs = 3000;
                     >
                         {group.options.map((option, optionIndex) => (
                             <option
+                                value={localize(option, lang)}
+                                selected={
+                                    values.interest === localize(option, lang)
+                                }
                                 data-i18n={`contact.page.contactForm.interestGroups.${groupIndex}.options.${optionIndex}`}
                             >
                                 {localize(option, lang)}
@@ -145,7 +206,8 @@ const minimumFillTimeMs = 3000;
             rows="5"
             data-i18n-attr="placeholder:ui.contactForm.messagePlaceholder"
             placeholder={text.messagePlaceholder}
-            required></textarea>
+            required>{values.message}</textarea
+        >
         <p class="field-error" data-error-for="message"></p>
     </div>
 
@@ -156,6 +218,7 @@ const minimumFillTimeMs = 3000;
                 name="information_consent"
                 type="checkbox"
                 value="yes"
+                checked={initialValues.information_consent === "yes"}
             />
             <label
                 for="information-consent"
@@ -194,6 +257,9 @@ const minimumFillTimeMs = 3000;
             data-error-submit={text.errorSubmit}
             data-success={text.success}
             data-error-generic={text.errorGeneric}
+            data-error-consent-required={text.errorConsentRequired}
+            data-error-session-expired={text.errorSessionExpired}
+            data-error-rate-limited={text.errorRateLimited}
             aria-live="polite"
         >
         </p>
@@ -201,24 +267,17 @@ const minimumFillTimeMs = 3000;
 </form>
 
 <script>
-    type FormFieldName =
-        | "name"
-        | "city"
-        | "phone"
-        | "email"
-        | "interest"
-        | "message";
     type FormFields = Record<FormFieldName, string>;
     type FieldControl =
         | HTMLInputElement
         | HTMLTextAreaElement
         | HTMLSelectElement;
+    type SecurityResponse = { token?: string; message?: string };
 
     const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
     if (!form) {
         // Keep top-level valid for module script output.
     } else {
-        const formLoadedAt = Date.now();
         const status = form.querySelector<HTMLElement>("[data-form-status]");
         const submitButton = form.querySelector<HTMLButtonElement>(
             "[data-submit-button]",
@@ -229,6 +288,15 @@ const minimumFillTimeMs = 3000;
         const minimumFillTimeMs = Number(
             form.getAttribute("data-min-fill-ms") ?? "3000",
         );
+        const securityEndpoint =
+            form.getAttribute("data-security-endpoint") ??
+            "/contact-form-session.php";
+        const startedAtInput = form.querySelector<HTMLInputElement>(
+            "[data-form-started-at]",
+        );
+        const tokenInput =
+            form.querySelector<HTMLInputElement>("[data-form-token]");
+        let securityReady = false;
 
         const labels = {
             default: submitButton?.getAttribute("data-label-default") ?? "",
@@ -241,6 +309,11 @@ const minimumFillTimeMs = 3000;
             submit: status?.getAttribute("data-error-submit") ?? "",
             success: status?.getAttribute("data-success") ?? "",
             generic: status?.getAttribute("data-error-generic") ?? "",
+            consentRequired:
+                status?.getAttribute("data-error-consent-required") ?? "",
+            sessionExpired:
+                status?.getAttribute("data-error-session-expired") ?? "",
+            rateLimited: status?.getAttribute("data-error-rate-limited") ?? "",
         };
 
         const requiredFields: FormFieldName[] = [
@@ -280,16 +353,68 @@ const minimumFillTimeMs = 3000;
             }
         };
 
-        const setFormLocked = (locked: boolean): void => {
+        const syncFormLocked = (): void => {
+            const locked =
+                !securityReady || !(consentCheckbox?.checked ?? false);
             form.dataset.formLocked = locked ? "true" : "false";
             if (submitButton) {
                 submitButton.disabled = locked;
             }
         };
 
-        setFormLocked(!(consentCheckbox?.checked ?? false));
+        const setStatusMessage = (
+            message: string,
+            className: "text-secondary" | "text-detail",
+        ): void => {
+            if (!status) return;
+            status.textContent = message;
+            status.className = "m-0 text-sm";
+            status.classList.add(className);
+        };
+
+        const refreshSecurityFields = async (): Promise<void> => {
+            securityReady = false;
+            syncFormLocked();
+
+            try {
+                const response = await fetch(securityEndpoint, {
+                    headers: {
+                        Accept: "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                    credentials: "same-origin",
+                    cache: "no-store",
+                });
+                const data = (await response.json()) as SecurityResponse;
+
+                if (
+                    !response.ok ||
+                    !data.token ||
+                    !tokenInput ||
+                    !startedAtInput
+                ) {
+                    throw new Error(data.message ?? labels.sessionExpired);
+                }
+
+                tokenInput.value = data.token;
+                startedAtInput.value = Math.floor(Date.now() / 1000).toString();
+                securityReady = true;
+            } catch (error: unknown) {
+                securityReady = false;
+                setStatusMessage(
+                    error instanceof Error && error.message
+                        ? error.message
+                        : labels.sessionExpired,
+                    "text-secondary",
+                );
+            } finally {
+                syncFormLocked();
+            }
+        };
+
+        syncFormLocked();
         consentCheckbox?.addEventListener("change", () => {
-            setFormLocked(!consentCheckbox.checked);
+            syncFormLocked();
         });
 
         const clearState = (): void => {
@@ -310,10 +435,7 @@ const minimumFillTimeMs = 3000;
             clearState();
 
             if (!consentCheckbox?.checked) {
-                if (status) {
-                    status.textContent = labels.generic;
-                    status.classList.add("text-secondary");
-                }
+                setStatusMessage(labels.consentRequired, "text-secondary");
                 return;
             }
 
@@ -327,14 +449,23 @@ const minimumFillTimeMs = 3000;
                 message: String(formData.get("message") ?? "").trim(),
             };
             const honeypotValue = String(formData.get("company") ?? "").trim();
+            const startedAtSeconds = Number(
+                formData.get("form_started_at") ?? "0",
+            );
             const submittedTooFast =
-                Date.now() - formLoadedAt < minimumFillTimeMs;
+                Date.now() - startedAtSeconds * 1000 < minimumFillTimeMs;
+
+            if (
+                !securityReady ||
+                !String(formData.get("form_token") ?? "").trim() ||
+                !startedAtSeconds
+            ) {
+                setStatusMessage(labels.sessionExpired, "text-secondary");
+                return;
+            }
 
             if (honeypotValue || submittedTooFast) {
-                if (status) {
-                    status.textContent = labels.generic;
-                    status.classList.add("text-secondary");
-                }
+                setStatusMessage(labels.generic, "text-secondary");
                 return;
             }
 
@@ -357,10 +488,7 @@ const minimumFillTimeMs = 3000;
             }
 
             if (hasError) {
-                if (status) {
-                    status.textContent = labels.checkFields;
-                    status.classList.add("text-detail");
-                }
+                setStatusMessage(labels.checkFields, "text-detail");
                 return;
             }
 
@@ -375,6 +503,11 @@ const minimumFillTimeMs = 3000;
                     {
                         method: "POST",
                         body: formData,
+                        headers: {
+                            Accept: "application/json",
+                            "X-Requested-With": "XMLHttpRequest",
+                        },
+                        credentials: "same-origin",
                     },
                 );
 
@@ -385,23 +518,24 @@ const minimumFillTimeMs = 3000;
                 }
 
                 form.reset();
-                if (status) {
-                    status.textContent = labels.success;
-                    status.classList.add("text-detail");
-                }
+                setStatusMessage(labels.success, "text-detail");
+                securityReady = false;
+                await refreshSecurityFields();
             } catch (error: unknown) {
-                if (status) {
-                    status.textContent =
-                        error instanceof Error ? error.message : labels.generic;
-                    status.classList.add("text-secondary");
-                }
+                setStatusMessage(
+                    error instanceof Error ? error.message : labels.generic,
+                    "text-secondary",
+                );
+                await refreshSecurityFields();
             } finally {
                 if (submitButton) {
-                    submitButton.disabled = false;
                     submitButton.textContent = labels.default;
                 }
+                syncFormLocked();
             }
         });
+
+        void refreshSecurityFields();
     }
 </script>
 

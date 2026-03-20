@@ -3,9 +3,58 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Hero from "../../components/Hero.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import { page } from "../../data/contact";
+import { ui } from "../../data/ui";
 import { getLangFromUrl, localize } from "../../i18n";
 
 const lang = getLangFromUrl(Astro.url);
+const params = Astro.url.searchParams;
+const sent = params.get("sent");
+const reason = params.get("reason");
+const initialValues = {
+    name: params.get("name") ?? "",
+    city: params.get("city") ?? "",
+    phone: params.get("phone") ?? "",
+    email: params.get("email") ?? "",
+    interest: params.get("interest") ?? "",
+    message: params.get("message") ?? "",
+    information_consent:
+        params.get("information_consent") === "yes" ? "yes" : "",
+};
+
+const failureMessages = {
+    rate_limited: localize(ui.contactForm.errorRateLimited, lang),
+    token_invalid: localize(ui.contactForm.errorSessionExpired, lang),
+    token_missing: localize(ui.contactForm.errorSessionExpired, lang),
+    token_unavailable: localize(ui.contactForm.errorSessionExpired, lang),
+    timing_invalid: localize(ui.contactForm.errorSessionExpired, lang),
+    consent_missing: localize(ui.contactForm.errorConsentRequired, lang),
+    required_invalid: localize(ui.contactForm.errorCheckFields, lang),
+    name_invalid: localize(ui.contactForm.errorCheckFields, lang),
+    email_invalid: localize(ui.contactForm.errorEmail, lang),
+    message_invalid: localize(ui.contactForm.errorMessageShort, lang),
+    field_quality_invalid: localize(ui.contactForm.errorCheckFields, lang),
+    content_type_invalid: localize(ui.contactForm.errorGeneric, lang),
+    spam_detected: localize(ui.contactForm.errorGeneric, lang),
+    mail_unavailable: localize(ui.contactForm.errorSubmit, lang),
+    mail_send_failed: localize(ui.contactForm.errorSubmit, lang),
+} as const;
+
+const initialStatus =
+    sent === "1"
+        ? {
+              type: "success" as const,
+              message: localize(ui.contactForm.success, lang),
+          }
+        : sent === "0"
+          ? {
+                type: "error" as const,
+                message:
+                    failureMessages[
+                        (reason as keyof typeof failureMessages) ??
+                            "token_invalid"
+                    ] ?? localize(ui.contactForm.errorGeneric, lang),
+            }
+          : undefined;
 ---
 
 <BaseLayout
@@ -37,6 +86,8 @@ const lang = getLangFromUrl(Astro.url);
                 <ContactForm
                     lang={lang}
                     interestGroups={page.contactForm.interestGroups}
+                    initialValues={initialValues}
+                    initialStatus={initialStatus}
                 />
             </article>
 
