@@ -14,6 +14,9 @@ interface Props {
     intro: string;
     ariaLabel: string;
     emptyText: string;
+    titleKey?: string;
+    introKey?: string;
+    emptyTextKey?: string;
 }
 
 const {
@@ -23,6 +26,9 @@ const {
     intro,
     ariaLabel,
     emptyText,
+    titleKey,
+    introKey,
+    emptyTextKey,
 } = Astro.props as Props;
 const lang = getLangFromUrl(Astro.url);
 ---
@@ -31,10 +37,11 @@ const lang = getLangFromUrl(Astro.url);
     <div class="container">
         <h2
             class="text-3xl font-bold tracking-tight text-secondary md:text-4xl"
+            data-i18n={titleKey}
         >
             {title}
         </h2>
-        <p class="lead">{intro}</p>
+        <p class="lead" data-i18n={introKey}>{intro}</p>
         {
             images.length > 0 ? (
                 <div
@@ -104,7 +111,9 @@ const lang = getLangFromUrl(Astro.url);
                 </div>
             ) : (
                 <div class="section-card mt-6">
-                    <p class="m-0 text-text">{emptyText}</p>
+                    <p class="m-0 text-text" data-i18n={emptyTextKey}>
+                        {emptyText}
+                    </p>
                 </div>
             )
         }

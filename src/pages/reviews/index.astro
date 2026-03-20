@@ -60,6 +60,9 @@ const lang = resolveLangFromUrl(Astro.url);
         intro={localize(reviewsPage.gallery.intro, lang)}
         ariaLabel={localize(reviewsPage.gallery.ariaLabel, lang)}
         emptyText={localize(reviewsPage.gallery.emptyText, lang)}
+        titleKey="reviews.page.gallery.title"
+        introKey="reviews.page.gallery.intro"
+        emptyTextKey="reviews.page.gallery.emptyText"
     />
     <ReviewList
         reviews={allReviews}
