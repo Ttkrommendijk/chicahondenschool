@@ -40,6 +40,8 @@ const minimumFillTimeMs = 3000;
 
 <form
     class="contact-form"
+    action="/contact-submit.php"
+    method="post"
     data-contact-form
     data-min-fill-ms={minimumFillTimeMs}
     novalidate
@@ -189,6 +191,9 @@ const minimumFillTimeMs = 3000;
         const submitButton = form.querySelector<HTMLButtonElement>(
             "[data-submit-button]",
         );
+        const minimumFillTimeMs = Number(
+            form.getAttribute("data-min-fill-ms") ?? "3000",
+        );
 
         const labels = {
             default: submitButton?.getAttribute("data-label-default") ?? "",
@@ -311,11 +316,13 @@ const minimumFillTimeMs = 3000;
             }
 
             try {
-                const response = await fetch("/api/contact", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                });
+                const response = await fetch(
+                    form.getAttribute("action") ?? "/contact-submit.php",
+                    {
+                        method: "POST",
+                        body: formData,
+                    },
+                );
 
                 const data = (await response.json()) as { message?: string };
 
