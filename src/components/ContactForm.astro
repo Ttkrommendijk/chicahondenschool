@@ -273,6 +273,7 @@ const values = {
         | HTMLTextAreaElement
         | HTMLSelectElement;
     type SecurityResponse = { token?: string; message?: string };
+    type SubmitResponse = { message?: string };
 
     const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
     if (!form) {
@@ -372,6 +373,23 @@ const values = {
             status.classList.add(className);
         };
 
+        const readJsonResponse = async <T extends { message?: string }>(
+            response: Response,
+            fallbackMessage: string,
+        ): Promise<T> => {
+            const raw = await response.text();
+
+            try {
+                return JSON.parse(raw) as T;
+            } catch {
+                throw new Error(
+                    raw.trimStart().startsWith("<?php")
+                        ? labels.sessionExpired
+                        : fallbackMessage,
+                );
+            }
+        };
+
         const refreshSecurityFields = async (): Promise<void> => {
             securityReady = false;
             syncFormLocked();
@@ -385,7 +403,10 @@ const values = {
                     credentials: "same-origin",
                     cache: "no-store",
                 });
-                const data = (await response.json()) as SecurityResponse;
+                const data = await readJsonResponse<SecurityResponse>(
+                    response,
+                    labels.sessionExpired,
+                );
 
                 if (
                     !response.ok ||
@@ -511,7 +532,10 @@ const values = {
                     },
                 );
 
-                const data = (await response.json()) as { message?: string };
+                const data = await readJsonResponse<SubmitResponse>(
+                    response,
+                    labels.submit,
+                );
 
                 if (!response.ok) {
                     throw new Error(data.message ?? labels.submit);
