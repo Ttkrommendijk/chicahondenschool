@@ -271,6 +271,7 @@ Both layers are required parts of the current structure.
 - `public/contact-submit.php` is the active server endpoint for production-style form submission.
 - `public/contact-form-session.php` is the token bootstrap endpoint for the active form flow.
 - It expects PHPMailer via `../vendor/autoload.php` and SMTP secrets via `../secrets.php`, both outside the public web root contract of this repo.
+- On successful submission, the PHP handler sends the internal notification email and a localized HTML confirmation email to the submitter.
 - `src/pages/api/contact.ts` also exists as an Astro API route using Nodemailer and env vars, but it is not the endpoint used by `ContactForm.astro` today.
 
 ### Current server-side anti-spam rules

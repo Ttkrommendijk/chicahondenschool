@@ -64,6 +64,25 @@ function normalize_return_to(string $value): string
     return $path . $query;
 }
 
+function submitted_lang(string $returnTo): string
+{
+    $parts = parse_url($returnTo);
+    if (
+        $parts !== false &&
+        isset($parts["query"]) &&
+        is_string($parts["query"])
+    ) {
+        $query = [];
+        parse_str($parts["query"], $query);
+        $lang = strtolower(trim((string) ($query["lang"] ?? "")));
+        if ($lang === "en") {
+            return "en";
+        }
+    }
+
+    return "nl";
+}
+
 function client_ip(): string
 {
     return trim((string) ($_SERVER["REMOTE_ADDR"] ?? "unknown"));
@@ -191,6 +210,89 @@ function respond_success(string $returnTo): never
 
     header("Location: " . redirect_url($returnTo, true), true, 303);
     exit();
+}
+
+/**
+ * @return array{
+ *   subject: string,
+ *   greeting: string,
+ *   message: string,
+ *   closing: string,
+ *   signature: string,
+ *   altBody: string
+ * }
+ */
+function confirmation_copy(string $lang): array
+{
+    if ($lang === "en") {
+        return [
+            "subject" => "Thank you for your request",
+            "greeting" => "Hey, nice that you reached out to me.",
+            "message" =>
+                "I will contact you as soon as possible, but if you want you can also reach me by WhatsApp or phone on: 0626467714.",
+            "closing" => "Kind regards, and speak soon",
+            "signature" => "Carine<br>Chicahondenschool.nl",
+            "altBody" => implode("\n\n", [
+                "Hey, nice that you reached out to me.",
+                "I will contact you as soon as possible, but if you want you can also reach me by WhatsApp or phone on: 0626467714.",
+                "Kind regards, and speak soon",
+                "Carine",
+                "Chicahondenschool.nl",
+            ]),
+        ];
+    }
+
+    return [
+        "subject" => "Bedankt voor je aanvraag",
+        "greeting" => "Hey, leuk dat je mij benaderd hebt.",
+        "message" =>
+            "Ik zal zo spoedig mogelijk contact met je opnemen, maar als je wilt kan je me ook via WhatsApp of telefoon bereiken op nummer: 0626467714.",
+        "closing" => "Groeten, en tot snel",
+        "signature" => "Carine<br>Chicahondenschool.nl",
+        "altBody" => implode("\n\n", [
+            "Hey, leuk dat je mij benaderd hebt.",
+            "Ik zal zo spoedig mogelijk contact met je opnemen, maar als je wilt kan je me ook via WhatsApp of telefoon bereiken op nummer: 0626467714.",
+            "Groeten, en tot snel",
+            "Carine",
+            "Chicahondenschool.nl",
+        ]),
+    ];
+}
+
+function confirmation_html(
+    string $recipientName,
+    string $logoUrl,
+    array $copy,
+): string {
+    $escape = static fn(string $value): string => htmlspecialchars(
+        $value,
+        ENT_QUOTES | ENT_SUBSTITUTE,
+        "UTF-8",
+    );
+    $intro = $copy["greeting"];
+    if ($recipientName !== "") {
+        $intro = $escape($recipientName) . ",<br><br>" . $escape($intro);
+    } else {
+        $intro = $escape($intro);
+    }
+
+    return sprintf(
+        '<div style="margin:0;padding:24px;background-color:#f7f4ef;font-family:Arial,sans-serif;color:#2b2a33;">
+            <div style="max-width:640px;margin:0 auto;background-color:#ffffff;border:1px solid #e8e1d8;border-radius:16px;padding:32px 28px;">
+                <div style="text-align:center;margin-bottom:28px;">
+                    <img src="%s" alt="ChiCa Hondenschool" style="max-width:220px;width:100%%;height:auto;display:inline-block;">
+                </div>
+                <p style="margin:0 0 18px;font-size:18px;line-height:1.6;">%s</p>
+                <p style="margin:0 0 18px;font-size:16px;line-height:1.7;">%s</p>
+                <p style="margin:0 0 18px;font-size:16px;line-height:1.7;">%s</p>
+                <p style="margin:0;font-size:16px;line-height:1.7;">%s</p>
+            </div>
+        </div>',
+        $escape($logoUrl),
+        $intro,
+        $escape($copy["message"]),
+        $escape($copy["closing"]) . "<br><br>" . $copy["signature"],
+    );
 }
 
 /**
@@ -666,6 +768,10 @@ $body = sprintf(
     $escape("Yes"),
     nl2br($escape($message)),
 );
+$lang = submitted_lang($returnTo);
+$confirmationCopy = confirmation_copy($lang);
+$logoUrl =
+    "https://www.chicahondenschool.nl/images/logo-chica-hondenschool.jpg";
 
 $mail = new PHPMailer(true);
 
@@ -699,6 +805,13 @@ try {
         $message,
     ]);
 
+    $mail->send();
+    $mail->clearAllRecipients();
+    $mail->clearReplyTos();
+    $mail->Subject = $confirmationCopy["subject"];
+    $mail->Body = confirmation_html($name, $logoUrl, $confirmationCopy);
+    $mail->AltBody = $confirmationCopy["altBody"];
+    $mail->addAddress($email, $name);
     $mail->send();
     respond_success($returnTo);
 } catch (Exception $exception) {
