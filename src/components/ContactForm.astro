@@ -253,12 +253,14 @@ const values = {
             type="submit"
             data-submit-button
             data-i18n="ui.contactForm.submit"
+            data-i18n-attr="data-label-default:ui.contactForm.submit;data-label-loading:ui.contactForm.submitting"
             data-label-default={text.submit}
             data-label-loading={text.submitting}>{text.submit}</button
         >
         <p
             class="m-0 text-sm"
             data-form-status
+            data-i18n-attr="data-error-required:ui.contactForm.errorRequired;data-error-email:ui.contactForm.errorEmail;data-error-message-short:ui.contactForm.errorMessageShort;data-error-check-fields:ui.contactForm.errorCheckFields;data-error-submit:ui.contactForm.errorSubmit;data-success:ui.contactForm.success;data-error-generic:ui.contactForm.errorGeneric;data-error-consent-required:ui.contactForm.errorConsentRequired;data-error-session-expired:ui.contactForm.errorSessionExpired;data-error-rate-limited:ui.contactForm.errorRateLimited;data-error-verification-required:ui.contactForm.errorVerificationRequired;data-error-verification-unavailable:ui.contactForm.errorVerificationUnavailable"
             data-error-required={text.errorRequired}
             data-error-email={text.errorEmail}
             data-error-message-short={text.errorMessageShort}
@@ -340,27 +342,50 @@ const values = {
         let turnstileReady = false;
         let turnstileWidgetId: string | null = null;
 
-        const labels = {
-            default: submitButton?.getAttribute("data-label-default") ?? "",
-            loading: submitButton?.getAttribute("data-label-loading") ?? "",
-            required: status?.getAttribute("data-error-required") ?? "",
-            email: status?.getAttribute("data-error-email") ?? "",
-            messageShort:
-                status?.getAttribute("data-error-message-short") ?? "",
-            checkFields: status?.getAttribute("data-error-check-fields") ?? "",
-            submit: status?.getAttribute("data-error-submit") ?? "",
-            success: status?.getAttribute("data-success") ?? "",
-            generic: status?.getAttribute("data-error-generic") ?? "",
-            consentRequired:
-                status?.getAttribute("data-error-consent-required") ?? "",
-            sessionExpired:
-                status?.getAttribute("data-error-session-expired") ?? "",
-            rateLimited: status?.getAttribute("data-error-rate-limited") ?? "",
-            verificationRequired:
-                status?.getAttribute("data-error-verification-required") ?? "",
-            verificationUnavailable:
-                status?.getAttribute("data-error-verification-unavailable") ??
-                "",
+        let labels = {
+            default: "",
+            loading: "",
+            required: "",
+            email: "",
+            messageShort: "",
+            checkFields: "",
+            submit: "",
+            success: "",
+            generic: "",
+            consentRequired: "",
+            sessionExpired: "",
+            rateLimited: "",
+            verificationRequired: "",
+            verificationUnavailable: "",
+        };
+
+        const syncLabels = (): void => {
+            labels = {
+                default: submitButton?.getAttribute("data-label-default") ?? "",
+                loading: submitButton?.getAttribute("data-label-loading") ?? "",
+                required: status?.getAttribute("data-error-required") ?? "",
+                email: status?.getAttribute("data-error-email") ?? "",
+                messageShort:
+                    status?.getAttribute("data-error-message-short") ?? "",
+                checkFields:
+                    status?.getAttribute("data-error-check-fields") ?? "",
+                submit: status?.getAttribute("data-error-submit") ?? "",
+                success: status?.getAttribute("data-success") ?? "",
+                generic: status?.getAttribute("data-error-generic") ?? "",
+                consentRequired:
+                    status?.getAttribute("data-error-consent-required") ?? "",
+                sessionExpired:
+                    status?.getAttribute("data-error-session-expired") ?? "",
+                rateLimited:
+                    status?.getAttribute("data-error-rate-limited") ?? "",
+                verificationRequired:
+                    status?.getAttribute("data-error-verification-required") ??
+                    "",
+                verificationUnavailable:
+                    status?.getAttribute(
+                        "data-error-verification-unavailable",
+                    ) ?? "",
+            };
         };
 
         const requiredFields: FormFieldName[] = [
@@ -394,10 +419,7 @@ const values = {
 
             if (field) {
                 field.classList.toggle("has-error", Boolean(message));
-                field.setAttribute(
-                    "aria-invalid",
-                    message ? "true" : "false",
-                );
+                field.setAttribute("aria-invalid", message ? "true" : "false");
             }
             if (errorNode) {
                 errorNode.textContent = message;
@@ -554,9 +576,16 @@ const values = {
             }
         };
 
+        syncLabels();
         syncFormLocked();
         consentCheckbox?.addEventListener("change", () => {
             syncFormLocked();
+        });
+        window.addEventListener("app:langchange", () => {
+            syncLabels();
+            if (submitButton && !submitButton.disabled) {
+                submitButton.textContent = labels.default;
+            }
         });
 
         const clearState = (): void => {

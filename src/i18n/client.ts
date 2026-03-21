@@ -102,11 +102,20 @@ const applyI18n = (lang: Lang): void => {
   document.querySelectorAll<HTMLElement>("[data-i18n-attr]").forEach((node) => {
     const definition = node.dataset.i18nAttr;
     if (!definition) return;
-    const [attrName, key] = definition.split(":");
-    if (!attrName || !key) return;
-    const resolved = getByPath(key);
-    if (!isL10n(resolved)) return;
-    node.setAttribute(attrName, localize(resolved, lang));
+    definition
+      .split(";")
+      .map((entry) => entry.trim())
+      .filter(Boolean)
+      .forEach((entry) => {
+        const separatorIndex = entry.indexOf(":");
+        if (separatorIndex === -1) return;
+        const attrName = entry.slice(0, separatorIndex).trim();
+        const key = entry.slice(separatorIndex + 1).trim();
+        if (!attrName || !key) return;
+        const resolved = getByPath(key);
+        if (!isL10n(resolved)) return;
+        node.setAttribute(attrName, localize(resolved, lang));
+      });
   });
 
   setLanguageSwitchState(lang);
