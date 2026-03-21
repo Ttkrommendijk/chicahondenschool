@@ -227,36 +227,40 @@ function confirmation_copy(string $lang): array
     if ($lang === "en") {
         return [
             "subject" => "Thank you for your request",
-            "greeting" => "Hey, nice that you reached out to me.",
+            "greeting" => "Hey %s,",
+            "intro" => "Nice that you reached out to me.",
             "message" =>
                 "I will contact you as soon as possible, but if you want you can also reach me by WhatsApp or phone on: 0626467714.",
             "closing" => "Kind regards, and speak soon",
             "signature" => "Carine<br>Chicahondenschool.nl",
-            "altBody" => implode("\n\n", [
-                "Hey, nice that you reached out to me.",
-                "I will contact you as soon as possible, but if you want you can also reach me by WhatsApp or phone on: 0626467714.",
-                "Kind regards, and speak soon",
-                "Carine",
-                "Chicahondenschool.nl",
-            ]),
         ];
     }
 
     return [
         "subject" => "Bedankt voor je aanvraag",
-        "greeting" => "Hey, leuk dat je mij benaderd hebt.",
+        "greeting" => "Hey %s,",
+        "intro" => "Leuk dat je contact hebt opgenomen!",
         "message" =>
             "Ik zal zo spoedig mogelijk contact met je opnemen, maar als je wilt kan je me ook via WhatsApp of telefoon bereiken op nummer: 0626467714.",
         "closing" => "Groeten, en tot snel",
         "signature" => "Carine<br>Chicahondenschool.nl",
-        "altBody" => implode("\n\n", [
-            "Hey, leuk dat je mij benaderd hebt.",
-            "Ik zal zo spoedig mogelijk contact met je opnemen, maar als je wilt kan je me ook via WhatsApp of telefoon bereiken op nummer: 0626467714.",
-            "Groeten, en tot snel",
-            "Carine",
-            "Chicahondenschool.nl",
-        ]),
     ];
+}
+
+function confirmation_alt_body(string $recipientName, array $copy): string
+{
+    $normalizedRecipientName = trim($recipientName);
+    $salutationName =
+        $normalizedRecipientName !== "" ? $normalizedRecipientName : "daar";
+
+    return implode("\n\n", [
+        sprintf($copy["greeting"], $salutationName),
+        $copy["intro"],
+        $copy["message"],
+        $copy["closing"],
+        "Carine",
+        "Chicahondenschool.nl",
+    ]);
 }
 
 function confirmation_html(
@@ -269,12 +273,10 @@ function confirmation_html(
         ENT_QUOTES | ENT_SUBSTITUTE,
         "UTF-8",
     );
-    $intro = $copy["greeting"];
-    if ($recipientName !== "") {
-        $intro = $escape($recipientName) . ",<br><br>" . $escape($intro);
-    } else {
-        $intro = $escape($intro);
-    }
+    $normalizedRecipientName = trim($recipientName);
+    $salutationName =
+        $normalizedRecipientName !== "" ? $normalizedRecipientName : "daar";
+    $greeting = sprintf($copy["greeting"], $escape($salutationName));
 
     return sprintf(
         '<div style="margin:0;padding:24px;background-color:#f7f4ef;font-family:Arial,sans-serif;color:#2b2a33;">
@@ -288,7 +290,7 @@ function confirmation_html(
             </div>
         </div>',
         $escape($logoUrl),
-        $intro,
+        $greeting . "<br><br>" . $escape($copy["intro"]),
         $escape($copy["message"]),
         $escape($copy["closing"]) . "<br><br>" . $copy["signature"],
     );
@@ -810,7 +812,7 @@ try {
     $mail->clearReplyTos();
     $mail->Subject = $confirmationCopy["subject"];
     $mail->Body = confirmation_html($name, $logoUrl, $confirmationCopy);
-    $mail->AltBody = $confirmationCopy["altBody"];
+    $mail->AltBody = confirmation_alt_body($name, $confirmationCopy);
     $mail->addAddress($email, $name);
     $mail->send();
     respond_success($returnTo);
