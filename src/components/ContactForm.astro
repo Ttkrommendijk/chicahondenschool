@@ -107,7 +107,12 @@ const values = {
 
     <input type="hidden" name="form_started_at" value="" data-form-started-at />
     <input type="hidden" name="form_token" value="" data-form-token />
-    <input type="hidden" name="return_to" value={`/contact/?lang=${lang}`} />
+    <input
+        type="hidden"
+        name="return_to"
+        value={`/contact/?lang=${lang}`}
+        data-return-to
+    />
 
     <div class="contact-form-grid">
         <div>
@@ -335,6 +340,8 @@ const values = {
         );
         const tokenInput =
             form.querySelector<HTMLInputElement>("[data-form-token]");
+        const returnToInput =
+            form.querySelector<HTMLInputElement>("[data-return-to]");
         const turnstileSlot = form.querySelector<HTMLElement>(
             "[data-turnstile-slot]",
         );
@@ -386,6 +393,17 @@ const values = {
                         "data-error-verification-unavailable",
                     ) ?? "",
             };
+        };
+
+        const syncReturnTo = (): void => {
+            if (!returnToInput) {
+                return;
+            }
+
+            const url = new URL(window.location.href);
+            const currentLang =
+                url.searchParams.get("lang") === "en" ? "en" : "nl";
+            returnToInput.value = `/contact/?lang=${currentLang}`;
         };
 
         const requiredFields: FormFieldName[] = [
@@ -577,12 +595,14 @@ const values = {
         };
 
         syncLabels();
+        syncReturnTo();
         syncFormLocked();
         consentCheckbox?.addEventListener("change", () => {
             syncFormLocked();
         });
         window.addEventListener("app:langchange", () => {
             syncLabels();
+            syncReturnTo();
             if (submitButton && !submitButton.disabled) {
                 submitButton.textContent = labels.default;
             }
@@ -614,6 +634,7 @@ const values = {
         form.addEventListener("submit", async (event: SubmitEvent) => {
             event.preventDefault();
             clearState();
+            syncReturnTo();
 
             if (!consentCheckbox?.checked) {
                 setStatusMessage(labels.consentRequired, "text-secondary");
