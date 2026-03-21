@@ -284,7 +284,6 @@ function confirmation_html(
                 </div>
                 <p style="margin:0 0 18px;font-size:18px;line-height:1.6;">%s</p>
                 <p style="margin:0 0 18px;font-size:16px;line-height:1.7;">%s</p>
-                <p style="margin:0 0 18px;font-size:16px;line-height:1.7;">%s</p>
                 <p style="margin:0;font-size:16px;line-height:1.7;">%s</p>
             </div>
         </div>',
