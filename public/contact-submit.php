@@ -284,7 +284,7 @@ function confirmation_html(
                 <div style="text-align:center;margin-bottom:28px;">
                     <img src="%s" alt="ChiCa Hondenschool" style="max-width:220px;width:100%%;height:auto;display:inline-block;">
                 </div>
-                <p style="margin:0 0 18px;font-size:18px;line-height:1.6;">%s</p>
+                <p style="margin:0 0 18px;font-size:16px;line-height:1.7;">%s</p>
                 <p style="margin:0 0 18px;font-size:16px;line-height:1.7;">%s</p>
                 <p style="margin:0;font-size:16px;line-height:1.7;">%s</p>
             </div>
