@@ -249,7 +249,7 @@ function confirmation_copy(string $lang): array
 
 function confirmation_alt_body(string $recipientName, array $copy): string
 {
-    $normalizedRecipientName = trim($recipientName);
+    $normalizedRecipientName = format_recipient_name($recipientName);
     $salutationName =
         $normalizedRecipientName !== "" ? $normalizedRecipientName : "daar";
 
@@ -263,6 +263,24 @@ function confirmation_alt_body(string $recipientName, array $copy): string
     ]);
 }
 
+function format_recipient_name(string $recipientName): string
+{
+    $normalizedRecipientName = trim($recipientName);
+    if ($normalizedRecipientName === "") {
+        return "";
+    }
+
+    $firstCharacter = mb_substr($normalizedRecipientName, 0, 1, "UTF-8");
+    $remainingCharacters = mb_substr(
+        $normalizedRecipientName,
+        1,
+        null,
+        "UTF-8",
+    );
+
+    return mb_strtoupper($firstCharacter, "UTF-8") . $remainingCharacters;
+}
+
 function confirmation_html(
     string $recipientName,
     string $logoUrl,
@@ -273,7 +291,7 @@ function confirmation_html(
         ENT_QUOTES | ENT_SUBSTITUTE,
         "UTF-8",
     );
-    $normalizedRecipientName = trim($recipientName);
+    $normalizedRecipientName = format_recipient_name($recipientName);
     $salutationName =
         $normalizedRecipientName !== "" ? $normalizedRecipientName : "daar";
     $greeting = sprintf($copy["greeting"], $escape($salutationName));

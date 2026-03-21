@@ -394,6 +394,10 @@ const values = {
 
             if (field) {
                 field.classList.toggle("has-error", Boolean(message));
+                field.setAttribute(
+                    "aria-invalid",
+                    message ? "true" : "false",
+                );
             }
             if (errorNode) {
                 errorNode.textContent = message;
@@ -565,8 +569,18 @@ const values = {
             }
         };
 
-        const isEmail = (value: string): boolean =>
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        const isEmail = (value: string): boolean => {
+            const emailField = getField(form, "email");
+            if (!(emailField instanceof HTMLInputElement)) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+            }
+
+            emailField.value = value;
+            return (
+                emailField.checkValidity() &&
+                /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)
+            );
+        };
 
         form.addEventListener("submit", async (event: SubmitEvent) => {
             event.preventDefault();
@@ -614,6 +628,7 @@ const values = {
             }
 
             let hasError = false;
+            let hasEmailError = false;
             requiredFields.forEach((fieldName: FormFieldName) => {
                 if (!payload[fieldName]) {
                     setError(fieldName, labels.required);
@@ -624,6 +639,7 @@ const values = {
             if (payload.email && !isEmail(payload.email)) {
                 setError("email", labels.email);
                 hasError = true;
+                hasEmailError = true;
             }
 
             if (payload.message && payload.message.length < 10) {
@@ -632,7 +648,10 @@ const values = {
             }
 
             if (hasError) {
-                setStatusMessage(labels.checkFields, "text-detail");
+                setStatusMessage(
+                    hasEmailError ? labels.email : labels.checkFields,
+                    "text-detail",
+                );
                 return;
             }
 
