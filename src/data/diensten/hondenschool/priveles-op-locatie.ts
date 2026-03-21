@@ -176,7 +176,7 @@ export const dienst = {
   },
   pricing: {
     title: ui.common.price,
-    priceText: formatPrice(65),
+    priceText: formatPrice(50),
     metaLines: [
       l10n("45 minuten", "45 minutes"),
       l10n("Op locatie", "On location"),
