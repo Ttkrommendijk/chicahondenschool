@@ -548,10 +548,6 @@ if (
 }
 
 $sessionToken = trim((string) ($_SESSION["contact_form_token"] ?? ""));
-unset(
-    $_SESSION["contact_form_token"],
-    $_SESSION["contact_form_token_issued_at"],
-);
 
 if ($formToken === "" || $sessionToken === "") {
     log_blocked_attempt("token_missing", $ip);
@@ -574,6 +570,11 @@ if (!hash_equals($sessionToken, $formToken)) {
         $redirectValues,
     );
 }
+
+unset(
+    $_SESSION["contact_form_token"],
+    $_SESSION["contact_form_token_issued_at"],
+);
 
 if (
     $name === "" ||
