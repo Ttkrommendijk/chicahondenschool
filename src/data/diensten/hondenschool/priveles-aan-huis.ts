@@ -156,6 +156,9 @@ export const dienst = {
       {
         id: "5-lessen",
         label: l10n("5 lessen", "5 lessons"),
+        price: formatPrice(250),
+        href: "https://chica-hondenschool.trainin.app/checkout/P4R2LV",
+        external: true,
       },
       {
         id: "extra-les",
